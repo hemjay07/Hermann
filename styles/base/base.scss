@@ -1,0 +1,76 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html {
+  // the cover here mixin in intended for highjacking the scroll of the page
+  @extend %cover;
+
+  // color: $color-quarter-spanish-white;
+  // background-color: $color-contessa;
+
+  font-size: calc(
+    100vw / 1920 * 10
+  ); /* Set base font size by viewport width for standard resolution */
+  line-height: 1;
+  position: fixed;
+  overflow: hidden;
+  @include media("<phone") {
+    font-size: calc(
+      100vw / 750 * 10
+    ); /* Adjust font size for phone screen resolutions */
+  }
+}
+
+body {
+  @extend %cover;
+
+  // font-family: "Trebuchet MS", sans-serif;
+
+  position: fixed;
+}
+
+a {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+}
+canvas {
+  pointer-events: none;
+  position: relative;
+}
+img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  vertical-align: middle;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+.content {
+  // the cover mixin here  in intended for highjacking the scroll of the page
+  // @extend %cover;
+}
+
+[data-animation="title"],
+[data-animation="label"],
+[data-animation="paragraph"] {
+  span {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+}

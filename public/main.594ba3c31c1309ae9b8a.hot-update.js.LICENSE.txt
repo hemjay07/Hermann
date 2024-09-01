@@ -1,0 +1,15 @@
+/*! ./components/Navigation.js */
+
+/*! ./components/Preloader.js */
+
+/*! ./pages/Contact/index.js */
+
+/*! ./pages/Details/index.js */
+
+/*! ./pages/Home/index.js */
+
+/*! lodash */
+
+/*!**********************!*\
+  !*** ./app/index.js ***!
+  \**********************/

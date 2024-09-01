@@ -1,0 +1,28 @@
+.navigation {
+  @extend %cover;
+
+  font-size: 16px;
+  z-index: z("navigation");
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation__link {
+}
+
+.navigation__list {
+  display: flex;
+  gap: 4rem;
+}
+
+.navigation__list__item {
+}
+
+.navigation__list__link {
+}
+
+.navigation__list__item {
+}
+
+.navigation__list__link {
+}

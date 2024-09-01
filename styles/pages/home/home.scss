@@ -1,0 +1,9 @@
+.home {
+  @extend %page;
+
+  padding-top: 7rem;
+  font-family: $font-blowbrush;
+  font-size: 3rem;
+
+  // background-color: hsl(0, 50%, 4%);
+}

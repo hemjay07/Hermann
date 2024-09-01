@@ -1,0 +1,32 @@
+.preloader {
+  @extend %cover;
+  @extend %center;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: hsl(0, 0%, 91%);
+  color: hsl(0, 0%, 10%);
+
+  z-index: z("preloader");
+}
+
+.preloader__text {
+  font-family: $font-blowbrush;
+
+  font-size: 5.5rem;
+  max-width: 66rem;
+}
+
+.preloader__number {
+  font-size: 1.4rem;
+
+  // bottom: 7.3rem;
+  // left: 50%;
+  // overflow: hidden;
+  // position: absolute;
+  // transform: translateX(-50%);
+}
+
+.preloader__number__text {
+  // display: inline-block;
+}
