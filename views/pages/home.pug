@@ -4,6 +4,52 @@ block variables
   - var template = 'home'
 
 block content
-  .home(data-background="hsl(0, 50%, 4%)" data-color="#37384C")
-    h1 Home Page
-    p Welcome to the home page!
+
+  .home(data-background="hsl(0, 1%, 27%)" data-color="#37384C")
+    .galleries="GALLERIES"
+    .banner
+      .slider(style="--quantity: 6")
+        .item(style="--position: 1")
+          img(src="./images/Hermann6.webp" alt="Loading...")            
+
+        .item(style="--position: 2")
+          img(src="./images/Hermann7.webp" alt="Loading...")
+          
+        .item(style="--position: 3")
+          img(src="./images/Hermann8.webp" alt="Loading...")
+          
+        .item(style="--position: 4")
+          img(src="./images/Hermann1.webp" alt="Loading...")
+         
+        .item(style="--position: 5")
+          img(src="./images/Hermann2.webp" alt="Loading...")
+          
+        .item(style="--position: 6")
+          img(src="./images/Hermann5.webp" alt="Loading...")
+         
+    .gallery__details
+      .gallery__details__item 
+        .gallery__details__title="Pop art"
+        .gallery__details__paragraph="Bold colors and sharp lines create dynamic portraits, blending modern culture with expressive visual storytelling."
+
+      .gallery__details__item
+        .gallery__details__title="Life/Art"
+        .gallery__details__paragraph="Random but most exciting"
+
+      .gallery__details__item.gallery__details__item--active
+        .gallery__details__title="Who is coming?"
+        .gallery__details__paragraph="An illustrated showcase of event attendees, capturing the unique personalities and vibrant energy of The Flex."
+
+      .gallery__details__item
+        .gallery__details__title="Comic books"
+        .gallery__details__paragraph="Random but most exciting" 
+
+    
+      .gallery__details__item
+        .gallery__details__title="Acrylics"
+        .gallery__details__paragraph="Random but most exciting"
+
+  
+      .gallery__details__item 
+        .gallery__details__title="Randoms?"
+        .gallery__details__paragraph="Random but most exciting"

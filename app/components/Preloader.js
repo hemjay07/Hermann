@@ -38,7 +38,7 @@ export default class Preloader extends Components {
 
       setTimeout(() => {
         this.onLoaded();
-      }, 3000);
+      }, 1000);
     } else {
       this.createLoader();
     }
@@ -48,10 +48,19 @@ export default class Preloader extends Components {
     return new Promise((resolve) => {
       this.emit("completed");
 
-      this.destroy();
+      this.animateOut = GSAP.timeline({ delay: 2 });
+
+      this.animateOut.to(this.element, {
+        scaleY: 0,
+        transformOrigin: "0 100%",
+        duration: 0.5,
+      });
+
+      this.animateOut.call((_) => {
+        this.destroy();
+      });
     });
   }
-
   destroy() {
     this.element.parentNode.removeChild(this.element);
   }

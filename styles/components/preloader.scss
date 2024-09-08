@@ -4,21 +4,30 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  background-color: hsl(0, 0%, 91%);
-  color: hsl(0, 0%, 10%);
+  background-color: hsl(0, 1%, 27%);
+  color: hsl(78, 100%, 45%);
 
   z-index: z("preloader");
+}
+
+.overlay {
+  @extend %cover;
+  background-color: hsla(0, 0%, 0%, 0.75);
+  z-index: 4;
 }
 
 .preloader__text {
   font-family: $font-blowbrush;
 
-  font-size: 5.5rem;
+  font-size: 6.5rem;
   max-width: 66rem;
+  z-index: 677;
+  text-shadow: 0 0 50px hsla(0, 0%, 0%, 0.4);
 }
 
 .preloader__number {
-  font-size: 1.4rem;
+  font-size: 2rem;
+  z-index: 677;
 
   // bottom: 7.3rem;
   // left: 50%;
@@ -29,4 +38,247 @@
 
 .preloader__number__text {
   // display: inline-block;
+}
+
+// .preloader__animation {
+//   position: relative;
+//   z-index: 2;
+//   height: 100%;
+//   width: 100%;
+//   overflow: hidden;
+// }
+
+.frame {
+  position: absolute;
+  width: 100%; /* Adjust as needed */
+  height: 100%; /* Adjust as needed */
+  top: 0;
+  left: 0;
+  opacity: 0; /* Start with frames hidden */
+  transition: opacity 0.5s ease-in; /* Smooth transition between frames */
+}
+
+.frame img {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.208);
+  opacity: 1;
+  height: 100%;
+}
+
+.frame1 .img1 {
+  top: 0;
+  left: 50vw;
+}
+.frame1 .img2 {
+  top: 0;
+  right: 50vw;
+}
+
+.frame2 .img1 {
+  top: 0;
+  left: 50vw;
+}
+.frame2 .img2 {
+  top: 0;
+  right: 50vw;
+}
+
+.frame3 .img1 {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50vw;
+  width: 500px;
+  height: 500px;
+}
+.frame3 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame4 .img1 {
+  top: 0;
+  right: 50vw;
+  width: 400px;
+  height: 400px;
+  z-index: 6;
+}
+
+.frame4 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame4 .img3 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame5 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame5 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame6 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame6 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame6 .img3 {
+  bottom: 0;
+  left: 50vw;
+  height: 60%;
+}
+
+.frame7 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame7 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame7 .img3 {
+  bottom: 20px;
+  left: 50vw;
+  height: 60%;
+}
+.frame7 .img4 {
+  top: 40px;
+  right: 50vw;
+  height: 550px;
+  width: 500px;
+}
+.frame8 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame8 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame8 .img3 {
+  top: 40px;
+  right: 50vw;
+  height: 550px;
+  width: 500px;
+}
+
+.frame9 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame9 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame10 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame10 .img2 {
+  top: 0;
+  right: 50vw;
+}
+
+.frame11 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame11 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame12 .img1 {
+  top: 0;
+  left: 50vw;
+}
+
+.frame12 .img2 {
+  top: 0;
+  right: 50vw;
+}
+.frame12 .img3 {
+  top: 0;
+  right: 50vw;
+  height: 550px;
+  width: 500px;
+}
+.frame12 .img4 {
+  bottom: 0;
+  left: 50vw;
+  height: 550px;
+  width: 500px;
+}
+@keyframes switchFrames {
+  0% {
+    opacity: 1;
+  } /* Frame is visible */
+  8.33% {
+    opacity: 1;
+  } /* Maintain visibility */
+  8.34% {
+    opacity: 0;
+  } /* Start fading out */
+  100% {
+    opacity: 0;
+  } /* Remain hidden */
+}
+
+.frame1 {
+  animation: switchFrames 6s infinite;
+}
+.frame2 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 0.5s;
+}
+.frame3 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 1s;
+}
+.frame4 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 1.5s;
+}
+.frame5 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 2s;
+}
+.frame6 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 2.5s;
+}
+.frame7 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 3s;
+}
+.frame8 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 3.5s;
+}
+.frame9 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 4s;
+}
+.frame10 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 4.5s;
+}
+.frame11 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 5s;
+}
+.frame12 {
+  animation: switchFrames 6s infinite;
+  animation-delay: 5.5s;
 }

@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import * as config from "./webpack.config.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default merge(config, {
+export default merge(config.default, {
   mode: "production",
 
   output: {

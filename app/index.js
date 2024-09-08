@@ -3,6 +3,8 @@ import _ from "lodash";
 import Navigation from "./components/Navigation.js";
 import Preloader from "./components/Preloader.js";
 
+// import img1 from "/assets/images/Hermann1.jpg";
+
 import Home from "./pages/Home/index.js";
 import Contact from "./pages/Contact/index.js";
 import Details from "./pages/Details/index.js";
@@ -11,7 +13,7 @@ class App {
   constructor() {
     this.createContent();
     this.createPages();
-    this.createPreloader();
+    // this.createPreloader();
     this.createNavigation();
 
     this.addEventListeners();

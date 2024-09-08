@@ -18,5 +18,7 @@ export default merge(config.default, {
 
   output: {
     path: path.resolve(__dirname, "public"),
+    clean: true,
+    // assetModuleFilename: "images/[name][ext]",
   },
 });

@@ -3,10 +3,10 @@ import path from "path";
 import webpack from "webpack";
 import { fileURLToPath } from "url";
 
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
+// import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+// import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,28 +44,32 @@ export default {
       chunkFilename: "[id].css",
     }),
 
-    new ImageMinimizerPlugin({
-      minimizer: {
-        implementation: ImageMinimizerPlugin.imageminMinify,
-        options: {
-          plugins: [
-            ["gifsicle", { interlaced: true }],
-            ["jpegtran", { progressive: true }],
-            ["optipng", { optimizationLevel: 8 }],
-          ],
-        },
-      },
-    }),
+    // new ImageMinimizerPlugin({
+    //   minimizer: {
+    //     implementation: ImageMinimizerPlugin.imageminMinify,
+    //     options: {
+    //       plugins: [
+    //         ["gifsicle", { interlaced: true }],
+    //         ["jpegtran", { progressive: true }],
+    //         ["optipng", { optimizationLevel: 8 }],
+    //       ],
+    //     },
+    //   },
+    // }),
 
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
   ],
 
   module: {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+          },
         },
       },
 
@@ -90,41 +94,54 @@ export default {
         ],
       },
 
-      {
-        test: /\.(jpe?g|png|gif|svg|woff2?|fnt|webp)$/,
-        loader: "file-loader",
-        options: {
-          name(file) {
-            return "[hash].[ext]";
-          },
-        },
-      },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg|woff2?|fnt|webp)$/,
+      //   type: "asset/resource",
+      // },
 
-      {
-        test: /\.(jpe?g|png|gif|svg|webp)$/i,
-        use: [
-          {
-            loader: ImageMinimizerPlugin.loader,
-          },
-        ],
-      },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg|webp)$/i,
+      //   use: [
+      //     {
+      //       loader: ImageMinimizerPlugin.loader,
+      //     },
+      //   ],
+      // },
 
-      {
-        test: /\.(glsl|frag|vert)$/,
-        loader: "raw-loader",
-        exclude: /node_modules/,
-      },
+      // {
+      //   test: /\.(glsl|frag|vert)$/,
+      //   loader: "raw-loader",
+      //   exclude: /node_modules/,
+      // },
 
+      // {
+      //   test: /\.(glsl|frag|vert)$/,
+      //   loader: "glslify-loader",
+      //   exclude: /node_modules/,
+      // },
       {
-        test: /\.(glsl|frag|vert)$/,
-        loader: "glslify-loader",
-        exclude: /node_modules/,
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
       },
     ],
   },
 
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [
+      new TerserPlugin(),
+      // new ImageMinimizerPlugin({
+      //   minimizer: {
+      //     implementation: ImageMinimizerPlugin.imageminMinify,
+      //     options: {
+      //       plugins: [
+      //         ["gifsicle", { interlaced: true }],
+      //         ["jpegtran", { progressive: true }],
+      //         ["optipng", { optimizationLevel: 5 }],
+      //       ],
+      //     },
+      //   },
+      // }),
+    ],
   },
 };

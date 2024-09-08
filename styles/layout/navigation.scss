@@ -1,13 +1,21 @@
 .navigation {
   @extend %cover;
+  height: max-content;
 
   font-size: 16px;
+  padding: 2rem 4rem;
   z-index: z("navigation");
   display: flex;
   justify-content: space-between;
+  // color: hsl(0, 0%, 27%);
+  color: hsl(78 100% 15% / 1);
+
+  font-family: $font-george-x;
 }
 
 .navigation__link {
+  text-decoration: none;
+  @extend %title-20;
 }
 
 .navigation__list {
@@ -15,14 +23,10 @@
   gap: 4rem;
 }
 
-.navigation__list__item {
-}
-
 .navigation__list__link {
+  text-decoration: none;
+  @extend %title-20;
 }
 
 .navigation__list__item {
-}
-
-.navigation__list__link {
 }
