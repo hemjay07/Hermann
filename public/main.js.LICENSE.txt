@@ -32,6 +32,8 @@
 
 /*! ./clients/WebSocketClient.js */
 
+/*! ./components/Cursor.js */
+
 /*! ./components/Navigation.js */
 
 /*! ./components/Preloader.js */
@@ -133,6 +135,10 @@
 /*!*********************************!*\
   !*** ./app/pages/Home/index.js ***!
   \*********************************/
+
+/*!**********************************!*\
+  !*** ./app/components/Cursor.js ***!
+  \**********************************/
 
 /*!***********************************!*\
   !*** ./app/classes/Components.js ***!

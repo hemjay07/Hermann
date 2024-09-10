@@ -17,14 +17,22 @@
   top: 4rem;
   z-index: 2;
   font-size: 6rem;
+  @include media("<phone") {
+    top: 17rem;
+  }
 }
 .banner {
+  position: absolute;
+  z-index: 1;
   margin-top: 10vh;
   width: 100%;
   // overflow: hidden;
   display: grid;
   justify-items: center;
   height: 100vh;
+  @include media("<phone") {
+    margin-top: 18vh;
+  }
 }
 
 .banner .slider {
@@ -60,6 +68,7 @@
   inset: 0 0 0 0;
   transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg))
     translateZ(min(38vw, 480px));
+  transform-style: preserve-3d;
 
   // scale: 0.7;
 
@@ -73,11 +82,12 @@
 // }
 
 .item img {
-  // filter: grayscale(100%);
+  filter: grayscale(100%);
   width: 100%;
   height: 100%;
   object-fit: cover;
-  // animation: grayscaleEffect 42s infinite;
+  animation: grayscaleEffect 42s infinite;
+  z-index: 1;
 }
 
 .in-view img {
@@ -100,33 +110,59 @@
   }
 }
 
+@keyframes opacityEffect {
+  4% {
+    opacity: 0;
+    // transform: translateY(-70px) rotateX(15deg);
+    // transform: translateZ(0px); /* Remove grayscale for the first 2 seconds */
+  }
+  12% {
+    opacity: 1;
+    // transform: translateY(-70px) rotateX(15deg);
+    // transform: translateZ(0px); /* Remove grayscale for the first 2 seconds */
+  }
+  22% {
+    opacity: 0;
+    // transform: translateY(0px) rotateX(0deg);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* For each item, delay the animation by 3s incrementally */
-.banner .slider .item:nth-child(1) img {
+.banner .slider .item:nth-child(1) img,
+.gallery__details .gallery__details__item:nth-child(1) {
   animation-delay: 0s; /* Start immediately */
 }
 
-.banner .slider .item:nth-child(2) img {
+.banner .slider .item:nth-child(2) img,
+.gallery__details .gallery__details__item:nth-child(2) {
   animation-delay: 6s; /* Delay by 3 seconds */
 }
 
-.banner .slider .item:nth-child(3) img {
+.banner .slider .item:nth-child(3) img,
+.gallery__details .gallery__details__item:nth-child(3) {
   animation-delay: 12s; /* Delay by 6 seconds */
 }
 
-.banner .slider .item:nth-child(4) img {
+.banner .slider .item:nth-child(4) img,
+.gallery__details .gallery__details__item:nth-child(4) {
   animation-delay: 18s; /* Delay by 9 seconds */
 }
 
-.banner .slider .item:nth-child(5) img {
+.banner .slider .item:nth-child(5) img,
+.gallery__details .gallery__details__item:nth-child(5) {
   animation-delay: 24s; /* Delay by 12 seconds */
 }
 
-.banner .slider .item:nth-child(6) img {
+.banner .slider .item:nth-child(6) img,
+.gallery__details .gallery__details__item:nth-child(6) {
   animation-delay: 30s; /* Delay by 15 seconds */
 }
-
-.banner .slider .item:nth-child(7) img {
-  animation-delay: 36s; /* Delay by 18 seconds */
+.banner .slider .item:nth-child(7) img,
+.gallery__details .gallery__details__item:nth-child(7) {
+  animation-delay: 36s; /* Delay by 15 seconds */
 }
 
 .gallery__details {
@@ -135,12 +171,12 @@
 .gallery__details__item {
   opacity: 0;
   position: absolute;
-  bottom: 8rem;
+  top: 70vh;
   left: 8rem;
-  transition: opacity 0.4s ease;
-  &--active {
-    opacity: 1;
-    transition-delay: 0.4s;
+  transition: opacity 1.5s ease-in;
+  animation: opacityEffect 42s infinite;
+  @include media("<phone") {
+    top: 60vh;
   }
 }
 

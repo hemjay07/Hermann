@@ -2,6 +2,7 @@ import _ from "lodash";
 
 import Navigation from "./components/Navigation.js";
 import Preloader from "./components/Preloader.js";
+import Cursor from "./components/Cursor.js";
 
 // import img1 from "/assets/images/Hermann1.jpg";
 
@@ -18,6 +19,7 @@ class App {
 
     this.addEventListeners();
     this.addLinkListeners();
+    this.createCursor();
   }
 
   // this tells the browser that you are just going to the url(using the back or forward button) but there is no need to push that url to the history. Rather than delibrate state change within the application that would normallu use "push state"
@@ -40,8 +42,8 @@ class App {
     };
 
     this.page = this.pages[this.template];
-    console.log(this.page);
     this.page.create();
+    //  console.log(this.page);
   }
 
   createPreloader() {
@@ -51,7 +53,9 @@ class App {
   createNavigation() {
     this.navigation = new Navigation({ template: this.template });
   }
-
+  createCursor() {
+    this.cursor = new Cursor();
+  }
   async onChange({ url, push = true }) {
     // this.canvas.onChangeStart(this.template, url);
     // console.log(url);
