@@ -10,17 +10,21 @@ export default class Home extends Page {
         items: ".item",
         container: ".fake-middle",
         slider: ".slider",
+        rotate: ".content__rotate",
+        move: ".content__move",
+        reverse: ".content__reverse",
       },
     });
 
+    super.create();
     console.log(this);
-
-    // this.addEventListener();
+    // this.animate();
+    this.addEventListener();
   }
 
   create() {
     super.create();
-    this.addEventListener();
+    // this.addEventListener();
 
     // this.createObserver();
   }
@@ -82,10 +86,11 @@ export default class Home extends Page {
 
     const slider = this.elements.slider;
 
-    // _.forEach(items, (item) => {
-    // item.addEventListener("mousedown", () => {
-    //   console.log(item);
-    // });
+    _.forEach(this.elements.items, (item) => {
+      item.addEventListener("click", () => {
+        this.animate();
+      });
+    });
 
     //   console.log("event listener added");
     // });
@@ -94,5 +99,34 @@ export default class Home extends Page {
     //   console.log(slider.style.animationPlayState);
     //   slider.style.animationPlayState = "paused";
     // });
+  }
+
+  animate() {
+    // this.elements.rotate.style.transform = `rotate(16deg)`;
+
+    // this.elements.move.style.width = `calc(100vw * ${Math.abs(
+    //   Math.cos((16 * Math.PI) / 180)
+    // )} + 100vh * ${Math.abs(Math.sin((16 * Math.PI) / 180))})`;
+    // this.elements.move.style.height = `calc(100vw * ${Math.abs(
+    //   Math.sin((16 * Math.PI) / 180)
+    // )} + 100vh * ${Math.abs(Math.cos((16 * Math.PI) / 180))})`;
+
+    // this.elements.reverse.style.transform = `rotate(-16deg)`;
+
+    const tl = GSAP.timeline();
+
+    tl.to(this.elements.move, {
+      y: "-100%",
+      ease: "power3.out", // Apply easing
+      duration: 1.2, // Set duration to 1 second
+    }).to(
+      this.elements.reverse,
+      {
+        y: "100%",
+        ease: "power3.out", // Apply easing
+        duration: 1.2, // Set duration to 1 second
+      },
+      0
+    ); // The '0' here ensures both animations start at the same time
   }
 }

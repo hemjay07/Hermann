@@ -36,6 +36,19 @@ body {
   position: fixed;
 }
 
+.content__rotate,
+.content__reverse {
+  // will-change: transform;
+
+  @extend %cover;
+  // background-color: red;
+}
+
+.content__move {
+  @extend %cover;
+  overflow: hidden;
+  // will-change: transform;
+}
 .cursor-dot {
   width: 5px;
   height: 5px;
