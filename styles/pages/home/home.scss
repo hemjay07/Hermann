@@ -197,3 +197,31 @@
 
   max-width: 44rem;
 }
+
+
+    .hermann__rotate{
+     @extend %cover;
+     will-change: transform;
+
+    }
+
+   .hermann__reverse{
+      @extend %cover;
+      display:flex;
+      justify-content: center;
+      align-items: center;will-change: transform;
+    }
+
+    .hermann__move{
+      @extend %cover;
+      background-color: black;will-change: transform;
+      overflow: hidden;
+   }
+
+
+    .hermann__text{
+        font-family: $font-blowbrush;
+    color: hsl(78, 100%, 55%);
+        font-size: 6.5rem;
+      
+    }

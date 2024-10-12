@@ -13,6 +13,10 @@ export default class Home extends Page {
         rotate: ".content__rotate",
         move: ".content__move",
         reverse: ".content__reverse",
+        hermannRotate: ".hermann__rotate",
+        hermannMove: ".hermann__move",
+        hermannReverse: ".hermann__reverse"
+        
       },
     });
 
@@ -102,31 +106,58 @@ export default class Home extends Page {
   }
 
   animate() {
-    // this.elements.rotate.style.transform = `rotate(16deg)`;
-
-    // this.elements.move.style.width = `calc(100vw * ${Math.abs(
-    //   Math.cos((16 * Math.PI) / 180)
-    // )} + 100vh * ${Math.abs(Math.sin((16 * Math.PI) / 180))})`;
-    // this.elements.move.style.height = `calc(100vw * ${Math.abs(
-    //   Math.sin((16 * Math.PI) / 180)
-    // )} + 100vh * ${Math.abs(Math.cos((16 * Math.PI) / 180))})`;
-
-    // this.elements.reverse.style.transform = `rotate(-16deg)`;
-
+    // Create the GSAP timeline
     const tl = GSAP.timeline();
 
+    // Set initial scales and rotations for the elements
+    tl.set(this.elements.rotate, {
+      rotation: 16
+    })
+      .set(this.elements.move, {
+        scale: 2
+      })
+      .set(this.elements.reverse, {
+        scale: 0.5,
+        rotation: -16
+      })
+      .set(this.elements.hermannRotate, {
+        rotation: -16
+      })
+      .set(this.elements.hermannMove, {
+        scale: 2
+      })
+      .set(this.elements.hermannReverse, {
+        rotation: 16,
+        scale: 0.5
+      });
+
+    // Add animation for 'move' and 'reverse' elements, both starting at "moveOut"
     tl.to(this.elements.move, {
-      y: "-100%",
-      ease: "power3.out", // Apply easing
-      duration: 1.2, // Set duration to 1 second
-    }).to(
-      this.elements.reverse,
-      {
+      y: "-200%",
+      ease: "power3.out",
+      duration: 1.2
+    }, "moveOut")
+      .to(this.elements.reverse, {
         y: "100%",
-        ease: "power3.out", // Apply easing
-        duration: 1.2, // Set duration to 1 second
-      },
-      0
-    ); // The '0' here ensures both animations start at the same time
+        ease: "power3.out",
+        duration: 1.2
+      }, "moveOut");
+
+    // Add animations for 'hermannMove' and 'hermannReverse' starting slightly after "moveOut"
+    tl.to(this.elements.hermannMove, {
+      y: "-200%",
+      ease: "power3.out",
+      duration: 1.2
+    }, "hermannOut+=1")
+      .to(this.elements.hermannReverse, {
+        y: "100%",
+        ease: "power3.out",
+        duration: 1.2
+      }, "hermannOut+=1");
+
+    // Add a final label for reference
+    tl.addLabel("hermannOutComplete", "+=0.2");
   }
+
+
 }
