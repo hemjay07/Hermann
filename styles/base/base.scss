@@ -35,6 +35,11 @@ body {
 
   position: fixed;
 }
+.content{
+      display: flex;
+        justify-content: center;
+        align-items: center;
+}
 
 .content__rotate,
 .content__reverse {

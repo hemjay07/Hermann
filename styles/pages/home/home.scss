@@ -199,29 +199,28 @@
 }
 
 
-    .hermann__rotate{
-     @extend %cover;
-     will-change: transform;
 
-    }
+   .home__revealer{
 
-   .hermann__reverse{
-      @extend %cover;
-      display:flex;
-      justify-content: center;
-      align-items: center;will-change: transform;
-    }
-
-    .hermann__move{
-      @extend %cover;
-      background-color: black;will-change: transform;
-      overflow: hidden;
+  width: 300vh;
+  height: 300vh;
+  position: absolute;
+  z-index: 10;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(0, 300vh) rotate(16deg);
+  will-change: transform;
    }
 
-
-    .hermann__text{
+   
+   .home__revealer__text{
         font-family: $font-blowbrush;
     color: hsl(78, 100%, 55%);
         font-size: 6.5rem;
-      
-    }
+        will-change: opacity;
+
+   }
+
+    
