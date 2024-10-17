@@ -37,6 +37,10 @@ export default class Home extends Page {
 
     _.forEach(this.elements.items, (item) => {
       item.addEventListener("click", () => {
+        const imgElement = item.querySelector('img'); // Select the <img> inside the item
+        const altText = imgElement.alt// Get the alt attribute if img exists
+
+        this.galleryName=altText
         this.animate();
       });
     })
@@ -44,10 +48,18 @@ export default class Home extends Page {
 
   animate() {
     const tl = GSAP.timeline();
+    console.log()
+
+    this.elements.galleryName.innerText=  this.galleryName
+
+    console.log(this.elements.galleryName)
 
     // Initial setup
+    // Calculate the maximum value between 300vh and 300vw
+    const maxDimension = Math.max(window.innerHeight * 2, window.innerWidth * 2 );
+
     tl.set(this.elements.homeRevealer, {
-      y: "300vh",
+      y: `${maxDimension}px`, // Set to the maximum value
       rotate: 16,
     });
 
@@ -80,7 +92,7 @@ export default class Home extends Page {
         ease: "power2.in",
       }, "secondHalf")
       .to(this.elements.homeRevealer, {
-        y: "-300vh",
+        y: `-${maxDimension}px`,
         duration: 1.2,
         ease: "power3.inOut",
       }, "secondHalf+=0.2");

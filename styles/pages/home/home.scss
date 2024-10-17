@@ -202,24 +202,31 @@
 
    .home__revealer{
 
-  width: 300vh;
-  height: 300vh;
-  position: absolute;
+  width: max(200vw, 200vh);
+  height: max(200vw, 200vh);
+    position: absolute;
   z-index: 10;
   background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translate(0, 300vh) rotate(16deg);
+  transform: translate(0, max(200vw,200vh)) rotate(16deg);
   will-change: transform;
+
+  ul {
+      list-style: disc;
+      /* Ensure the list uses dots */
+      padding-left: 20px;
+      /* Adjust spacing if needed */
+    }
    }
 
    
    .home__revealer__text{
-        font-family: $font-blowbrush;
-    color: hsl(78, 100%, 55%);
-        font-size: 6.5rem;
-        will-change: opacity;
+        // font-family: $font-blowbrush;
+    
+        will-change: opacity;color: hsl(90, 100%, 50%);
+          font-size: 7.5rem;
 
    }
 

@@ -8,59 +8,18 @@ block content
       .galleries="GALLERIES"
       .banner
         .slider(style="--quantity: 7")
-          .item(style="--position: 1")
-            img(src="./images/Hermann6.webp" alt="Pop Art")
-
-          .item(style="--position: 2")
-            img(src="./images/Hermann7.webp" alt="Lnife/Art")
-
-          .item(style="--position: 3")
-            img(src="./images/Hermann8.webp" alt="Who is Coming?")
-
-          .item(style="--position: 4")
-            img(src="./images/Hermann1.webp" alt="Comic Books")
-
-          .item(style="--position: 5")
-            img(src="./images/Hermann2.webp" alt="Acrylics")
-
-          .item(style="--position: 6")
-            img(src="./images/Hermann5.webp" alt="Randoms?")
-
-          .item(style="--position: 7")
-            img(src="./images/Hermann3.webp" alt="Comic Slides")
+          each gallery, index in galleries
+            .item(style=`--position: ${index + 1}`)
+              img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
 
       .gallery__details
-        .gallery__details__item
-          .gallery__details__title="Pop Art"
-          .gallery__details__paragraph="Bold colors and sharp lines create dynamic portraits, blending modern culture with expressive visual storytelling."
+        each gallery in galleries
+          .gallery__details__item
+            .gallery__details__title=gallery.data.gallery_name
+            .gallery__details__paragraph=gallery.data.gallery_description
 
-        .gallery__details__item
-          .gallery__details__title="Life/Art"
-          .gallery__details__paragraph="A visual journey that blurs the lines between life and art, where human expressions meet vibrant illustrations."
+  .home__revealer
+    ul
+      li.home__revealer__text Hermann
 
-        .gallery__details__item.gallery__details__item--active
-          .gallery__details__title="Who is Coming?"
-          .gallery__details__paragraph="An illustrated showcase of event attendees, capturing the unique personalities and vibrant energy of The Flex."
-
-        .gallery__details__item
-          .gallery__details__title="Comic Books"
-          .gallery__details__paragraph="Dynamic stories brought to life with bold visuals and engaging characters, leaping from page to reality"
-
-
-        .gallery__details__item
-          .gallery__details__title="Acrylics"
-          .gallery__details__paragraph="Random but most exciting"
-
-
-        .gallery__details__item
-          .gallery__details__title="Randoms?"
-          .gallery__details__paragraph="Random but most exciting"
-
-        .gallery__details__item
-          .gallery__details__title="Comic Slides"
-          .gallery__details__paragraph="A lively visual narrative capturing vibrant moments, blending humor and culture in a bold, comic style."
-
-
-  .home__revealer  
-    .home__revealer__text Hermann
     
