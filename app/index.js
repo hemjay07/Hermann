@@ -9,6 +9,7 @@ import Cursor from "./components/Cursor.js";
 import Home from "./pages/Home/index.js";
 import Contact from "./pages/Contact/index.js";
 import Details from "./pages/Details/index.js";
+import Gallery from "./pages/Gallery/index.js";
 
 class App {
   constructor() {
@@ -20,6 +21,8 @@ class App {
     this.addEventListeners();
     this.addLinkListeners();
     this.createCursor();
+    window.app = this;
+
   }
 
   // this tells the browser that you are just going to the url(using the back or forward button) but there is no need to push that url to the history. Rather than delibrate state change within the application that would normallu use "push state"
@@ -39,6 +42,7 @@ class App {
       home: new Home(),
       contact: new Contact(),
       details: new Details(),
+      gallery:new Gallery()
     };
 
     this.page = this.pages[this.template];
@@ -62,6 +66,8 @@ class App {
     await this.page.hide(); // Hide the current page before fetching the new page.
 
     // Once a link is clicked, instead of going to the routing to the page, we fetch the page and replace the content of the current page with the content of this new page.
+
+    console.log(url)
     const request = await window.fetch(url);
 
     if (request.status === 200) {
@@ -88,6 +94,7 @@ class App {
       // Now we have to create the new page (create the elements that we want to animate or work on) and we want to animate the page in.
       this.page = this.pages[this.template];
 
+      console.log(this.page, this.content)
       this.page.create();
       // this.onResize();
 
@@ -105,10 +112,21 @@ class App {
 
     _.forEach(links, (link) => {
       link.onclick = (event) => {
-        event.preventDefault();
+        // Check if this is a gallery link on the home page
+        const isGalleryLink = link.classList.contains('gallery_link');
+        // const isHomePage = this.template === 'home';
 
-        const { href } = link;
-        this.onChange({ url: href });
+        // If it's not a gallery link or we're not on home page, handle normally
+        if (!isGalleryLink ) {
+          event.preventDefault();
+          const { href } = link;
+          this.onChange({ url: href });
+        } else {
+          // If it's a gallery link on home page, prevent default and let the
+          // Home class handle the click event and animation
+          event.preventDefault();
+          // The click handler in Home class will take care of the rest
+        }
       };
     });
   }

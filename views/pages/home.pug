@@ -9,8 +9,10 @@ block content
       .banner
         .slider(style="--quantity: 7")
           each gallery, index in galleries
-            .item(style=`--position: ${index + 1}`)
-              img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
+            .gallery(style=`--position: ${index + 1}`)
+              a.gallery_link(href=Link(gallery))
+                figure(data-index=index)
+                  img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
 
       .gallery__details
         each gallery in galleries

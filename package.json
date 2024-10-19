@@ -52,6 +52,7 @@
     "lodash": "^4.17.21",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
+    "node-cache": "^5.1.2",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.0",
     "prismic-dom": "^2.2.7",

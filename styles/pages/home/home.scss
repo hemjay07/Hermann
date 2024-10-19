@@ -68,7 +68,7 @@
   }
 }
 
-.banner .slider .item {
+.banner .slider .gallery {
   position: absolute;
   inset: 0 0 0 0;
   transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg))
@@ -86,7 +86,7 @@
 //   animation: autoRun 42s linear infinite;
 // }
 
-.item img {
+.gallery img {
   filter: grayscale(100%);
   width: 100%;
   height: 100%;
@@ -136,36 +136,36 @@
 }
 
 /* For each item, delay the animation by 3s incrementally */
-.banner .slider .item:nth-child(1) img,
+.banner .slider .gallery:nth-child(1) img,
 .gallery__details .gallery__details__item:nth-child(1) {
   animation-delay: 0s; /* Start immediately */
 }
 
-.banner .slider .item:nth-child(2) img,
+.banner .slider .gallery:nth-child(2) img,
 .gallery__details .gallery__details__item:nth-child(2) {
   animation-delay: 6s; /* Delay by 3 seconds */
 }
 
-.banner .slider .item:nth-child(3) img,
+.banner .slider .gallery:nth-child(3) img,
 .gallery__details .gallery__details__item:nth-child(3) {
   animation-delay: 12s; /* Delay by 6 seconds */
 }
 
-.banner .slider .item:nth-child(4) img,
+.banner .slider .gallery:nth-child(4) img,
 .gallery__details .gallery__details__item:nth-child(4) {
   animation-delay: 18s; /* Delay by 9 seconds */
 }
 
-.banner .slider .item:nth-child(5) img,
+.banner .slider .gallery:nth-child(5) img,
 .gallery__details .gallery__details__item:nth-child(5) {
   animation-delay: 24s; /* Delay by 12 seconds */
 }
 
-.banner .slider .item:nth-child(6) img,
+.banner .slider .gallery:nth-child(6) img,
 .gallery__details .gallery__details__item:nth-child(6) {
   animation-delay: 30s; /* Delay by 15 seconds */
 }
-.banner .slider .item:nth-child(7) img,
+.banner .slider .gallery:nth-child(7) img,
 .gallery__details .gallery__details__item:nth-child(7) {
   animation-delay: 36s; /* Delay by 15 seconds */
 }
