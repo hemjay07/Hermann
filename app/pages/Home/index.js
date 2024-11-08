@@ -7,11 +7,11 @@ export default class Home extends Page {
       id: "home",
       element: ".home",
       elements: {
-        galleries: ".gallery",
+        galleries: ".gallery__image",
         container: ".fake-middle",
         slider: ".slider",
-        homeRevealer:".home__revealer",
-        galleryName: ".home__revealer__text"
+        revealer:".revealer",
+        galleryName: ".revealer__text"
         
       },
     });
@@ -54,6 +54,8 @@ export default class Home extends Page {
 
         console.log(altText)
         this.galleryName = altText;
+        this.elements.galleryName.innerText = this.galleryName
+
         this.animate();
       });
     });
@@ -65,22 +67,21 @@ export default class Home extends Page {
     const tl = GSAP.timeline();
     const maxDimension = Math.max(window.innerHeight * 2, window.innerWidth * 2);
 
-    this.elements.galleryName.innerText = this.galleryName
 
 
-    tl.set(this.elements.homeRevealer, {
+    tl.set(this.elements.revealer, {
       y: `${maxDimension}px`,
-      rotate: 16,
+      rotate: 20,
     });
 
     tl.set(this.elements.galleryName, {
       opacity: 0,
-      rotate: -16,
+      rotate: -20,
     });
 
     // First half animation
     tl.addLabel("firstHalf")
-      .to(this.elements.homeRevealer, {
+      .to(this.elements.revealer, {
         y: "0",
         duration: 1.2,
         ease: "power3.inOut",
@@ -106,9 +107,11 @@ export default class Home extends Page {
         duration: 0.6,
         ease: "power2.in",
       }, "secondHalf")
-      .to(this.elements.homeRevealer, {
+      .to(this.elements.revealer, {
         y: `-${maxDimension}px`,
-        duration: 1.2,
+        duration: 2,
+              rotate: 20,
+
         ease: "power3.inOut",
       }, "secondHalf+=0.2");
 

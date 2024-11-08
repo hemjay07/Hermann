@@ -1,0 +1,159 @@
+.gallery {
+    @extend %cover;
+    background: hsl(0, 3%, 14%);
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.grid {
+    --gap: clamp(1rem, 5vmin, 2rem);
+    --columns: 250px;
+
+    gap: var(--gap);
+    columns: var(--columns);
+    width: 96%;
+    max-width: 1400px;
+    margin: 5rem auto;
+    position: relative;
+    will-change: transform, opacity;
+
+    @media (min-width: 768px) {
+        --columns: 300px;
+    }
+}
+
+.grid_item {
+    break-inside: avoid;
+    margin-bottom: var(--gap);
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transform-origin: center center;
+    will-change: transform, opacity;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        transition: filter 0.4s ease, transform 0.4s ease;
+        will-change: transform, filter;
+
+        &:hover {
+            filter: grayscale(0);
+            transform: scale(1.03);
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+.preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 1000;
+
+    &__background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: hsl(0, 3%, 14%);
+        opacity: 0;
+        will-change: opacity;
+    }
+
+    &__content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__close {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        width: 4rem;
+        height: 4rem;
+        border: none;
+        background: transparent;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 1001;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        mix-blend-mode: difference;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 2rem;
+            background: white;
+            transform-origin: center;
+        }
+
+        &::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        &::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+    }
+
+    &__transition-image {
+        position: fixed;
+        object-fit: cover;
+        z-index: 1001;
+        will-change: transform, width, height;
+        transform-origin: center center;
+        filter: brightness(1.1);
+    }
+}
+
+// Animation classes
+.preview--open {
+    display: block;
+
+    .preview__close {
+        opacity: 1;
+    }
+}
+
+// Utilities
+.no-scroll {
+    overflow: hidden;
+}

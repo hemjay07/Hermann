@@ -5,6 +5,15 @@ block variables
 
 block content
   .gallery
-    h1 This is the gallery itself
-
+    .grid
+      each image, index in gallery_images
+        .grid_item
+          figure(data-index=index)
+            img(
+              src=image.gallery_image.url 
+              alt=image.gallery_image.alt || "Gallery image"
+              data-large=image.gallery_image.large_url || image.gallery_image.url
+            )
     
+    .preview
+      //- Content will be dynamically injected by JavaScript

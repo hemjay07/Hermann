@@ -9,7 +9,7 @@ block content
       .banner
         .slider(style="--quantity: 7")
           each gallery, index in galleries
-            .gallery(style=`--position: ${index + 1}`)
+            .gallery__image(style=`--position: ${index + 1}`)
               a.gallery_link(href=Link(gallery))
                 figure(data-index=index)
                   img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
@@ -19,9 +19,3 @@ block content
           .gallery__details__item
             .gallery__details__title=gallery.data.gallery_name
             .gallery__details__paragraph=gallery.data.gallery_description
-
-  .home__revealer
-    ul
-      li.home__revealer__text Hermann
-
-    

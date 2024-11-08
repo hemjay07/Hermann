@@ -79,9 +79,12 @@ const fetchWithRetry = async (fetchFn, maxRetries = 3, delay = 1000) => {
   throw lastError;
 };
 
+
+
 const handleLinkResolver = (doc) => {
-  if (doc.type === "product") {
-    return `/detail/${doc.uid}`;
+  if (doc.type === "image_url") {
+    const image_url = encodeURIComponent(doc.url);
+    return `/details?image_url=${image_url}`; // Pass image_url as a URL parameter
   }
   if (doc.type === "about") {
     return `/about`;
@@ -168,23 +171,43 @@ app.get("/", async (req, res) => {
 
 app.get("/gallery/:uid", async (req, res) => {
   try {
-    const api = initApi(req);
+    // Get the uid from request parameters
+    const { uid } = req.params;
+
     // You can implement similar caching for individual galleries if needed
-    res.render("pages/gallery");
+
+    const galleries = await getCachedGalleries(req);    
+
+    // Find the gallery matching the uid
+    const gallery = galleries.find(gallery => gallery.uid === uid);
+
+    if (!gallery) {
+      // Handle case when gallery is not found
+      return res.status(404).render("pages/gallery", { error: "Gallery not found" });
+    }
+    // console.log(uid, "uiddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", galleries,gallery.data.gallery_images)
+
+    // Pass the gallery data to the template
+    const gallery_images = gallery.data.gallery_images
+    console.log(gallery_images,"galleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    res.render("pages/gallery", { gallery_images });
+
   } catch (error) {
     console.error('Error loading gallery:', error);
-    res.render("pages/gallery");
+    // Pass the error to the template so you can show an error message
+    res.status(500).render("pages/gallery", { error: "Error loading gallery" });
   }
 });
+
 
 app.get("/contact", (req, res) => {
   res.render("pages/contact");
 });
 
 app.get("/details", (req, res) => {
-  res.render("pages/details");
+  const image_url = req.query.image_url; // Retrieve image_url from query parameters
+  res.render("pages/details", { url: image_url });
 });
-
 // Add a utility route to manually clear the cache if needed
 app.get("/api/clear-cache", (req, res) => {
   cache.flushAll();
