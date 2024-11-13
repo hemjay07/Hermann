@@ -13,7 +13,12 @@ export default class Gallery extends Page {
                 gridItems: ".grid_item",
                 previewImage: ".preview__image",
                 previewClose: ".preview__close",
-                previewBackground: ".preview__background"
+                previewBackground: ".preview__background",
+                transitionContainer: ".page-transition",
+                transitionLayers: ".page-transition__layer",
+                content: ".gallery__content",
+                prevButton: ".gallery__nav--prev",
+                nextButton: ".gallery__nav--next"
             },
         });
 
@@ -26,10 +31,114 @@ export default class Gallery extends Page {
 
     create() {
         super.create();
+
+        // Get navigation data from DOM
+        this.navigation = {
+            prev: {
+                url: this.element.dataset.prevGallery,
+                name: this.element.dataset.prevName
+            },
+            next: {
+                url: this.element.dataset.nextGallery,
+                name: this.element.dataset.nextName
+            }
+        };
+
         this.setupGallery();
         this.addEventListeners();
     }
 
+
+    // Override the show method to use our custom animation
+    show() {
+        const revealAnimation = this.createEnterAnimation();
+        return super.show(revealAnimation);
+    }
+
+    createEnterAnimation() {
+        const timeline = GSAP.timeline();
+
+        timeline.set(this.element, {
+            autoAlpha: 1
+        });
+
+        timeline.fromTo(this.elements.content,
+            {
+                autoAlpha: 0,
+                x: '-30px'  // More subtle movement
+            },
+            {
+                duration: 0.8,  // Longer duration for smoother effect
+                autoAlpha: 1,
+                x: '0',
+                ease: "power3.out"
+            }
+        );
+
+        // Stagger the grid items with adjusted timing
+        timeline.from(this.elements.gridItems, {
+            duration: 1,  // Slightly longer duration
+            autoAlpha: 0,
+            scale: 0.95,  // More subtle scale
+            stagger: {
+                amount: 0.4,  // Slightly quicker stagger
+                from: "start"
+            },
+            ease: "power2.out"
+        }, "-=0.6");  // Overlap more with previous animation
+
+        return timeline;
+    }
+    
+    onPrevClick(event) {
+        console.log("prev Clicked")
+        event.preventDefault();
+        if (!this.navigation.prev.url || this.state.isPreviewOpen) return;
+
+        // Instead of creating and playing a timeline, just call the navigation animation
+        this.createNavigationAnimation('prev');
+    }
+
+    onNextClick(event) {
+        console.log("next clicked")
+        event.preventDefault();
+        if (!this.navigation.next.url || this.state.isPreviewOpen) return;
+
+        // Instead of creating and playing a timeline, just call the navigation animation
+        this.createNavigationAnimation('next');
+    }
+
+    createNavigationAnimation(direction) {
+        if (!this.elements.transitionContainer) {
+            console.warn('Transition elements not found');
+            return;
+        }
+
+        // Reset any existing animations
+        this.elements.transitionContainer.classList.remove('is-animating', 'is-animating-prev', 'is-animating-next');
+        void this.elements.transitionContainer.offsetWidth; // Force reflow
+
+        // Show and start animation
+        this.elements.transitionContainer.style.display = 'block';
+        this.elements.transitionContainer.classList.add('is-animating');
+        this.elements.transitionContainer.classList.add(`is-animating-${direction}`);
+
+        // Change page at midpoint
+        setTimeout(() => {
+            const url = direction === 'next' ? this.navigation.next.url : this.navigation.prev.url;
+            window.app.onChange({ url });
+        }, 200);
+
+        // Cleanup
+        setTimeout(() => {
+            if (this.elements.transitionContainer) {
+                this.elements.transitionContainer.style.display = 'none';
+                this.elements.transitionContainer.classList.remove('is-animating');
+                this.elements.transitionContainer.classList.remove(`is-animating-${direction}`);
+            }
+        }, 1500);
+    }
+    
     setupGallery() {
         this.elements.preview.innerHTML = `
             <div class="preview__background"></div>
@@ -66,14 +175,23 @@ export default class Gallery extends Page {
                 this.closePreview();
             }
         });
+
+        if (this.elements.prevButton) {
+            this.elements.prevButton.addEventListener('click', this.onPrevClick.bind(this));
+        }
+        if (this.elements.nextButton) {
+            this.elements.nextButton.addEventListener('click', this.onNextClick.bind(this));
+        }
     }
+
+ 
 
     openPreview(gridItem) {
         this.state.isPreviewOpen = true;
         this.state.currentItem = gridItem;
 
         const img = gridItem.querySelector("img");
-        this.currentImage = img
+        this.currentImage = img;
         const imgBounds = img.getBoundingClientRect();
         const previewContainer = this.elements.preview.querySelector('.preview__image-container');
 
@@ -121,7 +239,6 @@ export default class Gallery extends Page {
         this.elements.preview.style.display = 'block';
         GSAP.set(this.elements.previewBackground, { opacity: 0 });
         GSAP.set(img, { opacity: 0 });
-        
 
         // Create timeline for the animation
         const timeline = GSAP.timeline({
@@ -133,7 +250,6 @@ export default class Gallery extends Page {
                         clone.src = img.dataset.large;
                     };
                 }
-
             }
         });
 
@@ -154,15 +270,14 @@ export default class Gallery extends Page {
                 height: finalHeight,
                 duration: 1.2,
                 ease: "expo.inOut",
-                     reverseEase: false  // Makes it use power2.in when reversing
-
+                reverseEase: false
             }, 0)
             .to(this.elements.previewBackground, {
                 opacity: 1,
                 duration: 1,
-                ease: "power2.out",        reverseEase: false  // Makes it use power2.in when reversing
-
-            }, 0.2) // Start background fade slightly after the movement begins
+                ease: "power2.out",
+                reverseEase: false
+            }, 0.2);
 
         // Animate other images out with stagger
         otherImages.forEach((item, index) => {
@@ -173,8 +288,9 @@ export default class Gallery extends Page {
                 opacity: 0,
                 duration: 0.8,
                 ease: "expo.inOut",
-                delay: index * 0.02, reverseEase: false
-            }, 0); // Start at the same time as clone movement
+                delay: index * 0.02,
+                reverseEase: false
+            }, 0);
         });
 
         this.state.timeline = timeline;
@@ -183,16 +299,12 @@ export default class Gallery extends Page {
     closePreview() {
         if (!this.state.isPreviewOpen || !this.state.timeline) return;
 
-        // this.state.timeline.timeScale(1.5); // Makes the reverse animation 1.5x faster
-
-        
         // Simply reverse the timeline
         this.state.timeline.reverse();
 
-
         // Clean up after the reverse animation completes
         this.state.timeline.eventCallback("onReverseComplete", () => {
-                    GSAP.set(this.currentImage, { opacity: 1 });
+            GSAP.set(this.currentImage, { opacity: 1 });
 
             const clone = this.elements.preview.querySelector('.preview__transition-image');
             if (clone) clone.remove();
@@ -210,6 +322,7 @@ export default class Gallery extends Page {
             });
         });
     }
+
     destroy() {
         super.destroy();
         if (this.state.timeline) {

@@ -4,16 +4,31 @@ block variables
   - var template = 'gallery'
 
 block content
-  .gallery
-    .grid
-      each image, index in gallery_images
-        .grid_item
-          figure(data-index=index)
-            img(
-              src=image.gallery_image.url 
-              alt=image.gallery_image.alt || "Gallery image"
-              data-large=image.gallery_image.large_url || image.gallery_image.url
-            )
+  .gallery(
+    data-prev-gallery=`/gallery/${navigation.prev.uid}`
+    data-prev-name=navigation.prev.name
+    data-next-gallery=`/gallery/${navigation.next.uid}`
+    data-next-name=navigation.next.name
+    data-background="hsl(0, 3%, 14%)" data-color="#37384C"
+  )
+
+    //- Content wrapper
+    .gallery__content
+      .grid
+        each image, index in gallery_images
+          .grid_item
+            figure(data-index=index)
+              img(
+                src=image.gallery_image.url 
+                alt=image.gallery_image.alt || "Gallery image"
+                data-large=image.gallery_image.large_url || image.gallery_image.url
+              )
+      
+      .preview
     
-    .preview
-      //- Content will be dynamically injected by JavaScript
+    //- Navigation moved to end so it's on top
+    .gallery__navigation
+      if navigation.prev.uid
+        button.gallery__nav.gallery__nav--prev Previous
+      if navigation.next.uid
+        button.gallery__nav.gallery__nav--next Next

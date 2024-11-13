@@ -150,3 +150,174 @@ canvas {
     vertical-align: top;
   }
 }
+
+
+
+.page-transition {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  display: none;
+  pointer-events: none;
+
+  &__layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: translate3d(100%, 0, 0);
+    will-change: transform;
+    pointer-events: none;
+
+    &:nth-child(1) {
+            // background: hsl(90, 100%, 50%); // Bright lime  
+                        background: hsl(90, 100%, 50%); // Bright lime green
+              z-index: 3001;
+    }
+
+    &:nth-child(2) {
+            // background: hsl(90, 100%, 40%); // Slightly darker lime  
+                        background: hsl(200, 100%, 50%); // Bright blue
+                z-index: 3002;
+    }
+
+    &:nth-child(3) {
+            // background: hsl(90, 100%, 30%); // Even darker lime  
+                        background: hsl(45, 100%, 50%); // Bright yellow/gold
+                z-index: 3003;
+    }
+
+  }
+
+  &.is-animating {
+    display: block;
+  }
+
+  &.is-animating-next .page-transition__layer {
+    animation: layer-slide-next-1 1.5s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+
+    &:nth-child(2) {
+      animation-name: layer-slide-next-2;
+    }
+
+    &:nth-child(3) {
+      animation-name: layer-slide-next-3;
+    }
+  }
+}
+
+// Next direction animations
+@keyframes layer-slide-next-1 {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  25%,
+  75% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes layer-slide-next-2 {
+
+  0%,
+  12.5% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  37.5%,
+  62.5% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  87.5%,
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes layer-slide-next-3 {
+
+  0%,
+  25% {
+    transform: translate3d(100%, 0, 0);
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+
+  75%,
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+// Previous direction animations
+.page-transition.is-animating-prev .page-transition__layer {
+  animation: layer-slide-prev-1 1.5s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+
+  &:nth-child(2) {
+    animation-name: layer-slide-prev-2;
+  }
+
+  &:nth-child(3) {
+    animation-name: layer-slide-prev-3;
+  }
+}
+
+@keyframes layer-slide-prev-1 {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  25%,
+  75% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes layer-slide-prev-2 {
+
+  0%,
+  12.5% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  37.5%,
+  62.5% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  87.5%,
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes layer-slide-prev-3 {
+
+  0%,
+  25% {
+    transform: translate3d(-100%, 0, 0);
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  }
+
+  75%,
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}

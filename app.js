@@ -171,34 +171,49 @@ app.get("/", async (req, res) => {
 
 app.get("/gallery/:uid", async (req, res) => {
   try {
-    // Get the uid from request parameters
     const { uid } = req.params;
+    const galleries = await getCachedGalleries(req);
 
-    // You can implement similar caching for individual galleries if needed
+    // Find current gallery and its index
+    const currentIndex = galleries.findIndex(gallery => gallery.uid === uid);
 
-    const galleries = await getCachedGalleries(req);    
-
-    // Find the gallery matching the uid
-    const gallery = galleries.find(gallery => gallery.uid === uid);
-
-    if (!gallery) {
-      // Handle case when gallery is not found
+    if (currentIndex === -1) {
       return res.status(404).render("pages/gallery", { error: "Gallery not found" });
     }
-    // console.log(uid, "uiddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", galleries,gallery.data.gallery_images)
 
-    // Pass the gallery data to the template
-    const gallery_images = gallery.data.gallery_images
-    console.log(gallery_images,"galleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-    res.render("pages/gallery", { gallery_images });
+    const gallery = galleries[currentIndex];
+    const totalGalleries = galleries.length;
+
+    // Calculate previous and next gallery UIDs
+    const prevGalleryUid = galleries[(currentIndex - 1 + totalGalleries) % totalGalleries].uid;
+    const nextGalleryUid = galleries[(currentIndex + 1) % totalGalleries].uid;
+
+    // Get gallery names for animation
+    const prevGalleryName = galleries[(currentIndex - 1 + totalGalleries) % totalGalleries].data.gallery_name;
+    const nextGalleryName = galleries[(currentIndex + 1) % totalGalleries].data.gallery_name;
+
+    const gallery_images = gallery.data.gallery_images;
+
+    // Pass all necessary data to the template
+    res.render("pages/gallery", {
+      gallery_images,
+      navigation: {
+        prev: {
+          uid: prevGalleryUid,
+          name: prevGalleryName
+        },
+        next: {
+          uid: nextGalleryUid,
+          name: nextGalleryName
+        }
+      }
+    });
 
   } catch (error) {
     console.error('Error loading gallery:', error);
-    // Pass the error to the template so you can show an error message
     res.status(500).render("pages/gallery", { error: "Error loading gallery" });
   }
 });
-
 
 app.get("/contact", (req, res) => {
   res.render("pages/contact");

@@ -206,7 +206,7 @@
   height: max(200vw, 200vh);
     position: absolute;
   z-index: 10;
-  background-color: black;
+  background-color: hsl(90, 100%, 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -225,7 +225,9 @@
    .revealer__text{
         // font-family: $font-blowbrush;
     
-        will-change: opacity;color: hsl(90, 100%, 50%);
+        will-change: opacity;
+        // color: hsl(90, 100%, 50%);
+        color:black;
           font-size: 7.5rem;
 
    }

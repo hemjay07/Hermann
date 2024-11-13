@@ -12,7 +12,9 @@ import Details from "./pages/Details/index.js";
 import Gallery from "./pages/Gallery/index.js";
 
 class App {
-  constructor() {
+  constructor() {   
+   window.app = this;
+
     this.createContent();
     this.createPages();
     // this.createPreloader();
@@ -21,9 +23,17 @@ class App {
     this.addEventListeners();
     this.addLinkListeners();
     this.createCursor();
-    window.app = this;
+
+    this.galleries= []
+    this.currentGalleryIndex= -1;
+
+
+
+    // console.log('App initialized, window.app set:', window.app); // Debug log
 
   }
+
+
 
   // this tells the browser that you are just going to the url(using the back or forward button) but there is no need to push that url to the history. Rather than delibrate state change within the application that would normallu use "push state"
   onPopState() {
