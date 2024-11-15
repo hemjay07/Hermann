@@ -1,9 +1,21 @@
 nav.navigation
-  a.navigation__link(href="/") Hermann
+  .navigation__overlay
+  button.navigation__button
+    .navigation__button-circle
+      svg(viewBox="0 0 100 100")
+        circle(cx="50" cy="50" r="50")
+      .navigation__button-icon
+        span
+        span
+        span
 
-  ul.navigation__list
-    li.navigation__list__item
-      a.navigation__list__link(href="/details") Details
-
-    li.navigation__list__item
-      a.navigation__list__link(href="/contact") Contact
+  .navigation__menu-wrapper
+    .navigation__menu-background
+    nav.navigation__menu
+      ul.navigation__menu-list
+        li.navigation__menu-list-item
+          a(href="/") Home
+        li.navigation__menu-list-item
+          a(href="/details") Details
+        li.navigation__menu-list-item
+          a(href="/contact") Contact
