@@ -7,7 +7,7 @@ import Cursor from "./components/Cursor.js";
 // import img1 from "/assets/images/Hermann1.jpg";
 
 import Home from "./pages/Home/index.js";
-import Contact from "./pages/Contact/index.js";
+import About from "./pages/About/index.js";
 import Details from "./pages/Details/index.js";
 import Gallery from "./pages/Gallery/index.js";
 
@@ -50,14 +50,15 @@ class App {
   createPages() {
     this.pages = {
       home: new Home(),
-      contact: new Contact(),
+      about: new About(),
       details: new Details(),
       gallery:new Gallery()
     };
 
-    this.page = this.pages[this.template];
+    this.page = this.pages[this.template]; 
+        console.log(this.page);
+
     this.page.create();
-    //  console.log(this.page);
   }
 
   createPreloader() {

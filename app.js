@@ -219,9 +219,9 @@ app.get("/contact", (req, res) => {
   res.render("pages/contact");
 });
 
-app.get("/details", (req, res) => {
+app.get("/about", (req, res) => {
   const image_url = req.query.image_url; // Retrieve image_url from query parameters
-  res.render("pages/details", { url: image_url });
+  res.render("pages/about", { url: image_url });
 });
 // Add a utility route to manually clear the cache if needed
 app.get("/api/clear-cache", (req, res) => {

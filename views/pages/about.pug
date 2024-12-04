@@ -1,0 +1,85 @@
+extends ../base.pug
+
+block variables
+  - var template = 'about'
+
+block content 
+  .about(data-background="#000000" data-color="#ffffff")
+    .about__wrapper
+      .about__first
+        .about__first__left
+          .about__first__image
+            img(src="/images/hermannImage.jpg" alt="Hermann")
+          .about__first__content
+            h1.about__first__title I'm 
+              br
+              span Hermann
+            p.about__first__description A digital artist exploring the intersection of imagination and technique. With a foundation in both traditional and digital mediums, I craft vibrant visuals that bring ideas to life.
+
+        .about__first__right
+          h2 What I do
+
+          .about__services
+            .about__service
+              span.about__service__number 01
+              h3.about__service__title DIGITAL ILLUSTRATION
+              p.about__service__description Transforming concepts into compelling visuals using industry-leading tools like Procreate and Adobe Suite.
+            
+            .about__service
+              span.about__service__number 02
+              h3.about__service__title CHARACTER DESIGN
+              p.about__service__description Creating distinctive characters that tell stories through their visual design.
+            
+            .about__service
+              span.about__service__number 03
+              h3.about__service__title CONCEPT ART
+              p.about__service__description Developing comprehensive visual solutions that resonate and engage.
+                
+          .about__recognition
+            h2.about__recognition__title Recognition
+            
+            .about__recognition__content
+              .about__recognition__column
+                h3.about__recognition__subtitle Awards
+                .about__recognition__list
+                  .about__recognition__item
+                    span.about__recognition__year 2022
+                    .about__recognition__details
+                      h4.about__recognition__award Red Bull Doodle Art Challenge
+                      p.about__recognition__position Winner, Nigeria
+                  
+                  .about__recognition__item
+                    span.about__recognition__year 2021
+                    .about__recognition__details
+                      h4.about__recognition__award Tripple G Eco Art Challenge
+                      p.about__recognition__position First Runner Up
+              
+                h3.about__recognition__subtitle Education
+                .about__recognition__list
+                  .about__recognition__item
+                    span.about__recognition__year 2022
+                    .about__recognition__details
+                      h4.about__recognition__degree Communication and Language Art
+                      p.about__recognition__school B.A.
+            
+            .about__social
+              h2.about__social__title Connect
+              
+              .about__social__content
+                a.about__social__item(href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer")
+                  svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5")
+                    rect(x="2" y="2" width="20" height="20" rx="5" ry="5")
+                    path(d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z")
+                    line(x1="17.5" y1="6.5" x2="17.51" y2="6.5")
+                  span Instagram
+                
+                a.about__social__item(href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer")
+                  svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5")
+                    path(d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z")
+                  span Twitter
+                
+                a.about__social__item(href="mailto:your.email@example.com")
+                  svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5")
+                    path(d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z")
+                    polyline(points="22,6 12,13 2,6")
+                  span Email
