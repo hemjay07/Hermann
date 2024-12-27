@@ -70,6 +70,8 @@ export default class Home extends Page {
 
 
     tl.set(this.elements.revealer, {
+      display: 'flex',
+
       y: `${maxDimension}px`,
       rotate: 20,
     });
@@ -114,6 +116,9 @@ export default class Home extends Page {
 
         ease: "power3.inOut",
       }, "secondHalf+=0.2");
+
+    tl.set(this.elements.revealer, { display: 'none' });
+
 
     return tl;
   }

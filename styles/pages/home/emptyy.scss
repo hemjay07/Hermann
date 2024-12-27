@@ -1,0 +1,200 @@
+.about {
+    touch-action: none;
+    -webkit-overflow-scrolling: touch;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #FFFFFF;
+    color: #384f03;
+    overflow: hidden;
+    font-weight: 300;
+    font-family: $font-montserrat;
+
+    &__wrapper {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+    }
+
+    // Scroll Indicator Styles
+    &__scroll__indicator {
+        position: absolute;
+        bottom: 5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        z-index: 10;
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards 2s;
+
+        @media (min-width: 769px) {
+            display: none;
+        }
+
+        &__text {
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+
+        &__line {
+            width: 1px;
+            height: 4rem;
+            background: rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+
+            &--animated {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #80ff00;
+                animation: scrollLine 2s ease-in-out infinite;
+            }
+        }
+    }
+
+    &__first {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+
+        &__left {
+            position: relative;
+            height: 100%;
+            flex: 1;
+            isolation: isolate;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right,
+                        rgba(0, 0, 0, 0.6),
+                        rgba(0, 0, 0, 0.2));
+                z-index: 1;
+
+                @media (max-width: 768px) {
+                    background: linear-gradient(to bottom,
+                            rgba(0, 0, 0, 0.3),
+                            rgba(0, 0, 0, 0.8));
+                }
+            }
+
+            @media (max-width: 768px) {
+                width: 100%;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+
+            @media (min-width: 769px) {
+                flex: none;
+            }
+        }
+
+        &__image {
+            position: absolute;
+            height: 100%;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 20%;
+            }
+
+            @media (max-width: 768px) {
+                width: 100%;
+                height: 100vh;
+            }
+        }
+
+        &__content {
+            position: relative;
+            z-index: 2;
+            padding: 6rem;
+            max-width: 60rem;
+            color: #FFFFFF;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+
+            @media (max-width: 768px) {
+                padding: 2.5rem;
+                height: 100vh;
+                max-width: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                padding-bottom: 15vh;
+            }
+        }
+
+        // ... rest of your existing styles ...
+    }
+
+    // ... rest of your existing styles ...
+}
+
+// Animation Keyframes
+@keyframes scrollLine {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    50% {
+        transform: translateY(100%);
+    }
+
+    51% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

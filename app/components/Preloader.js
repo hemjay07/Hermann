@@ -1,7 +1,6 @@
-import GSAP from "gsap";
 
+import GSAP from "gsap";
 import Components from "classes/Components.js";
-import { set } from "lodash";
 
 export default class Preloader extends Components {
   constructor() {
@@ -11,37 +10,84 @@ export default class Preloader extends Components {
         title: ".preloader__text",
         number: ".preloader__number",
         numberText: ".preloader__number__text",
+        preloaderAnimation: ".preloader__animation"
       },
     });
 
     this.length = 0;
+    this.preloaderImageLength = 0;
 
     this.createLoader();
   }
 
-  createLoader() {
-    setTimeout(() => {
-      this.onAssetLoaded();
-    }, 500);
+  loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const media = new window.Image();
+      media.crossOrigin = "anonymous";
+      media.src = src;
+
+      media.onload = () => resolve(media);
+      media.onerror = reject;
+    });
   }
 
-  // This is used to calculate the preloader value. The fraction of loaded images to the total number of images.
-  onAssetLoaded(image) {
-    const randomNum = Math.floor(Math.random() * 10) + 1;
+  async loadPreloaderImages() {
+    const preloaderLoadPromises = window.ASSETS.preloaderImages.map(image => {
+      return this.loadImage(image).then(() => {
+        this.preloaderImageLength++
+        this.onAssetLoaded();
 
-    this.length = this.length + randomNum;
+        if (this.preloaderImageLength === window.ASSETS.preloaderImages.length) {
+          console.log("Preloader images loaded");
+          if (this.elements.preloaderAnimation) {
+            this.elements.preloaderAnimation.style.display = "block";
 
-    this.elements.numberText.innerHTML = `${Math.round(this.length)}%`;
+          }
+        }
+      });
+    });
 
-    if (this.length >= 100) {
-      this.elements.numberText.innerHTML = "100%";
+    // Wait for all preloader images to load
+    await Promise.all(preloaderLoadPromises);
+  }
 
-      setTimeout(() => {
-        this.onLoaded();
-      }, 1000);
-    } else {
-      this.createLoader();
+  async loadGalleryImages() {
+    const galleryLoadPromises = window.ASSETS.galleryImages.map(image => {
+      return this.loadImage(image).then(() => {
+        this.onAssetLoaded();
+      });
+    });
+
+    await Promise.all(galleryLoadPromises);
+  }
+
+  async createLoader() {
+    try {
+      // First load preloader images
+      await this.loadPreloaderImages();
+
+      // Then load gallery images
+      await this.loadGalleryImages();
+
+      // After all images are loaded
+      const percent = this.length / (window.ASSETS.galleryImages.length + window.ASSETS.preloaderImages.length);
+      
+      if (percent === 1) {
+        setTimeout(() => {
+          this.onLoaded();
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error loading images:', error);
     }
+  }
+
+  onAssetLoaded() {
+
+    this.length += 1;    console.log(this.preloaderImageLength, this.length)
+
+    const percent = this.length / (window.ASSETS.galleryImages.length + window.ASSETS.preloaderImages.length);
+    this.elements.numberText.innerHTML = `${Math.round(percent * 100)}%`;
   }
 
   onLoaded() {
@@ -49,18 +95,18 @@ export default class Preloader extends Components {
       this.emit("completed");
 
       this.animateOut = GSAP.timeline({ delay: 2 });
-
       this.animateOut.to(this.element, {
         scaleY: 0,
         transformOrigin: "0 100%",
         duration: 0.5,
       });
 
-      this.animateOut.call((_) => {
+      this.animateOut.call(() => {
         this.destroy();
       });
     });
   }
+
   destroy() {
     this.element.parentNode.removeChild(this.element);
   }

@@ -221,7 +221,7 @@
     display: inline-block;
     color: white;
     text-decoration: none;
-    font-size: calc(clamp(3.25em, 5vw, 4em) * .875);
+    font-size: calc(clamp(3.25em, 5vw, 4em));
     font-weight: 300;
     font-family: $font-george-x;
     line-height: 1;

@@ -153,12 +153,42 @@ const getCachedGalleries = async (req) => {
   return galleries || [];
 };
 
+
+const handleRequest = async (api,req) => {
+ let preloaderImages = []
+
+  let assets ={galleryImages:[], preloaderImages:[]}
+
+  const galleries = await getCachedGalleries(req);
+  galleries.forEach(gallery=>{
+    gallery.data.gallery_images.forEach(image=>{
+      assets.galleryImages.push(image.gallery_image.url)
+    })
+  })
+
+  const preloader = await api.getSingle("preloader"); // Fetching preloader data from Prismic
+preloader.data.body.forEach(frame=>{
+  frame.items.forEach(image=>{
+    preloaderImages.push(image.img.url)
+  })
+})
+
+assets.preloaderImages.push(...preloaderImages)
+  return {
+    assets,
+  preloaderImages, preloader
+  };
+};
+
 // Routes
 app.get("/", async (req, res) => {
   try {
+    const api = initApi(req);
+  const defaults = await handleRequest(api, req); 
+
     const galleries = await getCachedGalleries(req);
     res.render("pages/home", {
-      galleries
+     ...defaults, galleries
     });
   } catch (error) {
     console.error('Error in home route:', error);
@@ -171,8 +201,12 @@ app.get("/", async (req, res) => {
 
 app.get("/gallery/:uid", async (req, res) => {
   try {
+    const api = initApi(req);
+
     const { uid } = req.params;
     const galleries = await getCachedGalleries(req);
+    const defaults = await handleRequest(api, req); 
+
 
     // Find current gallery and its index
     const currentIndex = galleries.findIndex(gallery => gallery.uid === uid);
@@ -196,6 +230,7 @@ app.get("/gallery/:uid", async (req, res) => {
 
     // Pass all necessary data to the template
     res.render("pages/gallery", {
+      ...defaults,
       gallery_images,
       navigation: {
         prev: {
@@ -215,13 +250,20 @@ app.get("/gallery/:uid", async (req, res) => {
   }
 });
 
-app.get("/contact", (req, res) => {
-  res.render("pages/contact");
+app.get("/contact", async (req, res) => {
+  const api = initApi(req);
+
+  const defaults = await handleRequest(api, req); 
+
+  res.render("pages/contact", {...defaults});
 });
 
-app.get("/about", (req, res) => {
-  const image_url = req.query.image_url; // Retrieve image_url from query parameters
-  res.render("pages/about", { url: image_url });
+app.get("/about", async(req, res) => {
+  const api = initApi(req);
+
+  const defaults = await handleRequest(api, req); 
+
+res.render("pages/about",{...defaults});
 });
 // Add a utility route to manually clear the cache if needed
 app.get("/api/clear-cache", (req, res) => {

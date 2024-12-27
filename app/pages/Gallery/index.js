@@ -71,7 +71,9 @@ export default class Gallery extends Page {
                 duration: 0.8,  // Longer duration for smoother effect
                 autoAlpha: 1,
                 x: '0',
-                ease: "power3.out"
+                ease: "power3.out",
+                            clearProps: "all"  
+
             }
         );
 
@@ -79,12 +81,14 @@ export default class Gallery extends Page {
         timeline.from(this.elements.gridItems, {
             duration: 1,  // Slightly longer duration
             autoAlpha: 0,
-            scale: 0.95,  // More subtle scale
+            scale: 0.85,  // More subtle scale
             stagger: {
                 amount: 0.4,  // Slightly quicker stagger
                 from: "start"
             },
-            ease: "power2.out"
+            ease: "power2.out",
+                        clearProps: "all" 
+
         }, "-=0.6");  // Overlap more with previous animation
 
         return timeline;
@@ -114,44 +118,56 @@ export default class Gallery extends Page {
             return;
         }
 
-        // Reset any existing animations
-        this.elements.transitionContainer.classList.remove('is-animating', 'is-animating-prev', 'is-animating-next');
-        void this.elements.transitionContainer.offsetWidth; // Force reflow
+        const container = this.elements.transitionContainer;
+        const timeline = GSAP.timeline();
 
-        // Show and start animation
-        this.elements.transitionContainer.style.display = 'block';
-        this.elements.transitionContainer.classList.add('is-animating');
-        this.elements.transitionContainer.classList.add(`is-animating-${direction}`);
+        // Remove existing classes first
+        container.classList.remove('is-animating', 'is-animating-prev', 'is-animating-next');
 
-        // Change page at midpoint
-        setTimeout(() => {
-            const url = direction === 'next' ? this.navigation.next.url : this.navigation.prev.url;
-            window.app.onChange({ url });
-        }, 200);
+        // Setup and start animation
+        timeline
+            .set(container, {
+                display: 'block',
+                onComplete: () => {
+                    // Add new animation classes
+                    container.classList.add('is-animating', `is-animating-${direction}`);
+                }
+            })
+            .call(() => {
+                // Change page at midpoint
+                const url = direction === 'next' ?
+                    this.navigation.next.url :
+                    this.navigation.prev.url;
+                window.app.onChange({ url });
+            }, null, 0.2) 
+            .call(() => {
+                // Cleanup
+                if (container) {
+                    container.style.display = 'none';
+                    container.classList.remove('is-animating', `is-animating-${direction}`);
+                }
+            }, null, 1.5); 
 
-        // Cleanup
-        setTimeout(() => {
-            if (this.elements.transitionContainer) {
-                this.elements.transitionContainer.style.display = 'none';
-                this.elements.transitionContainer.classList.remove('is-animating');
-                this.elements.transitionContainer.classList.remove(`is-animating-${direction}`);
-            }
-        }, 1500);
+        return timeline;
     }
-    
     setupGallery() {
         this.elements.preview.innerHTML = `
-            <div class="preview__background"></div>
-            <div class="preview__content">
-                <button class="preview__close">×</button>
-                <div class="preview__image-container"></div>
-            </div>
-        `;
+        <div class="preview__background"></div>
+        <div class="preview__content">
+            <div class="preview__image-container">
 
-        // Store the background element
+            
+                <button class="preview__close" aria-label="Close preview">
+                    <svg viewBox="0 0 24 24" class="icon-close">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    `;
+
         this.elements.previewBackground = this.elements.preview.querySelector('.preview__background');
     }
-
     addEventListeners() {
         const gridItems = this.elements.grid.querySelectorAll(".grid_item");
 
@@ -188,6 +204,23 @@ export default class Gallery extends Page {
 
     openPreview(gridItem) {
         this.state.isPreviewOpen = true;
+        this.element.classList.add('no-scroll')
+        this.elements.preview.classList.add('preview--open');
+
+        // Hide navigation elements with GSAP
+        const mainNav = document.querySelector('.navigation');
+        const galleryNav = document.querySelector('.gallery__navigation');
+
+        GSAP.to([mainNav, galleryNav], {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+            onComplete: () => {
+                if (mainNav) mainNav.style.pointerEvents = 'none';
+                if (galleryNav) galleryNav.style.pointerEvents = 'none';
+            }
+        });
+
         this.state.currentItem = gridItem;
 
         const img = gridItem.querySelector("img");
@@ -249,6 +282,12 @@ export default class Gallery extends Page {
                     highResImage.onload = () => {
                         clone.src = img.dataset.large;
                     };
+                }else{
+                    const highResImage = new Image();
+                    highResImage.src = img;
+                    highResImage.onload = () => {
+                        clone.src = img;
+                    };
                 }
             }
         });
@@ -298,6 +337,24 @@ export default class Gallery extends Page {
 
     closePreview() {
         if (!this.state.isPreviewOpen || !this.state.timeline) return;
+
+        this.element.classList.remove('no-scroll')
+        this.elements.preview.classList.remove('preview--open');
+
+        // Show navigation elements with GSAP
+        const mainNav = document.querySelector('.navigation');
+        const galleryNav = document.querySelector('.gallery__navigation');
+
+        // Reset pointer-events first so they're ready when visible
+        if (mainNav) mainNav.style.pointerEvents = '';
+        if (galleryNav) galleryNav.style.pointerEvents = '';
+
+        GSAP.to([mainNav, galleryNav], {
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+
 
         // Simply reverse the timeline
         this.state.timeline.reverse();

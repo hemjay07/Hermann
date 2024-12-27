@@ -4,14 +4,22 @@ block variables
   - var template = 'gallery'
 
 block content
+  //- SVG definition for the arrow
+  svg.hidden
+    defs
+      symbol#icon-arrow(viewBox="0 0 39 51.43")
+        title Arrow Left
+        polygon(points="7 25.71 36 45.71 36 26.08 36 5.71 7 25.71" stroke-miterlimit="10" stroke-width="6")
+        line(x1="3" y1="5.71" x2="3" y2="45.71" fill="none" stroke-miterlimit="10" stroke-width="6")
+
   .gallery(
     data-prev-gallery=`/gallery/${navigation.prev.uid}`
     data-prev-name=navigation.prev.name
     data-next-gallery=`/gallery/${navigation.next.uid}`
     data-next-name=navigation.next.name
-    data-background="hsl(0, 3%, 14%)" data-color="#37384C"
+    data-background="hsl(0, 3%, 14%)" 
+    data-color="#37384C"
   )
-
     //- Content wrapper
     .gallery__content
       .grid
@@ -24,11 +32,20 @@ block content
                 data-large=image.gallery_image.large_url || image.gallery_image.url
               )
       
+      //- Preview modal container
       .preview
     
-    //- Navigation moved to end so it's on top
+    //- Navigation with SVG arrows and gallery names
     .gallery__navigation
       if navigation.prev.uid
-        button.gallery__nav.gallery__nav--prev Previous
+        button.gallery__nav.gallery__nav--prev(aria-label="Previous Gallery")
+          svg.icon
+            use(xlink:href="#icon-arrow")
+          span.gallery__nav-label= navigation.prev.name
+
       if navigation.next.uid
-        button.gallery__nav.gallery__nav--next Next
+        button.gallery__nav.gallery__nav--next(aria-label="Next Gallery")
+          svg.icon
+            use(xlink:href="#icon-arrow")
+          span.gallery__nav-label= navigation.next.name
+

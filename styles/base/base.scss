@@ -4,6 +4,10 @@
   box-sizing: border-box;
   user-select: none;
   cursor: none;
+  -webkit-tap-highlight-color: transparent;
+    /* Prevents tap highlight on iOS */
+    -webkit-touch-callout: none;
+    /* Prevents callout menu on long-press */
 }
 
 html {
@@ -45,7 +49,7 @@ body {
 
 .content__rotate,
 .content__reverse {
-  will-change: transform;
+  // will-change: transform;
 
   @extend %cover;
   // background-color: red;
@@ -54,17 +58,47 @@ body {
 .content__move {
   @extend %cover;
   overflow: hidden;
-  will-change: transform;
+  // will-change: transform;
 }
+
+
 .cursor-dot {
   width: 5px;
   height: 5px;
-  background-color: hsl(0, 0%, 20%);
+  background-color: white;
+  mix-blend-mode: difference;
+
+  &.cursor-scroll {
+    width: 8px;
+    height: 8px;
+    background-color: #80ff00;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-bottom: 2px solid #80ff00;
+    border-right: 2px solid #80ff00;
+  }
 }
+
 .cursor-outline {
-  width: 30px;
-  height: 30px;
-  border: 2px solid hsl(78, 100%, 40%);
+  width: 35px;
+  height: 35px;
+  border: 3px solid hsl(78, 100%, 40%);
+  transition: all 0.3s ease;
+
+  &.cursor-scroll {
+    width: auto;
+    height: auto;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    color: #80ff00;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transform: translate(10px, -10px);
+
+    &::before {
+      content: 'Scroll';
+    }
+  }
 
   &::after {
     content: attr(data-label);
@@ -86,14 +120,14 @@ body {
   background-color: hsl(78, 100%, 90%, 0.6);
   border: none;
 }
+
 .cursor-outline.image-hover::after {
   display: block;
 }
 
-//
-
 .cursor-dot,
 .cursor-outline {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -101,6 +135,14 @@ body {
   border-radius: 50%;
   z-index: 999999;
   pointer-events: none;
+}
+
+@media(hover: hover) {
+
+  .cursor-dot,
+  .cursor-outline {
+    display: block;
+  }
 }
 
 /* Pseudo-element for the label next to the cursor */
@@ -168,7 +210,7 @@ canvas {
     top: 0;
     left: 0;
     transform: translate3d(100%, 0, 0);
-    will-change: transform;
+    // will-change: transform;
     pointer-events: none;
 
     &:nth-child(1) {

@@ -18,6 +18,7 @@ export default class Page {
     _.forEach(this.selectorChildren, (entry, key) => {
       // console.log(entry);
 
+ 
       // Check if entry is an HTML element
       // or a NodeList
       // or a selector
@@ -68,15 +69,13 @@ export default class Page {
       }
 
       this.animationIn.call((_) => {
-        // this.addEventListeners();
         resolve();
       });
     });
   }
+  
   hide() {
     return new Promise((resolve) => {
-      // this.removeEventListeners();
-      // OR;
       this.destroy();
 
       this.animationOut = GSAP.timeline();

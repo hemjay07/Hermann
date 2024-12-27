@@ -35,6 +35,13 @@ export default class About extends Page {
       ease: 0.05
     };
 
+ this.touchStart = null;
+    this.touchY = null;
+
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
+
     this.onWheel = this.onWheel.bind(this);
     this.onResize = this.onResize.bind(this);
     this.update = this.update.bind(this);
@@ -283,6 +290,33 @@ export default class About extends Page {
     );
   }
 
+    onTouchStart(event) {
+    this.touchStart = event.touches[0].clientY;
+    this.touchY = this.touchStart;
+  }
+
+  onTouchMove(event) {
+    event.preventDefault();
+    if (!this.touchStart) return;
+
+    const currentY = event.touches[0].clientY;
+    const diff = this.touchY - currentY;
+    
+    // Adjust sensitivity for mobile
+    this.scroll.target = Math.min(
+      Math.max(this.scroll.target + diff * 0.5, 0),
+      this.scroll.limit
+    );
+
+    this.touchY = currentY;
+  }
+
+  onTouchEnd() {
+    this.touchStart = null;
+    this.touchY = null;
+  }
+
+
   onResize() {
     const wasMotile = this.isMobile;
     this.isMobile = window.innerWidth <= 768;
@@ -290,6 +324,16 @@ export default class About extends Page {
     if (wasMotile !== this.isMobile) {
       this.setupPage();
     }
+
+      if (this.isMobile) {
+        this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
+        this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
+        this.element.addEventListener('touchend', this.onTouchEnd);
+      } else {
+        this.element.removeEventListener('touchstart', this.onTouchStart);
+        this.element.removeEventListener('touchmove', this.onTouchMove);
+        this.element.removeEventListener('touchend', this.onTouchEnd);
+      }
   }
 
   normalizeWheel(event) {
@@ -360,11 +404,23 @@ export default class About extends Page {
   addEventListeners() {
     window.addEventListener('wheel', this.onWheel, { passive: false });
     window.addEventListener('resize', this.onResize);
+
+     if (this.isMobile) {
+      this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
+      this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
+      this.element.addEventListener('touchend', this.onTouchEnd);
+    }
   }
 
   removeEventListeners() {
     window.removeEventListener('wheel', this.onWheel);
     window.removeEventListener('resize', this.onResize);
+
+     if (this.isMobile) {
+      this.element.removeEventListener('touchstart', this.onTouchStart);
+      this.element.removeEventListener('touchmove', this.onTouchMove);
+      this.element.removeEventListener('touchend', this.onTouchEnd);
+    }
   }
 
   destroy() {
