@@ -1,9 +1,11 @@
 %title-20 {
-  font-family: $font-george-x;
+  font-family: $font-montserrat;
   font-size: 2rem;
+  margin-bottom: 2rem;
 
   @include media("<phone") {
     font-size: 3rem;
+    margin-bottom: 4rem;
   }
 }
 
@@ -16,9 +18,9 @@
   }
 }
 
-%title-53 {
+%title-50 {
   font-family: $font-george-x;
-  font-size: 5.3rem;
+  font-size: 5rem;
   line-height: 1;
 }
 

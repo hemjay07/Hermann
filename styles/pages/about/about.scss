@@ -219,11 +219,9 @@
     
 
       h2 {
-        font-size: 6.4rem;
+        @extend %title-50;
         margin-bottom: 4rem;
         margin-top: 16rem;
-        font-weight: 400;
-        // letter-spacing: -0.01em;
         color: #80ff00;
           font-family: $font-blowbrush;
       }
@@ -244,6 +242,9 @@
   &__service {
     max-width: 44rem;
     transition: transform 0.3s ease;
+    @include media('<phone') { 
+        max-width: unset;
+      }
 
     &:hover {
       transform: translateX(10px);
@@ -255,7 +256,9 @@
       .about__service__number {
         color: #80ff00;
       }
-    }
+
+  }
+
 
     &__number {
       color: rgba(255, 255, 255, 0.6);
@@ -268,21 +271,14 @@
     }
 
     &__title {
-      color: #FFFFFF;
-      font-size: 2.2rem;
-      margin-bottom: 1.6rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: color 0.3s ease;
-    }
+     @extend %title-20;
+   }
 
     &__description {
+      @extend %description-16;
       color: rgba(255, 255, 255, 0.8);
-      font-size: 1.6rem;
-      line-height: 1.7;
-      font-weight: 300;
-      letter-spacing: 0.01em;
-      transition: opacity 0.3s ease;
+
+  
     }
   }
 
@@ -316,11 +312,10 @@
     }
 
     &__title {
-      font-size: 6.4rem;
+      @extend %title-50;
       margin-bottom: 6rem;
       position: relative;
-      font-weight: 400;
-      // letter-spacing: -0.01em;
+    
       color: #80ff00;
 
       @media (min-width: 768px) {
@@ -336,14 +331,16 @@
     }
 
     &__subtitle {
-      font-size: 2.2rem;
-      margin-bottom: 4rem;
+          @extend %title-20;
       color: #FFFFFF;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+     
 
       &:nth-of-type(2) {
-        margin-top: 3rem;
+        margin-top: 4rem;
+
+          @include media("<phone") {
+              margin-top: 8rem;
+            }
       }
     }
 
@@ -385,20 +382,23 @@
 
     &__award,
     &__degree {
-      font-size: 1.7rem;
-      font-weight: 500;
-      margin-bottom: 0.8rem;
-      color: #FFFFFF;
-      letter-spacing: 0.01em;
+      @extend %description-16;
+        color: rgba(255, 255, 255, 0.8);
+
       transition: color 0.3s ease;
     }
 
     &__position,
     &__school {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.6);
       font-weight: 300;
+
+        @include media("<phone") {
+            font-size: 1.5rem;
+          }
+      
     }
 
     @media (min-width: 769px) {
@@ -423,10 +423,10 @@
     isolation: isolate;
 
     &__title {
-      font-size: 6.4rem;
-      margin-bottom: 6rem;
+        @extend %title-50;
+              margin-bottom: 6rem;
       position: relative;
-      font-weight: 400;
+      
       // letter-spacing: -0.01em;
       color: #80ff00;
 
@@ -500,15 +500,7 @@
   }
 
   @media (max-width: 768px) {
-    &__service {
-      &__title {
-        font-size: 2rem;
-      }
-
-      &__description {
-        font-size: 1.5rem;
-      }
-    }
+  
 
     &__recognition {
       padding: 4rem;
