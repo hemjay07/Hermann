@@ -1,200 +1,157 @@
-.about {
-    touch-action: none;
-    -webkit-overflow-scrolling: touch;
+.home {
+    @extend %page;
+    padding-top: 7rem;
+    font-family: $font-blowbrush;
+    font-size: 3rem;
+    background-color: #f5f5f5;
+    color: #444444;
+}
+
+.galleries {
+    font-family: "blowbrush";
+    color: hsl(78 100% 15% / 1);
     position: fixed;
-    top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4rem;
+    z-index: 2;
+    font-size: 6rem;
+}
+
+.banner {
+    position: absolute;
+    z-index: 1;
+    margin-top: 10vh;
     width: 100%;
+    display: grid;
+    justify-items: center;
     height: 100vh;
-    background: #FFFFFF;
-    color: #384f03;
-    overflow: hidden;
-    font-weight: 300;
+
+    @include media("<phone") {
+        margin-top: 18vh;
+    }
+}
+
+.banner .slider {
+    top: 0;
+    max-width: 170px;
+    aspect-ratio: 4 / 4;
+    transform-style: preserve-3d;
+    width: 30vw;
+    will-change: transform; // Optimize for transforms
+
+    @include media("<phone") {
+        aspect-ratio: 6 / 4;
+    }
+}
+
+.banner .slider .gallery__image {
+    position: absolute;
+    inset: 0 0 0 0;
+    width: 100%;
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(min(26vw, 480px));
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    @include media("<phone") {
+        transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+    }
+}
+
+.gallery__image img {
+    filter: grayscale(100%);
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    z-index: 1;
+    transition: filter 0.5s ease;
+
+    &:hover {
+        filter: grayscale(0%);
+    }
+
+    @include media("<phone") {
+        height: 100%;
+    }
+}
+
+.gallery__details {
+    @extend %cover;
+}
+
+.gallery__details__item {
+    opacity: 0;
+    position: absolute;
+    top: 70vh;
+    left: 8rem;
+    transition: opacity 0.5s ease;
+
+    @include media("<phone") {
+        top: 65vh;
+        left: 2rem;
+    }
+}
+
+.gallery__details__title {
+    color: hsl(78 100% 15% / 1);
+    @extend %title-60;
+}
+
+.gallery__details__paragraph {
     font-family: $font-montserrat;
+    margin-top: 2rem;
+    @extend %description-16;
+    max-width: 44rem;
 
-    &__wrapper {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-    }
-
-    // Scroll Indicator Styles
-    &__scroll__indicator {
-        position: absolute;
-        bottom: 5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.2rem;
-        z-index: 10;
-        opacity: 0;
-        animation: fadeIn 0.5s ease forwards 2s;
-
-        @media (min-width: 769px) {
-            display: none;
-        }
-
-        &__text {
-            font-size: 1.2rem;
-            color: #FFFFFF;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-weight: 300;
-            opacity: 0.8;
-            white-space: nowrap;
-        }
-
-        &__line {
-            width: 1px;
-            height: 4rem;
-            background: rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-
-            &--animated {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: #80ff00;
-                animation: scrollLine 2s ease-in-out infinite;
-            }
-        }
-    }
-
-    &__first {
-        display: flex;
-        width: 100%;
-        height: 100vh;
-        position: relative;
-
-        &__left {
-            position: relative;
-            height: 100%;
-            flex: 1;
-            isolation: isolate;
-
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(to right,
-                        rgba(0, 0, 0, 0.6),
-                        rgba(0, 0, 0, 0.2));
-                z-index: 1;
-
-                @media (max-width: 768px) {
-                    background: linear-gradient(to bottom,
-                            rgba(0, 0, 0, 0.3),
-                            rgba(0, 0, 0, 0.8));
-                }
-            }
-
-            @media (max-width: 768px) {
-                width: 100%;
-                height: 100vh;
-                position: fixed;
-                top: 0;
-                left: 0;
-            }
-
-            @media (min-width: 769px) {
-                flex: none;
-            }
-        }
-
-        &__image {
-            position: absolute;
-            height: 100%;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: 50% 20%;
-            }
-
-            @media (max-width: 768px) {
-                width: 100%;
-                height: 100vh;
-            }
-        }
-
-        &__content {
-            position: relative;
-            z-index: 2;
-            padding: 6rem;
-            max-width: 60rem;
-            color: #FFFFFF;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.5s;
-
-            @media (max-width: 768px) {
-                padding: 2.5rem;
-                height: 100vh;
-                max-width: 100%;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                padding-bottom: 15vh;
-            }
-        }
-
-        // ... rest of your existing styles ...
-    }
-
-    // ... rest of your existing styles ...
-}
-
-// Animation Keyframes
-@keyframes scrollLine {
-    0% {
-        transform: translateY(-100%);
-    }
-
-    50% {
-        transform: translateY(100%);
-    }
-
-    51% {
-        transform: translateY(-100%);
-    }
-
-    100% {
-        transform: translateY(-100%);
+    @include media("<phone") {
+        max-width: none;
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
+.gallery-indicators {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 2;
+    pointer-events: none;
+}
 
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: hsla(78, 100%, 15%, 0.3);
+    transition: background-color 0.3s ease;
+
+    @include media("<phone") {
+        width: 6px;
+        height: 6px;
     }
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+.revealer {
+    width: max(200vw, 200vh);
+    height: max(200vw, 200vh);
+    position: absolute;
+    z-index: 10;
+    background-color: hsl(90, 100%, 50%);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0, max(200vw, 200vh)) rotate(16deg);
+    will-change: transform;
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    ul {
+        list-style: disc;
+        padding-left: 20px;
     }
+}
+
+.revealer__text {
+    will-change: opacity;
+    color: black;
+    font-size: 7.5rem;
 }
