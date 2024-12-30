@@ -17,7 +17,7 @@ class App {
 
     this.createContent();
     this.createPages();
-    // this.createPreloader();
+    this.createPreloader();
     this.createNavigation();
 
     this.addEventListeners();
@@ -62,7 +62,7 @@ class App {
   }
 
   createPreloader() {
-    this.preloader = new Preloader();
+    this.preloader = new Preloader({template: this.template , page: this.page});
     this.preloader.once("completed", this.onPreloaded)
   }
 

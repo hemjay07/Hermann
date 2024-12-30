@@ -1,9 +1,10 @@
 
 import GSAP from "gsap";
 import Components from "classes/Components.js";
+import { template } from "lodash";
 
 export default class Preloader extends Components {
-  constructor() {
+  constructor({template, page}) {
     super({
       element: ".preloader",
       elements: {
@@ -18,6 +19,8 @@ export default class Preloader extends Components {
     this.preloaderImageLength = 0;
 
     this.createLoader();
+    this.template= template
+    this.page=page
   }
 
   loadImage(src) {
@@ -84,28 +87,38 @@ export default class Preloader extends Components {
 
   onAssetLoaded() {
 
-    this.length += 1;    console.log(this.preloaderImageLength, this.length)
+    this.length += 1;    
 
     const percent = this.length / (window.ASSETS.galleryImages.length + window.ASSETS.preloaderImages.length);
     this.elements.numberText.innerHTML = `${Math.round(percent * 100)}%`;
   }
 
-  onLoaded() {
-    return new Promise((resolve) => {
-      this.emit("completed");
+onLoaded() {
+  return new Promise((resolve) => {
+    this.emit("completed");
 
-      this.animateOut = GSAP.timeline({ delay: 2 });
-      this.animateOut.to(this.element, {
-        scaleY: 0,
-        transformOrigin: "0 100%",
-        duration: 0.5,
-      });
-
+    this.animateOut = GSAP.timeline({ delay: 2 });
+    
+    // Call initialSpeedUp before scaling the preloader out
+    if (this.template === "home") {
       this.animateOut.call(() => {
-        this.destroy();
+        this.page.initialSpeedUp();
       });
+    }
+
+    // Animate the preloader out
+    this.animateOut.to(this.element, {
+      scaleY: 0,
+      transformOrigin: "0 100%",
+      duration: 0.5,
     });
-  }
+
+    // Destroy the preloader after the animation completes
+    this.animateOut.call(() => {
+      this.destroy();
+    });
+  });
+}
 
   destroy() {
     this.element.parentNode.removeChild(this.element);
