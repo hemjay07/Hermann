@@ -102,7 +102,7 @@ onLoaded() {
     // Call initialSpeedUp before scaling the preloader out
     if (this.template === "home") {
       this.animateOut.call(() => {
-        this.page.initialSpeedUp();
+        // this.page.initialSpeedUp();
       });
     }
 

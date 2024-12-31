@@ -17,7 +17,7 @@ class App {
 
     this.createContent();
     this.createPages();
-    this.createPreloader();
+    // this.createPreloader();
     this.createNavigation();
 
     this.addEventListeners();

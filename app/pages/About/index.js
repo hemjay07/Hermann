@@ -155,7 +155,7 @@ export default class About extends Page {
     });
   }
 
-  setupPage() {
+  setupPage() { 
     this.scroll.current = 0;
     this.scroll.target = 0;
     this.scroll.limit = this.isMobile ? window.innerHeight * 3 : window.innerWidth;
@@ -292,6 +292,7 @@ export default class About extends Page {
 
     onTouchStart(event) {
     this.touchStart = event.touches[0].clientY;
+    console.log(event.touches)
     this.touchY = this.touchStart;
   }
 
@@ -319,7 +320,9 @@ export default class About extends Page {
 
   onResize() {
     const wasMotile = this.isMobile;
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 768; 
+    console.log(this.isMobile)
+
 
     if (wasMotile !== this.isMobile) {
       this.setupPage();

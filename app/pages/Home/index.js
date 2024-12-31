@@ -17,15 +17,28 @@ export default class Home extends Page {
       }
     });
 
-    // Single rotation system
+    // Rotation system
     this.rotation = 0;
-    this.rotationSpeed = 360 / 36; // Base speed
-    this.currentSpeed = this.rotationSpeed;
+    this.rotationSpeed = 360 / 36;
+    this.currentSpeed = 0;
+    this.directionMultiplier = 1;
     this.lastTime = performance.now();
+    
+    // Touch tracking properties
+    this.touchStart = null;
+    this.touchY = null;
+    this.lastDeltaY = 0;
+    this.touchVelocity = 0;
+    this.isTouching = false;
+    
+    // Initialization states
+    this.isInitializing = true;
+    this.initialSpeed = 860;
+    this.initialStartTime = null;
+    this.initialDuration = 2700;
 
     // Navigation state
     this.onNavigationCallback = null;
-
   }
 
   create() {
@@ -33,102 +46,146 @@ export default class Home extends Page {
     this.setupRotation();
     this.addEventListener();
   }
-setupRotation() {
+
+  setupRotation() {
     const slider = this.elements.slider;
     slider.style.transformStyle = 'preserve-3d';
     
-    // Set initial transform directly
     slider.style.transform = 'perspective(1000px) rotateX(-16deg) rotateY(0deg)';
 
     this.startRotationLoop();
-}
-initialSpeedUp() {
-  const initialSpeed = 860; // Fast initial speed
-  const duration = 1700; // Duration of the speed-up in milliseconds
-  const startTime = performance.now();
+  }
 
-  const speedUp = (currentTime) => {
-    const elapsedTime = currentTime - startTime;
-    const progress = Math.min(elapsedTime / duration, 1); // Clamp progress to [0, 1]
-
-    // Linearly interpolate from initialSpeed to rotationSpeed
-    this.currentSpeed = initialSpeed - (initialSpeed - this.rotationSpeed) * progress;
-
-    if (progress < 1) {
-      requestAnimationFrame(speedUp);
-    } else {
-      this.currentSpeed = this.rotationSpeed; // Ensure normal speed at the end
-    }
-  };
-
-  requestAnimationFrame(speedUp);
-}
-
-
-
-startRotationLoop() {
-  this.initialSpeedUp()
+  startRotationLoop() {
     const animate = (currentTime) => {
       const deltaTime = (currentTime - this.lastTime) / 1000;
-      // console.log(deltaTime)
       this.lastTime = currentTime;
 
-      this.currentSpeed += (this.rotationSpeed - this.currentSpeed) * 0.2;
-      this.rotation += this.currentSpeed * deltaTime;
+      if (this.isInitializing) {
+        if (!this.initialStartTime) this.initialStartTime = currentTime;
+        
+        const elapsedTime = currentTime - this.initialStartTime;
+        const progress = Math.min(elapsedTime / this.initialDuration, 1);
+        
+        this.currentSpeed = (this.initialSpeed - (this.initialSpeed - this.rotationSpeed) * progress) * this.directionMultiplier;
+        
+        if (progress === 1) {
+          this.isInitializing = false;
+        }
+      } else {
+        const targetSpeed = this.rotationSpeed * this.directionMultiplier;
+        this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.2;
+      }
 
-      // Apply transform directly to DOM
+      this.rotation += this.currentSpeed * deltaTime;
+      
       this.elements.slider.style.transform = 
         `perspective(1000px) rotateX(-16deg) rotateY(${this.rotation}deg)`;
 
-        // console.log(this.currentSpeed, this.rotationSpeed)
-
-     if (Math.abs(this.currentSpeed - 10) < 0.5) {
-    this.updateDetailsAndIndicators(this.rotation);
-}
+      if (Math.abs(Math.abs(this.currentSpeed) - this.rotationSpeed) < 0.1) {
+        this.updateDetailsAndIndicators(this.rotation);
+      }
 
       this.rotationFrame = requestAnimationFrame(animate);
     };
 
     this.rotationFrame = requestAnimationFrame(animate);
-}
+  }
 
- updateDetailsAndIndicators(rotation) {
-  const normalizedRotation = ((rotation % 360) + 360) % 360;
-  const activeIndex = Math.floor((normalizedRotation / 360) * 6);
-  
-  // Update gallery details
-  this.elements.details.forEach((detail, index) => {
-    GSAP.to(detail, {
-      opacity: index === activeIndex ? 1 : 0,
-      duration: 0.1,
-      ease:"ease"
+  updateDetailsAndIndicators(rotation) {
+    const normalizedRotation = ((rotation % 360) + 360) % 360;
+    const activeIndex = Math.floor((normalizedRotation / 360) * 6);
+    
+    this.elements.details.forEach((detail, index) => {
+      GSAP.to(detail, {
+        opacity: index === activeIndex ? 1 : 0,
+        duration: 0.1,
+        ease: "ease"
+      });
     });
-  });
 
-  // Update indicator dots
-  this.elements.indicators.forEach((indicator, index) => {
-    indicator.style.backgroundColor = index === activeIndex ? 
-      'hsl(78, 100%, 15%)' : 
-      'hsla(78, 100%, 15%, 0.3)';
-  });
-
-  // Update gallery grayscale
-  this.elements.galleries.forEach((gallery, index) => {
-    const img = gallery.querySelector('img');
-    GSAP.to(img, {
-      filter: index === activeIndex ? 'grayscale(0%)' : 'grayscale(100%)',
-      duration: 0.5
+    this.elements.indicators.forEach((indicator, index) => {
+      indicator.style.backgroundColor = index === activeIndex ? 
+        'hsl(78, 100%, 15%)' : 
+        'hsla(78, 100%, 15%, 0.3)';
     });
-  });
-}
+
+    this.elements.galleries.forEach((gallery, index) => {
+      const img = gallery.querySelector('img');
+      GSAP.to(img, {
+        filter: index === activeIndex ? 'grayscale(0%)' : 'grayscale(100%)',
+        duration: 0.5
+      });
+    });
+  }
 
   onWheel(event) {
     event.preventDefault();
-    // Directly modify current speed based on scroll
-    const scrollInfluence = event.deltaY * 0.8;
+    const scrollInfluence = event.deltaY * 1.5;
 
-    // console.log("scrollInfluence", scrollInfluence)
-    this.currentSpeed = -scrollInfluence;
+    if (Math.abs(scrollInfluence) > 1) {
+        this.directionMultiplier = scrollInfluence > 0 ? -1 : 1;
+    }
+
+    const scrollSpeed = Math.abs(scrollInfluence);
+    
+    if ((scrollInfluence > 0 && this.directionMultiplier < 0) || 
+        (scrollInfluence < 0 && this.directionMultiplier > 0)) {
+        this.currentSpeed = this.directionMultiplier * 
+            Math.max(this.rotationSpeed, scrollSpeed);
+    } else {
+        this.currentSpeed = scrollSpeed * this.directionMultiplier;
+    }
+  }
+
+  onTouchStart(event) {
+    event.preventDefault();
+    this.isTouching = true;
+    this.touchStart = event.touches[0].clientY;
+    this.touchY = this.touchStart;
+    this.touchVelocity = 0;
+  }
+
+  onTouchMove(event) {
+    event.preventDefault();
+    if (!this.isTouching) return;
+
+    const currentY = event.touches[0].clientY;
+    const deltaY = this.touchY - currentY;
+    
+    this.touchVelocity = deltaY;
+    this.lastDeltaY = deltaY;
+
+    this.onWheel({ 
+        preventDefault: () => {},
+        deltaY: deltaY * 2
+    });
+
+    this.touchY = currentY;
+  }
+
+  onTouchEnd() {
+    this.isTouching = false;
+    
+    const startVelocity = this.touchVelocity * 15;
+    let currentVelocity = startVelocity;
+    
+    const decay = () => {
+        if (Math.abs(currentVelocity) > 0.1) {
+            this.onWheel({
+                preventDefault: () => {},
+                deltaY: currentVelocity
+            });
+            
+            currentVelocity *= 0.95;
+            requestAnimationFrame(decay);
+        }
+    };
+
+    requestAnimationFrame(decay);
+    
+    this.touchStart = null;
+    this.touchY = null;
   }
 
   onGalleryClick(gallery, event) {
@@ -164,7 +221,6 @@ startRotationLoop() {
       rotate: -20
     });
 
-    // First half animation
     tl.addLabel("firstHalf")
       .to(this.elements.revealer, {
         y: "0",
@@ -184,7 +240,6 @@ startRotationLoop() {
       }
     }, null, "+=0.5");
 
-    // Second half animation
     tl.addLabel("secondHalf")
       .to(this.elements.galleryName, {
         opacity: 0,
@@ -205,6 +260,12 @@ startRotationLoop() {
 
   addEventListener() {
     window.addEventListener('wheel', this.onWheel.bind(this), { passive: false });
+    
+    if ('ontouchstart' in window) {
+        this.element.addEventListener('touchstart', this.onTouchStart.bind(this));
+        this.element.addEventListener('touchmove', this.onTouchMove.bind(this));
+        this.element.addEventListener('touchend', this.onTouchEnd.bind(this));
+    }
 
     _.forEach(this.elements.galleries, (gallery) => {
       const link = gallery.querySelector('a');
@@ -214,6 +275,12 @@ startRotationLoop() {
 
   removeEventListeners() {
     window.removeEventListener('wheel', this.onWheel.bind(this));
+    
+    if ('ontouchstart' in window) {
+        this.element.removeEventListener('touchstart', this.onTouchStart.bind(this));
+        this.element.removeEventListener('touchmove', this.onTouchMove.bind(this));
+        this.element.removeEventListener('touchend', this.onTouchEnd.bind(this));
+    }
 
     _.forEach(this.elements.galleries, (gallery) => {
       const link = gallery.querySelector('a');
