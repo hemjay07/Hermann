@@ -25,7 +25,7 @@ export default class About extends Page {
       }
     });
 
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 1024;
 
     this.scroll = {
       current: 0,
@@ -320,7 +320,7 @@ export default class About extends Page {
 
   onResize() {
     const wasMotile = this.isMobile;
-    this.isMobile = window.innerWidth <= 768; 
+    this.isMobile = window.innerWidth <= 1024; 
     console.log(this.isMobile)
 
 

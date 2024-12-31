@@ -96,7 +96,6 @@
   transition: opacity 0.5s ease;
 
   @include media("<phone") {
-    top: 65vh;
     left: 2rem;
   }
 }
@@ -104,6 +103,8 @@
 .gallery__details__title {
   color: hsl(78 100% 15% / 1);
   @extend %title-60;
+    @include media("<phone") {
+font-size: 10rem;      }
 }
 
 .gallery__details__paragraph {
