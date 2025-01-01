@@ -13,7 +13,7 @@ export default class Navigation extends Component {
         menuWrapper: '.navigation__menu-wrapper',
         menuBackground: '.navigation__menu-background',
         menuItems: '.navigation__menu-list-item',
-        menuLinks: '.navigation__menu-list-item a',
+        menuLinks: '.navigation__menu-list-item',
         overlay: '.navigation__overlay'
       },
     });
@@ -141,6 +141,7 @@ export default class Navigation extends Component {
 
   onButtonClick() {
     if (!this.isAnimating) {
+      console.log("button clicked")
       this.isAnimating = true;
       if (this.isMenuOpen) {
         this.closeMenu();

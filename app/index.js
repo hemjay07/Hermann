@@ -59,9 +59,11 @@ class App {
   }
 
   createCursor() {
-    this.cursor = new Cursor();
+  if (this.cursor) {
+    this.cursor.destroy(); // Add destroy call
   }
-
+  this.cursor = new Cursor();
+}
   onPreloaded() {
     console.log("All content preloaded");
   }

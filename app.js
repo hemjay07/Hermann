@@ -24,7 +24,7 @@ app.set("view engine", "pug");
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Initialize cache with 1 hour TTL (Time To Live)
-const cache = new NodeCache({ stdTTL: 3600 });
+const cache = new NodeCache({ stdTTL: 180 }); // 3 minutes
 
 /**
  * Enhanced Prismic client initialization with proper error handling and timeouts
@@ -123,36 +123,34 @@ app.use((req, res, next) => {
  * Returns cached data if available, otherwise fetches from Prismic
  * Includes retry mechanism for failed API calls
  */
+
 const getCachedGalleries = async (req) => {
   const CACHE_KEY = 'galleries';
-
-  // Try to get galleries from cache first
   let galleries = cache.get(CACHE_KEY);
 
   if (galleries === undefined) {
+    console.log(`[${new Date().toISOString()}] Cache miss: Fetching galleries from Prismic`);
     try {
       const api = initApi(req);
-
-      // Fetch galleries with retry mechanism
       galleries = await fetchWithRetry(async () => {
         const results = await api.getAllByType("gallery");
         return results;
       });
 
       if (galleries) {
-        // Store in cache if fetch was successful
         cache.set(CACHE_KEY, galleries);
+        console.log(`[${new Date().toISOString()}] Cached galleries for 3 minutes`);
       }
     } catch (error) {
-      console.error('Error fetching galleries:', error);
-      // Return empty array instead of throwing to prevent complete failure
-      return [];
+      console.error(`[${new Date().toISOString()}] Prismic fetch failed:`, error);
+      throw error;
     }
+  } else {
+    console.log(`[${new Date().toISOString()}] Cache hit: Using cached galleries`);
   }
 
   return galleries || [];
 };
-
 
 const handleRequest = async (api,req) => {
  let preloaderImages = []
@@ -195,9 +193,9 @@ app.get("/", async (req, res) => {
   } catch (error) {
     console.error('Error in home route:', error);
     // Render the page with empty galleries rather than showing an error
-    res.render("pages/home", {
-      galleries: []
-    });
+    // res.render("pages/home", {
+    //   galleries: []
+    // });
   }
 });
 
@@ -248,7 +246,7 @@ app.get("/gallery/:uid", async (req, res) => {
 
   } catch (error) {
     console.error('Error loading gallery:', error);
-    res.status(500).render("pages/gallery", { error: "Error loading gallery" });
+    // res.status(500).render("pages/gallery", { error: "Error loading gallery" });
   }
 });
 
