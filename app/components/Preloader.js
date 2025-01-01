@@ -154,7 +154,7 @@ export default class Preloader extends Components {
     return new Promise((resolve) => {
       this.emit("completed");
 
-      this.animateOut = GSAP.timeline({ delay: 1 });
+      this.animateOut = GSAP.timeline({ delay: 5 });
       
       if (this.template === "home") {
         this.animateOut.call(() => {           
