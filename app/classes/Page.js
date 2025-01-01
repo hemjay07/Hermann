@@ -69,6 +69,7 @@ export default class Page {
       }
 
       this.animationIn.call((_) => {
+
         resolve();
       });
     });

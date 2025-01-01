@@ -19,35 +19,31 @@ export default class About extends Page {
         services: ".about__service",
         serviceNumbers: ".about__service__number",
         serviceTitles: ".about__service__title",
-        serviceDescriptions: ".about__service__description",
         recognitionItems: ".about__recognition__item",
         socialItems: ".about__social__item"
       }
     });
 
-    this.isMobile = window.innerWidth <= 1024;
-
+    // Initialize scroll configuration
     this.scroll = {
       current: 0,
       target: 0,
       last: 0,
-      limit: this.isMobile ? window.innerHeight * 3 : window.innerWidth,
+      limit: 0,
       ease: 0.05
     };
 
- this.touchStart = null;
-    this.touchY = null;
-
+    // Bind methods
+    this.onWheel = this.onWheel.bind(this);
+    this.onResize = this.onResize.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
 
-    this.onWheel = this.onWheel.bind(this);
-    this.onResize = this.onResize.bind(this);
-    this.update = this.update.bind(this);
-
+    // Track animation states
     this.recognitionAnimated = false;
     this.socialAnimated = false;
+    this.isMobile = window.innerWidth <= 1024;
   }
 
   create() {
@@ -59,12 +55,11 @@ export default class About extends Page {
   }
 
   createAnimations() {
-    // Initial loading animations
     const tl = GSAP.timeline({
       defaults: { ease: "power3.out" }
     });
 
-    // Title Animation
+    // Animate title
     tl.fromTo(this.elements.title,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.2 }
@@ -74,29 +69,33 @@ export default class About extends Page {
       "-=0.8"
     );
 
-    // Description Typewriter Effect
-    this.animateTypewriter(this.elements.description);
+    // Only set initial states for services in mobile view
+    if (this.isMobile) {
+      this.elements.services.forEach(service => {
+        GSAP.set(service, { y: 20, opacity: 0 });
+      });
+    }
 
-    // Service Items Animation
-    this.elements.services.forEach((service, index) => {
-      GSAP.fromTo(service,
-        { y: 20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.2 * index,
-          scrollTrigger: {
-            trigger: service,
-            start: "top 80%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
+    this.elements.services.forEach(service => {
+      this.addServiceHoverEffect(service);
     });
 
-    // Add hover animations for services
-    this.addServiceHoverEffects();
+    this.animateTypewriter(this.elements.description);
+  }
+
+  addServiceHoverEffect(service) {
+    const number = service.querySelector('.about__service__number');
+    const title = service.querySelector('.about__service__title');
+    
+    service.addEventListener('mouseenter', () => {
+      GSAP.to(number, { color: '#80ff00', duration: 0.3 });
+      GSAP.to(title, { color: '#80ff00', x: 10, duration: 0.3 });
+    });
+
+    service.addEventListener('mouseleave', () => {
+      GSAP.to(number, { color: 'rgba(255, 255, 255, 0.6)', duration: 0.3 });
+      GSAP.to(title, { color: '#FFFFFF', x: 0, duration: 0.3 });
+    });
   }
 
   animateTypewriter(element) {
@@ -112,77 +111,26 @@ export default class About extends Page {
         currentText += text[index];
         element.textContent = currentText;
         setTimeout(() => typeChar(index + 1), typeSpeed);
-      } else {
-        // Add blinking cursor at the end
-        element.style.borderRight = '2px solid #80ff00';
-        setTimeout(() => {
-          element.style.borderRight = 'none';
-        }, 500);
       }
     };
 
-    setTimeout(() => typeChar(0), 1000); // Start typing after title animation
+    setTimeout(() => typeChar(0), 1000);
   }
 
-  addServiceHoverEffects() {
-    this.elements.services.forEach(service => {
-      const number = service.querySelector('.about__service__number');
-      const title = service.querySelector('.about__service__title');
-
-      service.addEventListener('mouseenter', () => {
-        GSAP.to(number, {
-          color: '#80ff00',
-          duration: 0.3
-        });
-        GSAP.to(title, {
-          color: '#80ff00',
-          x: 10,
-          duration: 0.3
-        });
-      });
-
-      service.addEventListener('mouseleave', () => {
-        GSAP.to(number, {
-          color: 'rgba(255, 255, 255, 0.6)',
-          duration: 0.3
-        });
-        GSAP.to(title, {
-          color: '#FFFFFF',
-          x: 0,
-          duration: 0.3
-        });
-      });
-    });
-  }
-
-  setupPage() { 
-    this.scroll.current = 0;
-    this.scroll.target = 0;
-    this.scroll.limit = this.isMobile ? window.innerHeight * 3 : window.innerWidth;
-
-    // Reset any ongoing animations
-    GSAP.killTweensOf([
-      this.elements.firstRight,
-      this.elements.recognition,
-      this.elements.social
-    ]);
+  setupPage() {
+    this.scroll = {
+      ...this.scroll,
+      current: 0,
+      target: 0,
+      limit: this.isMobile ? window.innerHeight * 3 : window.innerWidth
+    };
 
     if (this.isMobile) {
-      // Mobile setup - vertical stacking
-      GSAP.set([this.elements.firstRight, this.elements.recognition, this.elements.social], {
-        y: "100%",
-        x: 0
-      });
+      GSAP.set(this.elements.firstRight, { y: "100%", x: 0 });
+      GSAP.set([this.elements.recognition, this.elements.social], { y: "100%", x: 0 });
     } else {
-      // Desktop setup - horizontal sliding
-      GSAP.set(this.elements.firstRight, {
-        y: 0,
-        x: 0
-      });
-      GSAP.set([this.elements.recognition, this.elements.social], {
-        x: "100%",
-        y: 0
-      });
+      GSAP.set(this.elements.firstRight, { y: 0, x: 0 });
+      GSAP.set([this.elements.recognition, this.elements.social], { y: 0, x: "100%" });
     }
   }
 
@@ -193,52 +141,16 @@ export default class About extends Page {
       this.scroll.ease
     );
 
-    if (this.scroll.current < 0.01) {
-      this.scroll.current = 0;
-    }
-
+    this.scroll.current = Math.max(0, Math.min(this.scroll.current, this.scroll.limit));
+    
     const totalProgress = this.scroll.current / this.scroll.limit;
-
-    if (this.isMobile) {
-      this.updateMobileAnimations(totalProgress);
-    } else {
+    
+    this.isMobile ? 
+      this.updateMobileAnimations(totalProgress) : 
       this.updateDesktopAnimations(totalProgress);
-    }
 
     this.scroll.last = this.scroll.current;
     this.animationFrame = requestAnimationFrame(this.update.bind(this));
-  }
-
-  updateMobileAnimations(totalProgress) {
-    const whatIdoProgress = Math.min(Math.max(totalProgress * 3, 0), 1);
-    const recognitionProgress = Math.min(Math.max((totalProgress * 3) - 1, 0), 1);
-    const socialProgress = Math.min(Math.max((totalProgress * 3) - 2, 0), 1);
-
-    GSAP.set(this.elements.firstRight, {
-      y: `${100 * (1 - whatIdoProgress)}%`,
-      opacity: whatIdoProgress
-    });
-
-    GSAP.set(this.elements.recognition, {
-      y: `${100 * (1 - recognitionProgress)}%`,
-      opacity: recognitionProgress
-    });
-
-    GSAP.set(this.elements.social, {
-      y: `${100 * (1 - socialProgress)}%`,
-      opacity: socialProgress
-    });
-
-    // Trigger section animations
-    if (recognitionProgress > 0.5 && !this.recognitionAnimated) {
-      this.animateSection(this.elements.recognitionItems);
-      this.recognitionAnimated = true;
-    }
-
-    if (socialProgress > 0.5 && !this.socialAnimated) {
-      this.animateSection(this.elements.socialItems);
-      this.socialAnimated = true;
-    }
   }
 
   updateDesktopAnimations(totalProgress) {
@@ -255,6 +167,45 @@ export default class About extends Page {
       opacity: socialProgress
     });
 
+    // this.triggerSectionAnimations(recognitionProgress, socialProgress);
+  }
+
+  updateMobileAnimations(totalProgress) {
+    const servicesProgress = Math.min(Math.max(totalProgress * 3, 0), 1);
+    const recognitionProgress = Math.min(Math.max((totalProgress * 3) - 1, 0), 1);
+    const socialProgress = Math.min(Math.max((totalProgress * 3) - 2, 0), 1);
+
+    // Only animate services in mobile view
+    this.elements.services.forEach((service, index) => {
+      const delay = index * 0.1;
+      const serviceProgress = Math.max(0, Math.min(1, (servicesProgress - delay) * 2));
+      
+      GSAP.to(service, {
+        y: serviceProgress * -20,
+        opacity: serviceProgress,
+        duration: 0.3
+      });
+    });
+
+    GSAP.set(this.elements.firstRight, {
+      y: `${100 * (1 - servicesProgress)}%`,
+      opacity: servicesProgress
+    });
+
+    GSAP.set(this.elements.recognition, {
+      y: `${100 * (1 - recognitionProgress)}%`,
+      opacity: recognitionProgress
+    });
+
+    GSAP.set(this.elements.social, {
+      y: `${100 * (1 - socialProgress)}%`,
+      opacity: socialProgress
+    });
+
+    // this.triggerSectionAnimations(recognitionProgress, socialProgress);
+  }
+
+  triggerSectionAnimations(recognitionProgress, socialProgress) {
     if (recognitionProgress > 0.5 && !this.recognitionAnimated) {
       this.animateSection(this.elements.recognitionItems);
       this.recognitionAnimated = true;
@@ -268,31 +219,26 @@ export default class About extends Page {
 
   animateSection(elements) {
     GSAP.fromTo(elements,
-      { y: 20, opacity: 0 },
+      {opacity: 0 },
       {
-        y: 0,
+        
         opacity: 1,
-        duration: 0.8,
+      
         stagger: 0.1,
-        ease: "power3.out"
       }
     );
   }
 
   onWheel(event) {
     event.preventDefault();
-    const normalized = this.normalizeWheel(event);
-    const speed = normalized.pixelY;
-
     this.scroll.target = Math.min(
-      Math.max(this.scroll.target + speed * 0.3, 0),
+      Math.max(this.scroll.target + event.deltaY * 0.3, 0),
       this.scroll.limit
     );
   }
 
-    onTouchStart(event) {
+  onTouchStart(event) {
     this.touchStart = event.touches[0].clientY;
-    console.log(event.touches)
     this.touchY = this.touchStart;
   }
 
@@ -303,7 +249,6 @@ export default class About extends Page {
     const currentY = event.touches[0].clientY;
     const diff = this.touchY - currentY;
     
-    // Adjust sensitivity for mobile
     this.scroll.target = Math.min(
       Math.max(this.scroll.target + diff * 0.5, 0),
       this.scroll.limit
@@ -317,87 +262,26 @@ export default class About extends Page {
     this.touchY = null;
   }
 
-
   onResize() {
     const wasMotile = this.isMobile;
-    this.isMobile = window.innerWidth <= 1024; 
-    console.log(this.isMobile)
-
+    this.isMobile = window.innerWidth <= 1024;
 
     if (wasMotile !== this.isMobile) {
       this.setupPage();
+      this.updateTouchListeners();
     }
-
-      if (this.isMobile) {
-        this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
-        this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
-        this.element.addEventListener('touchend', this.onTouchEnd);
-      } else {
-        this.element.removeEventListener('touchstart', this.onTouchStart);
-        this.element.removeEventListener('touchmove', this.onTouchMove);
-        this.element.removeEventListener('touchend', this.onTouchEnd);
-      }
   }
 
-  normalizeWheel(event) {
-    const PIXEL_STEP = 10;
-    const LINE_HEIGHT = 40;
-    const PAGE_HEIGHT = 800;
-
-    let sX = 0, sY = 0,
-      pX = 0, pY = 0;
-
-    if ('detail' in event) {
-      sY = event.detail;
+  updateTouchListeners() {
+    if (this.isMobile) {
+      this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
+      this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
+      this.element.addEventListener('touchend', this.onTouchEnd);
+    } else {
+      this.element.removeEventListener('touchstart', this.onTouchStart);
+      this.element.removeEventListener('touchmove', this.onTouchMove);
+      this.element.removeEventListener('touchend', this.onTouchEnd);
     }
-    if ('wheelDelta' in event) {
-      sY = -event.wheelDelta / 120;
-    }
-    if ('wheelDeltaY' in event) {
-      sY = -event.wheelDeltaY / 120;
-    }
-    if ('wheelDeltaX' in event) {
-      sX = -event.wheelDeltaX / 120;
-    }
-
-    if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
-      sX = sY;
-      sY = 0;
-    }
-
-    pX = sX * PIXEL_STEP;
-    pY = sY * PIXEL_STEP;
-
-    if ('deltaY' in event) {
-      pY = event.deltaY;
-    }
-    if ('deltaX' in event) {
-      pX = event.deltaX;
-    }
-
-    if ((pX || pY) && event.deltaMode) {
-      if (event.deltaMode === 1) {
-        pX *= LINE_HEIGHT;
-        pY *= LINE_HEIGHT;
-      } else {
-        pX *= PAGE_HEIGHT;
-        pY *= PAGE_HEIGHT;
-      }
-    }
-
-    if (pX && !sX) {
-      sX = (pX < 1) ? -1 : 1;
-    }
-    if (pY && !sY) {
-      sY = (pY < 1) ? -1 : 1;
-    }
-
-    return {
-      spinX: sX,
-      spinY: sY,
-      pixelX: pX,
-      pixelY: pY
-    };
   }
 
   lerp(start, end, factor) {
@@ -407,32 +291,22 @@ export default class About extends Page {
   addEventListeners() {
     window.addEventListener('wheel', this.onWheel, { passive: false });
     window.addEventListener('resize', this.onResize);
-
-     if (this.isMobile) {
-      this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
-      this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
-      this.element.addEventListener('touchend', this.onTouchEnd);
-    }
+    this.updateTouchListeners();
   }
 
   removeEventListeners() {
     window.removeEventListener('wheel', this.onWheel);
     window.removeEventListener('resize', this.onResize);
-
-     if (this.isMobile) {
-      this.element.removeEventListener('touchstart', this.onTouchStart);
-      this.element.removeEventListener('touchmove', this.onTouchMove);
-      this.element.removeEventListener('touchend', this.onTouchEnd);
-    }
+    this.element.removeEventListener('touchstart', this.onTouchStart);
+    this.element.removeEventListener('touchmove', this.onTouchMove);
+    this.element.removeEventListener('touchend', this.onTouchEnd);
   }
 
   destroy() {
     this.removeEventListeners();
-
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame);
     }
-
     super.destroy();
   }
 }

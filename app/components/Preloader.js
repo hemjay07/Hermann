@@ -157,8 +157,10 @@ export default class Preloader extends Components {
       this.animateOut = GSAP.timeline({ delay: 1 });
       
       if (this.template === "home") {
-        this.animateOut.call(() => {
+        this.animateOut.call(() => {           
+
           if (this.page && typeof this.page.initialSpeedUp === 'function') {
+
             this.page.initialSpeedUp();
           }
         });

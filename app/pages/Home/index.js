@@ -32,7 +32,7 @@ export default class Home extends Page {
     this.isTouching = false;
     
     // Initialization states
-    this.isInitializing = true;
+    this.isInitializing = false;
     this.initialSpeed = 860;
     this.initialStartTime = null;
     this.initialDuration = 2700;
@@ -45,6 +45,7 @@ export default class Home extends Page {
     super.create();
     this.setupRotation();
     this.addEventListener();
+
   }
 
   setupRotation() {
@@ -55,6 +56,10 @@ export default class Home extends Page {
 
     this.startRotationLoop();
   }
+
+initialSpeedUp(){
+  this.isInitializing = true
+}
 
   startRotationLoop() {
     const animate = (currentTime) => {
