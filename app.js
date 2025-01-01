@@ -157,10 +157,12 @@ const getCachedGalleries = async (req) => {
 const handleRequest = async (api,req) => {
  let preloaderImages = []
 
-  let assets ={galleryImages:[], preloaderImages:[]}
+  let assets ={galleryImages:[], preloaderImages:[], galleries:[]}
 
   const galleries = await getCachedGalleries(req);
   galleries.forEach(gallery=>{
+
+assets.galleries.push({uid: gallery.uid})
     gallery.data.gallery_images.forEach(image=>{
       assets.galleryImages.push(image.gallery_image.url)
     })
@@ -250,13 +252,7 @@ app.get("/gallery/:uid", async (req, res) => {
   }
 });
 
-app.get("/contact", async (req, res) => {
-  const api = initApi(req);
 
-  const defaults = await handleRequest(api, req); 
-
-  res.render("pages/contact", {...defaults});
-});
 
 app.get("/about", async(req, res) => {
   const api = initApi(req);
