@@ -8,7 +8,9 @@
     "backend:development": "nodemon app.js",
     "frontend:build": " webpack --progress --config webpack.config.build.js",
     "frontend:development": " webpack serve --progress --config webpack.config.development.js",
-    "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\""
+    "start": "concurrently --kill-others \"npm run backend:development\" \"npm run frontend:development\"",
+      "build": "npm run frontend:build",
+    "vercel-build": "npm run frontend:build"
   },
   "author": "Opabode Abdulmujeeb",
   "devDependencies": {

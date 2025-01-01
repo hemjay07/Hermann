@@ -2,14 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.js", 
+      "src": "app.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "npm run frontend:build",
+        "outputDirectory": "public"
+      }
     }
   ],
   "routes": [
     {
-      "src": "/.*",
-      "dest": "app.js"
+      "src": "/assets/(.*)",
+      "dest": "/public/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/app.js"
     }
   ]
 }
