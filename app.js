@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import errorHandler from "errorHandler";
+import errorHandler from "errorhandler";
 import bodyParser from "body-parser";
 import methodOverride from "method-override";
 import logger from "morgan"
