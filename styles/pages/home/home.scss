@@ -33,9 +33,16 @@
   justify-items: center;
   height: 100vh;
 
+  @media (max-width: 900px) {
+        margin-top: 16vh;    }
+
   @include media("<phone") {
-    margin-top: 18vh;
+        margin-top: 13vh;
   }
+
+    @media (max-width: 480px) {
+    margin-top: 18vh;
+    }
 }
 
 .banner .slider {
@@ -61,9 +68,17 @@
   transform-style: preserve-3d;
   will-change: transform;
 
-  @include media("<phone") {
-    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+
+@media (max-width: 900px) {
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(34vw);
   }
+  @include media("<phone") {
+      transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(36vw);
+    }
+    
+@media (max-width: 480px) {
+          transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+      }
 }
 
 .gallery__image img {
@@ -95,16 +110,39 @@
   left: 8rem;
   transition: opacity 0.5s ease;
 
-  @include media("<phone") {
+@include media("<tablet") {
+    top: 60vh;
     left: 2rem;
   }
+
+  @include media("<phone") {
+      top: 65vh;
+      left: 2rem;
+    }
 }
 
 .gallery__details__title {
   color: hsl(78 100% 15% / 1);
   @extend %title-60;
+
+  
+  
+  @include media("<tablet") {
+font-size: 12rem;  
+}
+@media (max-width: 900px) {
+    font-size: 7rem;
+    }
+
+   
     @include media("<phone") {
-font-size: 10rem;      }
+font-size: 7.5rem;      } 
+
+@media (max-width: 480px) {
+    font-size: 10rem;
+    }
+
+
 }
 
 .gallery__details__paragraph {
@@ -112,7 +150,10 @@ font-size: 10rem;      }
   margin-top: 2rem;
   @extend %description-16;
   max-width: 44rem;
-
+@include media("<tablet") {
+    font-size: 3rem;
+      max-width: none;
+  }
   @include media("<phone") {
     max-width: none;
   }

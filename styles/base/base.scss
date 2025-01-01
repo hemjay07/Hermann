@@ -23,14 +23,16 @@ html {
   ); /* Set base font size by viewport width for standard resolution */
   line-height: 1;
   position: fixed;
-  overflow: hidden;
-  @include media("<phone") {
-      font-size: calc(100vw / 768 * 10);
-      /* Adjust font size for phone screen resolutions */
-    } @include media("<tablet") {
+  overflow: hidden; 
+  
+  @include media("<tablet") {
        font-size: calc(100vw / 1024 * 10);
        /* Adjust font size for phone screen resolutions */
      }
+  @include media("<phone") {
+      font-size: calc(100vw / 768 * 10);
+      /* Adjust font size for phone screen resolutions */
+    }
 }
 
 body {
