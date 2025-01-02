@@ -42,10 +42,10 @@ export default class Home extends Page {
    this.onNavigationCallback = null;
 
    // Bind event handlers
-   this.boundWheel = this.onWheel.bind(this);
-   this.boundTouchStart = this.onTouchStart.bind(this);
-   this.boundTouchMove = this.onTouchMove.bind(this);
-   this.boundTouchEnd = this.onTouchEnd.bind(this);
+    this.boundWheel = this.onWheel.bind(this);
+  this.boundTouchStart = this.onTouchStart.bind(this);
+  this.boundTouchMove = this.onTouchMove.bind(this);
+  this.boundTouchEnd = this.onTouchEnd.bind(this);
  }
 
  create() {
@@ -270,37 +270,37 @@ export default class Home extends Page {
 
    return tl;
  }
+addEventListener() {
+  window.addEventListener('wheel', this.boundWheel, { passive: false });
+  
+  if ('ontouchstart' in window) {
+    this.elements.slider.addEventListener('touchstart', this.boundTouchStart, { passive: false });
+    this.elements.slider.addEventListener('touchmove', this.boundTouchMove, { passive: false });
+    this.elements.slider.addEventListener('touchend', this.boundTouchEnd);
+  }
 
- addEventListener() {
-   window.addEventListener('wheel', this.boundWheel, { passive: false });
+  _.forEach(this.elements.galleries, (gallery) => {
+    const link = gallery.querySelector('a');
+    this.boundGalleryClick = this.onGalleryClick.bind(this, gallery);
+    link.addEventListener("click", this.boundGalleryClick);
+  });
+}
 
-   if ('ontouchstart' in window) {
-     this.element.addEventListener('touchstart', this.boundTouchStart);
-     this.element.addEventListener('touchmove', this.boundTouchMove);
-     this.element.addEventListener('touchend', this.boundTouchEnd);
-   }
+removeEventListeners() {
+  window.removeEventListener('wheel', this.boundWheel);
+  
+  if ('ontouchstart' in window) {
+    this.elements.slider.removeEventListener('touchstart', this.boundTouchStart);
+    this.elements.slider.removeEventListener('touchmove', this.boundTouchMove);
+    this.elements.slider.removeEventListener('touchend', this.boundTouchEnd);
+  }
 
-   _.forEach(this.elements.galleries, (gallery) => {
-     const link = gallery.querySelector('a');
-     this.boundGalleryClick = this.onGalleryClick.bind(this, gallery);
-     link.addEventListener("click", this.boundGalleryClick);
-   });
- }
+  _.forEach(this.elements.galleries, (gallery) => {
+    const link = gallery.querySelector('a');
+    link.removeEventListener("click", this.boundGalleryClick);
+  });
+}
 
- removeEventListeners() {
-   window.removeEventListener('wheel', this.boundWheel);
-
-   if ('ontouchstart' in window) {
-     this.element.removeEventListener('touchstart', this.boundTouchStart);
-     this.element.removeEventListener('touchmove', this.boundTouchMove);
-     this.element.removeEventListener('touchend', this.boundTouchEnd);
-   }
-
-   _.forEach(this.elements.galleries, (gallery) => {
-     const link = gallery.querySelector('a');
-     link.removeEventListener("click", this.boundGalleryClick);
-   });
- }
 
  destroy() {
    if (this.rotationFrame) {
