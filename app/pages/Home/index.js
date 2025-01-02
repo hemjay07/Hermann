@@ -21,6 +21,8 @@ export default class Home extends Page {
    this.rotation = 0;
    this.rotationSpeed = 360 / 36;
    this.currentSpeed = 0;
+       this.directionMultiplier = 1;
+
    this.lastTime = performance.now();
 
    // Touch tracking properties
@@ -74,13 +76,13 @@ export default class Home extends Page {
        const elapsedTime = currentTime - this.initialStartTime;
        const progress = Math.min(elapsedTime / this.initialDuration, 1);
 
-       this.currentSpeed = this.initialSpeed - (this.initialSpeed - this.rotationSpeed) * progress;
+        this.currentSpeed = (this.initialSpeed - (this.initialSpeed - this.rotationSpeed) * progress) * this.directionMultiplier;
 
        if (progress === 1) {
          this.isInitializing = false;
        }
      } else {
-       const targetSpeed = this.rotationSpeed;
+        const targetSpeed = this.rotationSpeed * this.directionMultiplier;
        this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.2;
      }
 
@@ -89,9 +91,10 @@ export default class Home extends Page {
      this.elements.slider.style.transform = 
        `perspective(1000px) rotateX(-16deg) rotateY(${this.rotation}deg)`;
 
-     if (Math.abs(this.currentSpeed - this.rotationSpeed) < 0.1) {
-       this.updateDetailsAndIndicators(this.rotation);
-     }
+    
+      if (Math.abs(Math.abs(this.currentSpeed) - this.rotationSpeed) < 0.1) {
+        this.updateDetailsAndIndicators(this.rotation);
+      }
 
      this.rotationFrame = requestAnimationFrame(animate);
    };
@@ -101,8 +104,12 @@ export default class Home extends Page {
 
  updateDetailsAndIndicators(rotation) {
    const normalizedRotation = ((rotation % 360) + 360) % 360;
-   const activeIndex = Math.floor((normalizedRotation / 360) * 6);
+   
+   let activeIndex = Math.floor((normalizedRotation / 360) * 6);
 
+    if (this.directionMultiplier === -1) {
+    activeIndex = (activeIndex - 1 + 6) % 6; // Shift backward, wrap around
+  }
    this.elements.details.forEach((detail, index) => {
      GSAP.to(detail, {
        opacity: index === activeIndex ? 1 : 0,
@@ -129,8 +136,20 @@ export default class Home extends Page {
  onWheel(event) {
    event.preventDefault();
    const scrollInfluence = event.deltaY * 1.5;
-   this.currentSpeed = Math.abs(scrollInfluence);
- }
+
+    if (Math.abs(scrollInfluence) > 1) {
+        this.directionMultiplier = scrollInfluence > 0 ? -1 : 1;
+    }
+
+    const scrollSpeed = Math.abs(scrollInfluence);
+    
+    if ((scrollInfluence > 0 && this.directionMultiplier < 0) || 
+        (scrollInfluence < 0 && this.directionMultiplier > 0)) {
+        this.currentSpeed = this.directionMultiplier * 
+            Math.max(this.rotationSpeed, scrollSpeed);
+    } else {
+        this.currentSpeed = scrollSpeed * this.directionMultiplier;
+    } }
 
  onTouchStart(event) {
    event.preventDefault();
