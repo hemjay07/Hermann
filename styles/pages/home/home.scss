@@ -5,12 +5,6 @@
   font-size: 3rem;
   background-color: #f5f5f5;
   color: #444444;
-
-
-  figure{
-  pointer-events: none;
-  }
-    
 }
 
 .galleries {
@@ -33,16 +27,9 @@
   justify-items: center;
   height: 100vh;
 
-  @media (max-width: 900px) {
-        margin-top: 16vh;    }
-
   @include media("<phone") {
-        margin-top: 13vh;
-  }
-
-    @media (max-width: 480px) {
     margin-top: 18vh;
-    }
+  }
 }
 
 .banner .slider {
@@ -51,8 +38,7 @@
   aspect-ratio: 4 / 4;
   transform-style: preserve-3d;
   width: 30vw;
-  will-change: transform; // Optimize for transforms
-
+  will-change: transform;
   transform: rotateX('16deg');
 
   @include media("<phone") {
@@ -67,36 +53,40 @@
   transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(min(26vw, 480px));
   transform-style: preserve-3d;
   will-change: transform;
+    pointer-events: auto; 
 
-
-@media (max-width: 900px) {
-    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(34vw);
-  }
   @include media("<phone") {
-      transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(36vw);
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+  }
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+  }
+
+  img {
+    filter: grayscale(100%);
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    z-index: 1;
+    transition: filter 0.5s ease;
+    pointer-events: none;
+
+    &:hover {
+      filter: grayscale(0%);
     }
-    
-@media (max-width: 480px) {
-          transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
-      }
+
+    @include media("<phone") {
+      height: 100%;
+    }
+  }
 }
 
-.gallery__image img {
-  filter: grayscale(100%);
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  z-index: 1;
-  transition: filter 0.5s ease;
-        pointer-events: auto;
-
-  &:hover {
-    filter: grayscale(0%);
-  }
-
-  @include media("<phone") {
-    height: 100%;
-  }
+.slider {
+  pointer-events: auto; 
 }
 
 .gallery__details {
@@ -110,39 +100,15 @@
   left: 8rem;
   transition: opacity 0.5s ease;
 
-@include media("<tablet") {
-    top: 60vh;
+  @include media("<phone") {
+    top: 65vh;
     left: 2rem;
   }
-
-  @include media("<phone") {
-      top: 65vh;
-      left: 2rem;
-    }
 }
 
 .gallery__details__title {
   color: hsl(78 100% 15% / 1);
   @extend %title-60;
-
-  
-  
-  @include media("<tablet") {
-font-size: 12rem;  
-}
-@media (max-width: 900px) {
-    font-size: 7rem;
-    }
-
-   
-    @include media("<phone") {
-font-size: 7.5rem;      } 
-
-@media (max-width: 480px) {
-    font-size: 10rem;
-    }
-
-
 }
 
 .gallery__details__paragraph {
@@ -150,10 +116,7 @@ font-size: 7.5rem;      }
   margin-top: 2rem;
   @extend %description-16;
   max-width: 44rem;
-@include media("<tablet") {
-    font-size: 3rem;
-      max-width: none;
-  }
+
   @include media("<phone") {
     max-width: none;
   }

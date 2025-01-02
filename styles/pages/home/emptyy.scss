@@ -1,3 +1,5 @@
+// working home.scss
+
 .home {
     @extend %page;
     padding-top: 7rem;
@@ -37,8 +39,244 @@
     max-width: 170px;
     aspect-ratio: 4 / 4;
     transform-style: preserve-3d;
+    transform: perspective(1000px);
+    animation: autoRun 42s linear infinite;
+    width: 30vw;
+
+    @include media("<phone") {
+        aspect-ratio: 6 / 4;
+    }
+}
+
+@keyframes autoRun {
+    from {
+        transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
+    }
+
+    to {
+        transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
+    }
+}
+
+.banner .slider .gallery__image {
+    position: absolute;
+    inset: 0 0 0 0;
+    width: 100%;
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(min(26vw, 480px));
+    transform-style: preserve-3d;
+
+    @include media("<phone") {
+        transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+    }
+}
+
+.gallery__image img {
+    filter: grayscale(100%);
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    animation: grayscaleEffect 42s infinite;
+    z-index: 1;
+
+    @include media("<phone") {
+        height: 100%;
+    }
+}
+
+@keyframes grayscaleEffect {
+    20% {
+        filter: grayscale(0%);
+    }
+
+    70% {
+        filter: grayscale(100%);
+    }
+
+    100% {
+        filter: grayscale(100%);
+    }
+}
+
+@keyframes opacityEffect {
+    4% {
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    22% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+// Animation delays for galleries and indicators
+@for $i from 1 through 6 {
+
+    .banner .slider .gallery__image:nth-child(#{$i}) img,
+    .gallery__details .gallery__details__item:nth-child(#{$i}),
+    .indicator-dot:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 7}s;
+    }
+}
+
+.gallery__details {
+    @extend %cover;
+}
+
+.gallery__details__item {
+    opacity: 0;
+    position: absolute;
+    top: 70vh;
+    left: 8rem;
+    transition: opacity 1.5s ease-in;
+    animation: opacityEffect 42s infinite;
+
+    @include media("<phone") {
+        top: 65vh;
+        left: 2rem;
+    }
+}
+
+.gallery__details__title {
+    color: hsl(78 100% 15% / 1);
+    @extend %title-60;
+}
+
+.gallery__details__paragraph {
+    font-family: $font-montserrat;
+    margin-top: 2rem;
+    @extend %description-16;
+    max-width: 44rem;
+
+    @include media("<phone") {
+        max-width: none;
+    }
+}
+
+// Simplified gallery indicators
+.gallery-indicators {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 2;
+    pointer-events: none; // Make sure it doesn't interfere with any clicks
+}
+
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: hsla(78, 100%, 15%, 0.3);
+    animation: indicatorPulse 42s infinite;
+
+    @include media("<phone") {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+@keyframes indicatorPulse {
+
+    0%,
+    100% {
+        background: hsla(78, 100%, 15%, 0.3);
+    }
+
+    16.67% {
+        background: hsl(78, 100%, 15%);
+    }
+
+    33.33% {
+        background: hsla(78, 100%, 15%, 0.3);
+    }
+}
+
+.revealer {
+    width: max(200vw, 200vh);
+    height: max(200vw, 200vh);
+    position: absolute;
+    z-index: 10;
+    background-color: hsl(90, 100%, 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0, max(200vw, 200vh)) rotate(16deg);
+    will-change: transform;
+
+    ul {
+        list-style: disc;
+        padding-left: 20px;
+    }
+}
+
+.revealer__text {
+    will-change: opacity;
+    color: black;
+    font-size: 7.5rem;
+}
+
+
+
+// home.scss with error
+
+.home {
+    @extend %page;
+    padding-top: 7rem;
+    font-family: $font-blowbrush;
+    font-size: 3rem;
+    background-color: #f5f5f5;
+    color: #444444;
+
+
+    figure {
+        pointer-events: none;
+    }
+
+}
+
+.galleries {
+    font-family: "blowbrush";
+    color: hsl(78 100% 15% / 1);
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4rem;
+    z-index: 2;
+    font-size: 6rem;
+}
+
+.banner {
+    position: absolute;
+    z-index: 1;
+    margin-top: 10vh;
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    height: 100vh;
+
+    @include media("<phone") {
+        margin-top: 18vh;
+    }
+}
+
+.banner .slider {
+    top: 0;
+    max-width: 170px;
+    aspect-ratio: 4 / 4;
+    transform-style: preserve-3d;
     width: 30vw;
     will-change: transform; // Optimize for transforms
+
+    transform: rotateX('16deg');
 
     @include media("<phone") {
         aspect-ratio: 6 / 4;
@@ -65,6 +303,7 @@
     object-fit: cover;
     z-index: 1;
     transition: filter 0.5s ease;
+    pointer-events: auto;
 
     &:hover {
         filter: grayscale(0%);
