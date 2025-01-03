@@ -274,9 +274,9 @@ addEventListener() {
   window.addEventListener('wheel', this.boundWheel, { passive: false });
   
   if ('ontouchstart' in window) {
-   window.addEventListener('touchstart', this.boundTouchStart);
-    window.addEventListener('touchmove', this.boundTouchMove);
-    window.addEventListener('touchend', this.boundTouchEnd);
+    this.elements.slider.addEventListener('touchstart', this.boundTouchStart);
+    this.elements.slider.addEventListener('touchmove', this.boundTouchMove);
+    this.elements.slider.addEventListener('touchend', this.boundTouchEnd);
   }
 
 
@@ -292,9 +292,9 @@ removeEventListeners() {
   window.removeEventListener('wheel', this.boundWheel);
   
   if ('ontouchstart' in window) {
-    window.removeEventListener('touchstart', this.boundTouchStart);
-    window.removeEventListener('touchmove', this.boundTouchMove);
-    window.removeEventListener('touchend', this.boundTouchEnd);
+    this.elements.slider.removeEventListener('touchstart', this.boundTouchStart);
+    this.elements.slider.removeEventListener('touchmove', this.boundTouchMove);
+    this.elements.slider.removeEventListener('touchend', this.boundTouchEnd);
   }
 
   _.forEach(this.elements.galleries, (gallery) => {
