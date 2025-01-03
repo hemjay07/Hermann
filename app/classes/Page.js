@@ -8,7 +8,7 @@ export default class Page {
     this.selector = element;
     this.selectorChildren = { ...elements };
 
-    this.id = this.id;
+    this.id = id;
   }
 
   create() {
@@ -21,10 +21,9 @@ export default class Page {
  
       // Check if entry is an HTML element
       // or a NodeList
-      // or a selector
 
       // if its not one of these, then its probably a selector. In that case, querySelectAll is applied.
-      //  If this returns an empty array, then its not a valid selector but if it returns an array with one element, then its a valid selector however it is just a single element. In that case, we can just use querySelector instead of querySelectorAll returns a nodelist. A nodelist is harder to work with.
+      //  If this returns an empty array, then its not a valid selector but if it returns an array with one element, then its a valid selector however it is just a single element. In that case, we can just use querySelector instead of querySelectorAll which returns a nodelist. A nodelist is harder to work with.
       // console.log(entry);
       if (
         entry instanceof window.HTMLElement ||
@@ -38,12 +37,10 @@ export default class Page {
         } else {
           if (this.elements[key].length === 1) {
             this.elements[key] = document.querySelector(entry);
-            // console.log(this.elements[key]);
           }
         }
       }
-      // console.log(this.elements);
-    });
+     });
   }
 
   show(animation) {

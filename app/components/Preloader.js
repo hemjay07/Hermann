@@ -92,6 +92,8 @@ updateProgress() {
         }
       } catch (error) {
         console.error('Error loading preloader image:', error);
+                this.updateProgress();
+
       }
     });
 
@@ -108,6 +110,8 @@ updateProgress() {
         this.updateProgress();
       } catch (error) {
         console.error('Error loading gallery image:', error);
+                this.updateProgress();
+
       }
     });
 
@@ -139,6 +143,8 @@ updateProgress() {
         }
       } catch (error) {
         console.error(`Error fetching ${route}:`, error);
+                this.updateProgress();
+
       }
     });
 

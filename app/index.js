@@ -94,7 +94,7 @@ class App {
       this.addLinkListeners();
     } else {
       const request = await window.fetch(url);
-      if (request.status === 200) {
+      if (request.status === 200) { 
         const html = await request.text();
         const div = document.createElement("div");
         
@@ -124,23 +124,36 @@ class App {
     }
   }
 
-  addLinkListeners() {
-    const links = document.querySelectorAll("a");
+ addLinkListeners() {
+  const links = document.querySelectorAll("a:not(.gallery_link)");  // Exclude gallery links
 
-    _.forEach(links, (link) => {
-      link.onclick = (event) => {
-        const isGalleryLink = link.classList.contains('gallery_link');
+  console.log(links)
+
+  _.forEach(links, (link) => {
+    link.onclick = (event) => {
+      event.preventDefault();
+      const { href } = link;
+      this.onChange({ url: href });
+    };
+  });
+}
+  // addLinkListeners() {
+  //   const links = document.querySelectorAll("a");
+
+  //   _.forEach(links, (link) => {
+  //     link.onclick = (event) => {
+  //       const isGalleryLink = link.classList.contains('gallery_link');
         
-        if (!isGalleryLink) {
-          event.preventDefault();
-          const { href } = link;
-          this.onChange({ url: href });
-        } else {
-          event.preventDefault();
-        }
-      };
-    });
-  }
+  //       if (!isGalleryLink) {
+  //         event.preventDefault();
+  //         const { href } = link;
+  //         this.onChange({ url: href });
+  //       } else {
+  //         event.preventDefault();
+  //       }
+  //     };
+  //   });
+  // }
 
   addEventListeners() {
     window.addEventListener("popstate", this.onPopState.bind(this));

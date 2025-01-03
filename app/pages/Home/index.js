@@ -152,7 +152,7 @@ export default class Home extends Page {
     } }
 
  onTouchStart(event) {
-   event.preventDefault();
+  //  event.preventDefault();
    this.isTouching = true;
    this.touchStart = event.touches[0].clientY;
    this.touchY = this.touchStart;
@@ -160,7 +160,7 @@ export default class Home extends Page {
  }
 
  onTouchMove(event) {
-   event.preventDefault();
+  //  event.preventDefault();
    if (!this.isTouching) return;
 
    const currentY = event.touches[0].clientY;
@@ -274,10 +274,12 @@ addEventListener() {
   window.addEventListener('wheel', this.boundWheel, { passive: false });
   
   if ('ontouchstart' in window) {
-    this.elements.slider.addEventListener('touchstart', this.boundTouchStart, { passive: false });
-    this.elements.slider.addEventListener('touchmove', this.boundTouchMove, { passive: false });
-    this.elements.slider.addEventListener('touchend', this.boundTouchEnd);
+   window.addEventListener('touchstart', this.boundTouchStart);
+    window.addEventListener('touchmove', this.boundTouchMove);
+    window.addEventListener('touchend', this.boundTouchEnd);
   }
+
+
 
   _.forEach(this.elements.galleries, (gallery) => {
     const link = gallery.querySelector('a');
@@ -290,9 +292,9 @@ removeEventListeners() {
   window.removeEventListener('wheel', this.boundWheel);
   
   if ('ontouchstart' in window) {
-    this.elements.slider.removeEventListener('touchstart', this.boundTouchStart);
-    this.elements.slider.removeEventListener('touchmove', this.boundTouchMove);
-    this.elements.slider.removeEventListener('touchend', this.boundTouchEnd);
+    window.removeEventListener('touchstart', this.boundTouchStart);
+    window.removeEventListener('touchmove', this.boundTouchMove);
+    window.removeEventListener('touchend', this.boundTouchEnd);
   }
 
   _.forEach(this.elements.galleries, (gallery) => {
