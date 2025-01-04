@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background -->
+  <rect width="100" height="100" fill="#000000" rx="20" ry="20"/>
+  
+  <!-- Stylized 'H' with artistic elements -->
+  <path d="M30 25 V75 M70 25 V75 M30 50 H70" 
+        stroke="#ffffff" 
+        stroke-width="8" 
+        stroke-linecap="round"
+        fill="none"/>
+  
+  <!-- Artistic detail -->
+  <path d="M20 20 Q25 25, 20 30 Q15 35, 20 40" 
+        stroke="#ffffff" 
+        stroke-width="3" 
+        fill="none"/>
+  
+  <path d="M80 60 Q75 65, 80 70 Q85 75, 80 80" 
+        stroke="#ffffff" 
+        stroke-width="3" 
+        fill="none"/>
+</svg>
