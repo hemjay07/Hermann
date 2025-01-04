@@ -28,8 +28,13 @@ export default class Cursor {
   }
 
   handleImageEnter(e) {
-    this.cursorOutline.classList.add("image-hover");
-    this.cursorOutline.setAttribute("data-label", e.target.alt);
+        this.cursorOutline.classList.add("image-hover");
+
+      const img = e.target.querySelector('img');
+    if (img) {
+      console.log(img.alt);
+      this.cursorOutline.setAttribute("data-label", img.alt);
+    }
     this.cursorOutline.style.backgroundColor = "hsl(78, 100%, 90%, 0.6);";
   }
 
@@ -37,21 +42,19 @@ export default class Cursor {
     this.cursorOutline.classList.remove("image-hover");
   }
 
-  createCursor() {
-    // Add main cursor movement
+   createCursor() {
     window.addEventListener("mousemove", this.mouseMoveHandler);
 
     if (this.template === 'home') {
-      // Store references to bound event handlers
       this.imageEnterHandler = this.handleImageEnter.bind(this);
       this.imageLeaveHandler = this.handleImageLeave.bind(this);
 
-      document.querySelectorAll("img").forEach((img) => {
-        img.addEventListener("mouseenter", this.imageEnterHandler);
-        img.addEventListener("mouseleave", this.imageLeaveHandler);
+      // Find all gallery image links
+      document.querySelectorAll(".gallery_link").forEach((link) => {
+        link.addEventListener("mouseenter", this.imageEnterHandler);
+        link.addEventListener("mouseleave", this.imageLeaveHandler);
       });
     } else {
-      // Reset cursor state for non-home pages
       if (this.cursorOutline) {
         this.cursorOutline.classList.remove("image-hover");
         this.cursorOutline.removeAttribute("data-label");
@@ -59,20 +62,17 @@ export default class Cursor {
       }
     }
   }
-
   destroy() {
-    // Remove main mousemove listener
     window.removeEventListener("mousemove", this.mouseMoveHandler);
 
-    // Remove image event listeners if they exist
     if (this.imageEnterHandler && this.imageLeaveHandler) {
-      document.querySelectorAll("img").forEach((img) => {
-        img.removeEventListener("mouseenter", this.imageEnterHandler);
-        img.removeEventListener("mouseleave", this.imageLeaveHandler);
+      // Make sure to remove listeners from gallery links specifically
+      document.querySelectorAll(".gallery_link").forEach((link) => {
+        link.removeEventListener("mouseenter", this.imageEnterHandler);
+        link.removeEventListener("mouseleave", this.imageLeaveHandler);
       });
     }
 
-    // Reset cursor state
     if (this.cursorOutline) {
       this.cursorOutline.classList.remove("image-hover");
       this.cursorOutline.removeAttribute("data-label");

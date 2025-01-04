@@ -13,7 +13,8 @@ export default class Home extends Page {
        revealer: ".revealer",
        galleryName: ".revealer__text",
        details: ".gallery__details__item",
-       indicators: ".indicator-dot"
+       indicators: ".indicator-dot", pinnedArt: ".pinned-art", // Add this
+      artworkContainer: ".pinned-art .artwork" // Add this
      }
    });
 
@@ -46,11 +47,48 @@ export default class Home extends Page {
   this.boundTouchStart = this.onTouchStart.bind(this);
   this.boundTouchMove = this.onTouchMove.bind(this);
   this.boundTouchEnd = this.onTouchEnd.bind(this);
+
  }
+initializePinnedArt(){
+  console.log("initialize pinned art")
+   GSAP.set(this.elements.pinnedArt,{
+        opacity:0
+
+  })
+}
+
+ setupPinnedArt() {
+  console.log("set up being called")
+  if (this.elements.pinnedArt) {
+    GSAP.set(this.elements.pinnedArt,{
+        opacity:1
+
+  })
+    const tl = GSAP.timeline({ delay: 1 });
+    
+    tl.from(this.elements.pinnedArt, {
+      y: -100,
+      opacity: 0,
+      duration: 1,
+      ease: "elastic.out(1, 0.5)"
+    });
+
+    // subtle swing animation
+    GSAP.to(this.elements.artworkContainer, {
+      opacity:1,
+      rotation: "2",
+      duration: 2,
+      yoyo: true,
+      repeat: -1,
+      ease: "power1.inOut"
+    });
+  }
+}
 
  create() {
    super.create();
    this.setupRotation();
+
    this.addEventListener();
  }
 
@@ -80,6 +118,8 @@ export default class Home extends Page {
 
        if (progress === 1) {
          this.isInitializing = false;
+              this.setupPinnedArt(); // Add this
+
        }
      } else {
         const targetSpeed = this.rotationSpeed * this.directionMultiplier;

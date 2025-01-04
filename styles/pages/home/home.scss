@@ -18,6 +18,77 @@
   font-size: 6rem;
 }
 
+.pinned-art {
+  position: fixed;
+  top: 10vh;
+  left: -20px;
+  width: 180px;
+  // height: 280px;
+  perspective: 1000px;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: rotate(27deg);
+
+  .pin {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: -10px;
+    left: -10px;
+    z-index: 5;
+    transform: rotate(-25deg);
+    filter: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.2));
+  }
+
+    .new-art-text {
+      position: absolute;
+      top: -6.5rem;
+      left: -1.5rem;
+      transform: translateX(6rem) rotate(-26deg);
+      font-family:  cursive;
+      font-size: 2.5rem;
+      color: hsl(78 100% 15% / 1);
+      z-index: 4;
+    }
+
+  .artwork {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: top left;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 8px;
+
+    &:hover {
+      transform: rotate(5deg);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 90px;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2), transparent 70%);
+    }
+  }
+
+  @include media("<phone") {
+    display: none;
+  }
+}
+
+
+
 .banner {
   position: absolute;
   z-index: 1;
@@ -68,7 +139,6 @@
     height: 100%;
     z-index: 5;
     pointer-events: auto;
-    cursor: pointer;
   }
 
   figure {
@@ -92,14 +162,13 @@
     }
 
     @include media("<phone") {
-      // height: 100%;
       height: unset;
     }
   }
 }
 
 .slider {
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
 .gallery__details {

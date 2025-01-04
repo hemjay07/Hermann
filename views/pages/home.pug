@@ -6,11 +6,21 @@ block variables
 block content
   .home(data-background="hsl(0, 1%, 27%)" data-color="#37384C")
     .galleries="GALLERIES"
+    
+    //- Latest artwork pinned to the left
+    .pinned-art
+      img.pin(src="/images/pushpin.jpg" alt="Pushpin")
+      .new-art-text new art
+
+      .artwork
+        a(href=Link(galleries[0]))
+          img(src=galleries[0].data.gallery_images[0].gallery_image.url alt=galleries[0].data.gallery_images[0].gallery_image.alt)
+    
     .banner
       .slider(style="--quantity: 6")
         each gallery, index in galleries
           .gallery__image(style=`--position: ${index + 1}`)
-            a.gallery_link(href=Link(gallery))
+            a.gallery_link(href=Link(gallery) alt=gallery.data.gallery_images[0].gallery_image.alt)
               figure(data-index=index)
                 img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
 
@@ -20,7 +30,6 @@ block content
           .gallery__details__title=gallery.data.gallery_name
           .gallery__details__paragraph=gallery.data.gallery_description
     
-    //- Add just the indicators to show progression
     .gallery-indicators
       - for (let i = 0; i < 6; i++)
         .indicator-dot

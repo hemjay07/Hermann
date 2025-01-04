@@ -188,6 +188,8 @@ async createLoader() {
           if (this.page && typeof this.page.initialSpeedUp === 'function') {
 
             this.page.initialSpeedUp();
+             this.page.initializePinnedArt()
+
           }
         });
       }
