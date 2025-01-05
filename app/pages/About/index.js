@@ -126,7 +126,8 @@ export default class About extends Page {
     };
 
     if (this.isMobile) {
-      GSAP.set(this.elements.firstRight, { y: "100%", x: 0 });
+      GSAP.set(this.elements.firstRight, { y: "100%", x: 0 ,      clearProps: "translate,rotate,scale,transform,opacity" // Added opacity
+});
       GSAP.set([this.elements.recognition, this.elements.social], { y: "100%", x: 0 });
     } else {
       GSAP.set(this.elements.firstRight, { y: 0, x: 0 });
@@ -157,6 +158,11 @@ export default class About extends Page {
     const recognitionProgress = Math.min(Math.max(totalProgress * 2, 0), 1);
     const socialProgress = Math.min(Math.max((totalProgress * 2) - 1, 0), 1);
 
+    GSAP.set(this.elements.firstRight, {
+      
+      opacity: 1
+    }); 
+    
     GSAP.set(this.elements.recognition, {
       x: `${100 * (1 - recognitionProgress)}%`,
       opacity: recognitionProgress
