@@ -10,7 +10,10 @@ block content
     //- Latest artwork pinned to the left
     .pinned-art
       img.pin(src="/images/pushpin.jpg" alt="Pushpin")
-      .new-art-text new art
+      a(href=Link(galleries[0]))
+        .new-art-text new art
+        
+
 
       .artwork
         a(href=Link(galleries[0]))
