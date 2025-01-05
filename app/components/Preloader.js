@@ -87,7 +87,10 @@ updateProgress() {
 
         if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
           if (this.elements.preloaderAnimation) {
-            this.elements.preloaderAnimation.style.display = "block";
+            GSAP.fromTo(this.elements.preloaderAnimation,{
+              opacity: 0
+            },{opacity:1})
+            // this.elements.preloaderAnimation.style.display = "block";
           }
         }
       } catch (error) {

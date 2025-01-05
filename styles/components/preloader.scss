@@ -11,7 +11,7 @@
 
 .overlay {
   @extend %cover;
-  background-color: hsla(0, 0%, 0%, 0.85);
+  background-color: hsla(0, 0%, 0%, 0.75);
   z-index: 4;
 }
 
@@ -34,8 +34,7 @@
 
 
 .preloader__animation{
-  display: none;
-}
+opacity: 0;}
 
 
 
@@ -46,8 +45,8 @@
   top: 0;
   left: 0;
   opacity: 0; /* Start with frames hidden */
+  transition: opacity 0.3s ease-in-out; /* Smooth transition between frames */
   will-change: opacity;
-  transition: opacity 0.8s ease-in-out; /* Smooth transition between frames */
 
 
    img {
@@ -317,49 +316,49 @@
 }
 
 .frame1 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
 }
 .frame2 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 0.5s;
 }
 .frame3 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 1s;
 }
 .frame4 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 1.5s;
 }
 .frame5 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 2s;
 }
 .frame6 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 2.5s;
 }
 .frame7 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 3s;
 }
 .frame8 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 3.5s;
 }
 .frame9 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out   ;
   animation-delay: 4s;
 }
 .frame10 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 4.5s;
 }
 .frame11 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 5s;
 }
 .frame12 {
-  animation: switchFrames 6s infinite;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 5.5s;
 }
