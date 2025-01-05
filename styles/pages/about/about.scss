@@ -205,7 +205,7 @@
       color: #FFFFFF;
       overflow: hidden;
       transform: translateY(100%);
-      will-change: transform;
+      // will-change: transform;
 
     
 
@@ -283,7 +283,7 @@
     color: #FFFFFF;
     overflow: hidden;
     transform: translateY(100%);
-    will-change: transform;
+    // will-change: transform;
     isolation: isolate;
 
     &::before {
@@ -413,7 +413,7 @@
     color: #FFFFFF;
     overflow: hidden;
     transform: translateY(100%);
-    will-change: transform;
+    // will-change: transform;
     isolation: isolate;
 
     &__title {

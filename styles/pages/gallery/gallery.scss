@@ -154,7 +154,7 @@
     cursor: pointer;
     overflow: hidden;
     transform-origin: center center;
-    will-change: transform;
+    // will-change: transform;
 
     img {
         width: 100%;
@@ -261,7 +261,7 @@
         position: fixed;
         object-fit: cover;
         z-index: 1001;
-        will-change: transform, width, height;
+        // will-change: transform, width, height;
         transform-origin: center center;
         filter: brightness(1.1);
     }

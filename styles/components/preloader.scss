@@ -46,7 +46,7 @@ opacity: 0;}
   left: 0;
   opacity: 0; /* Start with frames hidden */
   transition: opacity 0.3s ease-in-out; /* Smooth transition between frames */
-  will-change: opacity;
+  // will-change: opacity;
 
 
    img {

@@ -210,7 +210,7 @@
     justify-content: center;
     align-items: center;
     transform: translate(0, max(200vw, 200vh)) rotate(16deg);
-    will-change: transform;
+    // will-change: transform;
 
     ul {
         list-style: disc;
@@ -219,7 +219,7 @@
 }
 
 .revealer__text {
-    will-change: opacity;
+    // will-change: opacity;
     color: black;
     font-size: 7.5rem;
 }
@@ -274,7 +274,7 @@
     aspect-ratio: 4 / 4;
     transform-style: preserve-3d;
     width: 30vw;
-    will-change: transform; // Optimize for transforms
+    // will-change: transform; // Optimize for transforms
 
     transform: rotateX('16deg');
 
@@ -289,7 +289,7 @@
     width: 100%;
     transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(min(26vw, 480px));
     transform-style: preserve-3d;
-    will-change: transform;
+    // will-change: transform;
 
     @include media("<phone") {
         transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
@@ -381,7 +381,7 @@
     justify-content: center;
     align-items: center;
     transform: translate(0, max(200vw, 200vh)) rotate(16deg);
-    will-change: transform;
+    // will-change: transform;
 
     ul {
         list-style: disc;
@@ -390,7 +390,7 @@
 }
 
 .revealer__text {
-    will-change: opacity;
+    // will-change: opacity;
     color: black;
     font-size: 7.5rem;
 }
