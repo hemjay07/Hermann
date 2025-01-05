@@ -57,7 +57,7 @@ updateProgress() {
       this.startTime = Date.now();
       this.progressInterval = setInterval(() => {
         const elapsed = Date.now() - this.startTime;
-        const artificialProgress = (elapsed / 1000) * 10; // 10% over 5s
+        const artificialProgress = (elapsed / 6000) * 10; // 10% over 5s
         
         percent = Math.min(90 + artificialProgress, 100);
         this.elements.numberText.innerHTML = `${Math.round(percent)}%`;
