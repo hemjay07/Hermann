@@ -84,15 +84,32 @@ updateProgress() {
         await this.loadImage(image);
         this.loadedItems.preloaderImages++;
         this.updateProgress();
+if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
+  if (this.elements.preloaderAnimation) {
+    // Animate title first
+    GSAP.fromTo(this.elements.title, 
+      {
+        opacity: 0
+      },
+      {
+        opacity: 1,
+        duration: 0.5,
+        ease: "ease.in"
+      }
+    );
 
-        if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
-          if (this.elements.preloaderAnimation) {
-            GSAP.fromTo(this.elements.preloaderAnimation,{
-              opacity: 0
-            },{opacity:1})
-            // this.elements.preloaderAnimation.style.display = "block";
-          }
-        }
+    GSAP.fromTo(this.elements.preloaderAnimation,
+      {
+        opacity: 0
+      },
+      {
+        opacity: 1,
+        duration: 1,
+        ease: "ease.in",delay:0.5
+      }
+    );
+  }
+}
       } catch (error) {
         console.error('Error loading preloader image:', error);
                 this.updateProgress();
