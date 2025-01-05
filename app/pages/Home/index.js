@@ -30,6 +30,8 @@ export default class Home extends Page {
    this.touchStart = null;
    this.touchY = null;
    this.lastDeltaY = 0;
+   this.lastDeltaX = 0;
+
    this.touchVelocity = 0;
    this.isTouching = false;
 
@@ -175,7 +177,16 @@ initializePinnedArt(){
 
  onWheel(event) {
    event.preventDefault();
-   const scrollInfluence = event.deltaY * 1.5;
+
+   // Get the absolute values to compare
+   const absVertical = Math.abs(event.deltaY);
+   const absHorizontal = Math.abs(event.deltaX);
+   
+   // Use the larger delta value (dominant direction)
+   const scrollInfluence = absVertical > absHorizontal ? 
+     event.deltaY * 1.5 : 
+     event.deltaX * 1.5;
+
 
     if (Math.abs(scrollInfluence) > 1) {
         this.directionMultiplier = scrollInfluence > 0 ? -1 : 1;
@@ -195,7 +206,13 @@ initializePinnedArt(){
   //  event.preventDefault();
    this.isTouching = true;
    this.touchStart = event.touches[0].clientY;
-   this.touchY = this.touchStart;
+    this.touchStart = {
+     x: event.touches[0].clientX,
+     y: event.touches[0].clientY
+   };
+   this.touchY = this.touchStart.y
+   this.touchX = this.touchStart.x
+
    this.touchVelocity = 0;
  }
 
@@ -204,17 +221,31 @@ initializePinnedArt(){
    if (!this.isTouching) return;
 
    const currentY = event.touches[0].clientY;
+      const currentX = event.touches[0].clientX;
+
+// Calculate deltas
    const deltaY = this.touchY - currentY;
+   const deltaX = this.touchX - currentX;
 
-   this.touchVelocity = deltaY;
-   this.lastDeltaY = deltaY;
+  // Use the dominant direction
+   const absDeltaX = Math.abs(deltaX);
+   const absDeltaY = Math.abs(deltaY);
+   const dominantDelta = absDeltaX > absDeltaY ? deltaX*2 : deltaY;
+   
+   this.touchVelocity = dominantDelta;
 
-   this.onWheel({ 
+
+  
+    this.onWheel({ 
      preventDefault: () => {},
-     deltaY: deltaY * 2
+     deltaY: dominantDelta * 2,
+     deltaX: 0
    });
 
+   this.touchStart = { x: currentX, y: currentY };
+
    this.touchY = currentY;
+   this.touchX = currentX;
  }
 
  onTouchEnd() {
@@ -227,7 +258,9 @@ initializePinnedArt(){
      if (Math.abs(currentVelocity) > 0.1) {
        this.onWheel({
          preventDefault: () => {},
-         deltaY: currentVelocity
+         deltaY: currentVelocity,
+                  deltaX: 0
+
        });
 
        currentVelocity *= 0.95;
