@@ -16,8 +16,8 @@ export default class Preloader extends Components {
     this.pageCache = cache;
 
   this.otherImages = [
-    'http://localhost:3000/images/hermannImage.jpg',
-    'http://localhost:3000/images/pushpin.jpg' 
+    'https://www.hermann-art.com/images/hermannImage.jpg',
+    'https://www.hermann-art.com/images/pushpin.jpg' 
   ];
 
     // Track loading progress
