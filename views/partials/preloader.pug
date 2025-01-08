@@ -7,9 +7,10 @@
     each frame, index in preloader.data.body
       div(class=`frame frame${index + 1}`)
         each image, imageIndex in frame.items
+          - const baseUrl = image.img.url.split('?')[0]
           img(
             class=`img${imageIndex + 1}`
-            src=image.img.url
+            src=`${baseUrl}?q=50`
             fetchpriority="high"
             loading="eager"
             alt="Loading..."

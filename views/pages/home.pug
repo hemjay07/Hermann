@@ -9,21 +9,35 @@ block content
     
     //- Latest artwork pinned to the left
     .pinned-art
-      img.pin(src="/images/pushpin.jpg" alt="Pushpin")
+      img.pin(src="/images/pushpin.jpg" alt="Pushpin" loading="lazy")
       a(href=Link(galleries[0]))
         .new-art-text new art
         
       .artwork
         a(href=Link(galleries[0]))
-          img(src=galleries[0].data.gallery_images[0].gallery_image.url alt=galleries[0].data.gallery_images[0].gallery_image.alt)
+          - const firstImage = galleries[0].data.gallery_images[0].gallery_image
+          - const baseUrl = firstImage.url.split('?')[0]
+          img(
+            src=`${baseUrl}?w=400&q=80`
+            alt=firstImage.alt
+            loading="lazy"
+          )
     
     .banner
       .slider(style="--quantity: 6")
         each gallery, index in galleries
           .gallery__image(style=`--position: ${index + 1}`)
-            a.gallery_link(href=Link(gallery) alt=gallery.data.gallery_images[0].gallery_image.alt)
+            a.gallery_link(href=Link(gallery))
+              - const image = gallery.data.gallery_images[0].gallery_image
+              - const baseUrl = image.url.split('?')[0]
               figure(data-index=index)
-                img(src=gallery.data.gallery_images[0].gallery_image.url alt=gallery.data.gallery_images[0].gallery_image.alt)
+                img(
+                  src=`${baseUrl}?w=400&q=80`
+                  data-preview=`${baseUrl}?w=800&q=85`
+                  data-full=baseUrl
+                  alt=image.alt
+                  loading="lazy"
+                )
 
     .gallery__details
       each gallery in galleries

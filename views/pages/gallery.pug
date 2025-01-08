@@ -27,9 +27,11 @@ block content
           .grid_item
             figure(data-index=index)
               img(
-                src=image.gallery_image.url 
+                src=image.gallery_image.preview 
+                data-preview=image.gallery_image.preview  
+                data-full=image.gallery_image.full  
                 alt=image.gallery_image.alt || "Gallery image"
-                data-large=image.gallery_image.large_url || image.gallery_image.url
+                loading="lazy"
               )
       
       //- Preview modal container
@@ -48,4 +50,3 @@ block content
           svg.icon
             use(xlink:href="#icon-arrow")
           span.gallery__nav-label= navigation.next.name
-

@@ -160,18 +160,29 @@ const handleRequest = async (api,req) => {
   const galleries = await getCachedGalleries(req);
   galleries.forEach(gallery=>{
 
-assets.galleries.push({uid: gallery.uid})
+    assets.galleries.push({uid: gallery.uid})
     gallery.data.gallery_images.forEach(image=>{
-      assets.galleryImages.push(image.gallery_image.url)
+            const baseUrl = image.gallery_image.url.split('?')[0]; // Remove any existing parameters
+
+      assets.galleryImages.push({
+                  url: `${baseUrl}?w=400&q=80`,          // Use thumbnail by default
+
+        thumbnail: `${baseUrl}?w=400&q=80`,  // Grid & Home
+        preview: `${baseUrl}?w=800&q=85`,    // Transitions
+        full: baseUrl,                       // Final view
+      })
     })
   })
 
-  const preloader = await api.getSingle("preloader"); // Fetching preloader data from Prismic
-preloader.data.body.forEach(frame=>{
-  frame.items.forEach(image=>{
-    preloaderImages.push(image.img.url)
-  })
-})
+const preloader = await api.getSingle("preloader");
+preloader.data.body.forEach(frame => {
+  frame.items.forEach(image => {
+    const baseUrl = image.img.url.split('?')[0];
+    // Only reduce quality for preloader images
+    preloaderImages.push(`${baseUrl}?q=50`);  // Just lower quality since it's under overlay
+  });
+});
+
 
 assets.preloaderImages.push(...preloaderImages)
   return {
@@ -226,8 +237,20 @@ app.get("/gallery/:uid", async (req, res) => {
     const prevGalleryName = galleries[(currentIndex - 1 + totalGalleries) % totalGalleries].data.gallery_name;
     const nextGalleryName = galleries[(currentIndex + 1) % totalGalleries].data.gallery_name;
 
-    const gallery_images = gallery.data.gallery_images;
-
+    // Transform gallery images to include optimized URLs
+    const gallery_images = gallery.data.gallery_images.map(image => {
+      const baseUrl = image.gallery_image.url.split('?')[0];
+      return {
+        ...image,
+        gallery_image: {
+          ...image.gallery_image,
+          url: `${baseUrl}?w=400&q=80`,          // Use thumbnail by default
+          thumbnail: `${baseUrl}?w=400&q=80`,     // For grid view
+          preview: `${baseUrl}?w=800&q=85`,       // For transitions
+          full: baseUrl,                          // For full view
+        }
+      };
+    });
     // Pass all necessary data to the template
     res.render("pages/gallery", {
       ...defaults,

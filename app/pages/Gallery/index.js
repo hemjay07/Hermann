@@ -272,25 +272,18 @@ export default class Gallery extends Page {
         this.elements.preview.style.display = 'block';
         GSAP.set(this.elements.previewBackground, { opacity: 0 });
         GSAP.set(img, { opacity: 0 });
-
-        // Create timeline for the animation
-        const timeline = GSAP.timeline({
-            onComplete: () => {
-                if (img.dataset.large) {
-                    const highResImage = new Image();
-                    highResImage.src = img.dataset.large;
-                    highResImage.onload = () => {
-                        clone.src = img.dataset.large;
-                    };
-                }else{
-                    const highResImage = new Image();
-                    highResImage.src = img;
-                    highResImage.onload = () => {
-                        clone.src = img;
-                    };
+  const timeline = GSAP.timeline({
+        onComplete: () => {
+            // Load full size image after animation completes
+            const fullImage = new Image();
+            fullImage.src = img.dataset.full;
+            fullImage.onload = () => {
+                if (this.state.isPreviewOpen) { // Check if still open
+                    clone.src = img.dataset.full;
                 }
-            }
-        });
+            };
+        }
+    });
 
         // Get all other images
         const otherImages = [...this.elements.grid.querySelectorAll(".grid_item")]
