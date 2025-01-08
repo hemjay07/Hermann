@@ -15,20 +15,13 @@ export default class Preloader extends Components {
 
     this.pageCache = cache;
 
-  this.otherImages = [
-    '/images/hermannImage.jpg',
-    '/images/pushpin.jpg' 
-  ];
-
     // Track loading progress
     this.loadedItems = {
       preloaderImages: 0,
       galleryImages: 0,
-      pages: 0,
-      otherImages:0
+      pages: 0
     };
 
-  
     // Calculate totals for progress
     const routes = ['/', '/about'];
     const galleries = window.ASSETS.galleries || [];
@@ -38,14 +31,12 @@ export default class Preloader extends Components {
     this.totalItems = {
       preloaderImages: window.ASSETS.preloaderImages.length,
       galleryImages: window.ASSETS.galleryImages.length,
-      pages: totalRoutes.length,
-        otherImages: this.otherImages.length
-
+      pages: totalRoutes.length
     };
 
     this.totalAssets = this.totalItems.preloaderImages + 
                       this.totalItems.galleryImages +
-                      this.totalItems.pages+ this.otherImages.length
+                      this.totalItems.pages;
 
     this.template = template;
     this.page = page;
@@ -56,8 +47,7 @@ export default class Preloader extends Components {
 updateProgress() {
   const totalLoaded = this.loadedItems.preloaderImages + 
                      this.loadedItems.galleryImages +
-                     this.loadedItems.pages           +          this.loadedItems.otherImages;  // Add this
-
+                     this.loadedItems.pages;
   
   let percent;
   const actualPercent = (totalLoaded / this.totalAssets) * 90;
@@ -130,29 +120,25 @@ if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
     await Promise.allSettled(preloaderLoadPromises);
   }
 
+  
+
   async loadGalleryImages() {
     if (!window.ASSETS.galleryImages.length) return;
 
     const galleryLoadPromises = window.ASSETS.galleryImages.map(async (image) => {
       try {
-        // Load both thumbnail and preview versions in parallel
-        await Promise.all([
-          this.loadImage(image.thumbnail),
-          this.loadImage(image.preview)
-        ]);
-        
+        await this.loadImage(image);
         this.loadedItems.galleryImages++;
         this.updateProgress();
       } catch (error) {
         console.error('Error loading gallery image:', error);
-        this.updateProgress();
+                this.updateProgress();
+
       }
     });
 
     await Promise.allSettled(galleryLoadPromises);
-}
-
-
+  }
 
   async loadPages() {
     const routes = ['/', '/about'];
@@ -197,22 +183,6 @@ if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
     });
   }
 
-  async loadOtherImages() {
-  const staticLoadPromises = this.otherImages.map(async (src) => {
-    try {
-      await this.loadImage(src);
-      this.loadedItems.otherImages++;
-      this.updateProgress();
-    } catch (error) {
-      console.error('Error loading static image:', error);
-      this.updateProgress();
-    }
-  });
-
-  await Promise.allSettled(staticLoadPromises);
-}
-
-
 async createLoader() {
   try {
     // Load preloader images first
@@ -221,7 +191,6 @@ async createLoader() {
     // Then load gallery images and pages in parallel
     await Promise.all([
       this.loadGalleryImages(),
-      this.loadOtherImages(),
       this.loadPages()
     ]);
   } catch (error) {
