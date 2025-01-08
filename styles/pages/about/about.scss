@@ -217,9 +217,15 @@
           font-family: $font-blowbrush;
 
 
+         
 &:first-of-type{
+
+   @include media("<tablet") {       
   margin-bottom: 8rem;
-}      }
+
+          }
+} 
+     }
 
                 @include media(">tablet") {        position: relative;
         transform: none;
