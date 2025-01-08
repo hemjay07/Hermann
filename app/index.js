@@ -125,7 +125,7 @@ class App {
   }
 
  addLinkListeners() {
-  const links = document.querySelectorAll("a:not(.gallery_link)");  // Exclude gallery links
+const links = document.querySelectorAll("a:not(.gallery_link, .about__social__item)");
 
   console.log(links)
 
