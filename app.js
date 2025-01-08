@@ -179,7 +179,7 @@ preloader.data.body.forEach(frame => {
   frame.items.forEach(image => {
     const baseUrl = image.img.url.split('?')[0];
     // Only reduce quality for preloader images
-    preloaderImages.push(`${baseUrl}?w=400&q=60`);  // Just lower quality since it's under overlay
+    preloaderImages.push(`${baseUrl}?w=400&q=0`);  // Just lower quality since it's under overlay
   });
 });
 

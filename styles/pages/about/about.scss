@@ -215,7 +215,11 @@
         margin-top: 10rem;
         color: #80ff00;
           font-family: $font-blowbrush;
-      }
+
+
+&:first-of-type{
+  margin-bottom: 8rem;
+}      }
 
                 @include media(">tablet") {        position: relative;
         transform: none;
