@@ -95,7 +95,7 @@ export default class Gallery extends Page {
     }
     
     onPrevClick(event) {
-        console.log("prev Clicked")
+        // console.log("prev Clicked")
         event.preventDefault();
         if (!this.navigation.prev.url || this.state.isPreviewOpen) return;
 
@@ -104,7 +104,7 @@ export default class Gallery extends Page {
     }
 
     onNextClick(event) {
-        console.log("next clicked")
+        // console.log("next clicked")
         event.preventDefault();
         if (!this.navigation.next.url || this.state.isPreviewOpen) return;
 
@@ -114,7 +114,7 @@ export default class Gallery extends Page {
 
     createNavigationAnimation(direction) {
         if (!this.elements.transitionContainer) {
-            console.warn('Transition elements not found');
+            // console.warn('Transition elements not found');
             return;
         }
 
@@ -200,6 +200,8 @@ export default class Gallery extends Page {
         }
     }
 
+    
+    
  
 
     openPreview(gridItem) {
@@ -226,7 +228,8 @@ export default class Gallery extends Page {
         const img = gridItem.querySelector("img");
         this.currentImage = img;
         const imgBounds = img.getBoundingClientRect();
-        const previewContainer = this.elements.preview.querySelector('.preview__image-container');
+        this.previewContainer = this.elements.preview.querySelector('.preview__image-container');
+
 
         // Create clone for transition
         const clone = img.cloneNode(true);
@@ -238,7 +241,7 @@ export default class Gallery extends Page {
         clone.style.height = `${imgBounds.height}px`;
         clone.style.objectFit = 'cover';
         clone.style.transition = 'none';
-        previewContainer.appendChild(clone);
+        this.previewContainer.appendChild(clone);
 
         // Calculate viewport and target dimensions
         const viewportWidth = window.innerWidth;
@@ -272,14 +275,36 @@ export default class Gallery extends Page {
         this.elements.preview.style.display = 'block';
         GSAP.set(this.elements.previewBackground, { opacity: 0 });
         GSAP.set(img, { opacity: 0 });
+
+
+        // Create a loading spinner
+        this.loader = document.createElement('div');
+        this.loader.className = 'preview__loader';
+        this.loader.innerHTML = '<div class="spinner"></div>';
+
+        setTimeout(() => {
+            if (!this.previewContainer.contains(this.loader)) { // Prevent duplicate loaders
+                this.previewContainer.appendChild(this.loader)
+            }
+        }, 1000); 
+
+       
+        
+
+
   const timeline = GSAP.timeline({
         onComplete: () => {
             // Load full size image after animation completes
             const fullImage = new Image();
-            fullImage.src = img.dataset.full;
+            fullImage.src = img.dataset.large;                    console.log(img.dataset)
+
             fullImage.onload = () => {
                 if (this.state.isPreviewOpen) { // Check if still open
-                    clone.src = img.dataset.full;
+                    clone.src = img.dataset.large;
+                    if (this.loader && this.previewContainer.contains(this.loader)) {
+this.previewContainer.removeChild(this.loader)                 }
+                
+
                 }
             };
         }
@@ -302,13 +327,13 @@ export default class Gallery extends Page {
                 height: finalHeight,
                 duration: 1.2,
                 ease: "expo.inOut",
-                reverseEase: false
+                // reverseEase: false
             }, 0)
             .to(this.elements.previewBackground, {
                 opacity: 1,
                 duration: 1,
                 ease: "power2.out",
-                reverseEase: false
+                // reverseEase: false
             }, 0.2);
 
         // Animate other images out with stagger
@@ -321,7 +346,7 @@ export default class Gallery extends Page {
                 duration: 0.8,
                 ease: "expo.inOut",
                 delay: index * 0.02,
-                reverseEase: false
+                // reverseEase: false
             }, 0);
         });
 
@@ -333,6 +358,11 @@ export default class Gallery extends Page {
 
         this.element.classList.remove('no-scroll')
         this.elements.preview.classList.remove('preview--open');
+
+
+        if (this.loader && this.previewContainer.contains(this.loader)) {
+            this.previewContainer.removeChild(this.loader)                 }
+                            
 
         // Show navigation elements with GSAP
         const mainNav = document.querySelector('.navigation');
