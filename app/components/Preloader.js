@@ -120,25 +120,29 @@ if (this.loadedItems.preloaderImages === this.totalItems.preloaderImages) {
     await Promise.allSettled(preloaderLoadPromises);
   }
 
-  
-
   async loadGalleryImages() {
     if (!window.ASSETS.galleryImages.length) return;
 
     const galleryLoadPromises = window.ASSETS.galleryImages.map(async (image) => {
       try {
-        await this.loadImage(image);
+        // Load both thumbnail and preview versions in parallel
+        await Promise.all([
+          this.loadImage(image.thumbnail),
+          this.loadImage(image.preview)
+        ]);
+        
         this.loadedItems.galleryImages++;
         this.updateProgress();
       } catch (error) {
         console.error('Error loading gallery image:', error);
-                this.updateProgress();
-
+        this.updateProgress();
       }
     });
 
     await Promise.allSettled(galleryLoadPromises);
-  }
+}
+
+
 
   async loadPages() {
     const routes = ['/', '/about'];
