@@ -68,6 +68,8 @@
 
 /*! ./utils/sendMessage.js */
 
+/*! @vercel/analytics */
+
 /*! ansi-html-community */
 
 /*! classes/Components.js */
@@ -189,6 +191,10 @@
 /*!******************************************************!*\
   !*** ./node_modules/webpack/hot/log-apply-result.js ***!
   \******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./node_modules/@vercel/analytics/dist/index.mjs ***!
+  \*******************************************************/
 
 /*!**********************************************************!*\
   !*** ./node_modules/webpack-dev-server/client/socket.js ***!

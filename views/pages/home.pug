@@ -9,7 +9,7 @@ block content
     
     //- Latest artwork pinned to the left
     .pinned-art
-      img.pin(src="/images/pushpin.jpg" alt="Pushpin" loading="lazy")
+      img.pin(src="/images/pushpin.jpg" alt="Pushpin")
       a(href=Link(galleries[0]))
         .new-art-text new art
         
@@ -20,7 +20,6 @@ block content
           img(
             src=`${baseUrl}?w=400&q=80`
             alt=firstImage.alt
-            loading="lazy"
           )
     
     .banner
@@ -36,7 +35,6 @@ block content
                   data-preview=`${baseUrl}?w=800&q=85`
                   data-full=baseUrl
                   alt=image.alt
-                  loading="lazy"
                 )
 
     .gallery__details
