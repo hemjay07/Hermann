@@ -17,7 +17,7 @@
 
 .preloader__text {
   font-family: $font-blowbrush;
-opacity: 0;
+  opacity: 0;
   font-size: 6.5rem;
   max-width: 66rem;
   z-index: 677;
@@ -28,64 +28,57 @@ opacity: 0;
   font-size: 2.5rem;
   font-weight: 900;
   z-index: 677;
-
 }
 
-
-
-.preloader__animation{
-opacity: 0;}
-
-
+.preloader__animation {
+  opacity: 0;
+}
 
 .frame {
   position: absolute;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   opacity: 0; /* Start with frames hidden */
   transition: opacity 0.3s ease-in-out; /* Smooth transition between frames */
   // will-change: opacity;
 
-
-   img {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.208);
-  opacity: 1;
-  height: 100%;
-
-}
-
+  img {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.208);
+    opacity: 1;
+    height: 100%;
+  }
 }
 
 .frame1 .img1 {
   top: 0;
   left: 50vw;
-   @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
-
 }
 .frame1 .img2 {
   top: 0;
   right: 50vw;
-    @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 
 .frame2 .img1 {
   top: 0;
   left: 50vw;
-    @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 .frame2 .img2 {
   top: 0;
-  right: 50vw;    @include media("<phone") {
-    right:20vw
+  right: 50vw;
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 
@@ -95,13 +88,12 @@ opacity: 0;}
   left: 50vw;
   width: 500px;
   height: 500px;
-  
 }
 .frame3 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame4 .img1 {
@@ -110,83 +102,86 @@ opacity: 0;}
   width: 400px;
   height: 400px;
   z-index: 6;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 
 .frame4 .img2 {
-  top: 0; 
-  right: 50vw;    @include media("<phone") {
-    right:20vw
+  top: 0;
+  right: 50vw;
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame4 .img3 {
   top: 0;
-  left: 50vw;    @include media("<phone") {
-    left:20vw
+  left: 50vw;
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame5 .img1 {
   top: 0;
-  left: 50vw;    @include media("<phone") {
-    left:20vw
+  left: 50vw;
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame5 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame6 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame6 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame6 .img3 {
   bottom: 0;
   left: 50vw;
   height: 60%;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame7 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame7 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame7 .img3 {
   bottom: 20px;
   left: 50vw;
   height: 60%;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 .frame7 .img4 {
@@ -194,23 +189,23 @@ opacity: 0;}
   right: 50vw;
   height: 550px;
   width: 500px;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame8 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame8 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame8 .img3 {
@@ -218,86 +213,88 @@ opacity: 0;}
   right: 50vw;
   height: 550px;
   width: 500px;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 
 .frame9 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame9 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame10 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame10 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 
 .frame11 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame11 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame12 .img1 {
   top: 0;
   left: 50vw;
-      @include media("<phone") {
-    left:20vw
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 
 .frame12 .img2 {
   top: 0;
   right: 50vw;
-      @include media("<phone") {
-    right:20vw
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame12 .img3 {
   top: 0;
   right: 50vw;
   height: 550px;
-  width: 500px;    @include media("<phone") {
-    right:20vw
+  width: 500px;
+  @include media("<phone") {
+    right: 20vw;
   }
 }
 .frame12 .img4 {
   bottom: 0;
   left: 50vw;
   height: 550px;
-  width: 500px;    @include media("<phone") {
-    left:20vw
+  width: 500px;
+  @include media("<phone") {
+    left: 20vw;
   }
 }
 @keyframes switchFrames {
@@ -347,7 +344,7 @@ opacity: 0;}
   animation-delay: 3.5s;
 }
 .frame9 {
-  animation: switchFrames 6s infinite ease-in-out   ;
+  animation: switchFrames 6s infinite ease-in-out;
   animation-delay: 4s;
 }
 .frame10 {

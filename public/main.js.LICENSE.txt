@@ -72,8 +72,6 @@
 
 /*! ./pages/About/index.js */
 
-/*! ./pages/Details/index.js */
-
 /*! ./pages/Gallery/index.js */
 
 /*! ./pages/Home/index.js */
@@ -149,10 +147,6 @@
 /*!***********************************!*\
   !*** ./app/classes/Components.js ***!
   \***********************************/
-
-/*!************************************!*\
-  !*** ./app/pages/Details/index.js ***!
-  \************************************/
 
 /*!************************************!*\
   !*** ./app/pages/Gallery/index.js ***!

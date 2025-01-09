@@ -18,7 +18,6 @@ export default class Page {
     _.forEach(this.selectorChildren, (entry, key) => {
       // console.log(entry);
 
- 
       // Check if entry is an HTML element
       // or a NodeList
 
@@ -40,7 +39,7 @@ export default class Page {
           }
         }
       }
-     });
+    });
   }
 
   show(animation) {
@@ -66,12 +65,11 @@ export default class Page {
       }
 
       this.animationIn.call((_) => {
-
         resolve();
       });
     });
   }
-  
+
   hide() {
     return new Promise((resolve) => {
       this.destroy();

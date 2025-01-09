@@ -40,16 +40,16 @@
     filter: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.2));
   }
 
-    .new-art-text {
-      position: absolute;
-      top: -6.5rem;
-      left: -1.5rem;
-      transform: translateX(6rem) rotate(-26deg);
-      font-family:  cursive;
-      font-size: 2.5rem;
-      color: hsl(78 100% 15% / 1);
-      z-index: 4;
-    }
+  .new-art-text {
+    position: absolute;
+    top: -6.5rem;
+    left: -1.5rem;
+    transform: translateX(6rem) rotate(-26deg);
+    font-family: cursive;
+    font-size: 2.5rem;
+    color: hsl(78 100% 15% / 1);
+    z-index: 4;
+  }
 
   .artwork {
     position: relative;
@@ -72,13 +72,17 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 90px;
       width: 10px;
       height: 10px;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2), transparent 70%);
+      background: radial-gradient(
+        circle at center,
+        rgba(0, 0, 0, 0.2),
+        transparent 70%
+      );
     }
   }
 
@@ -86,8 +90,6 @@
     display: none;
   }
 }
-
-
 
 .banner {
   position: absolute;
@@ -110,7 +112,7 @@
   transform-style: preserve-3d;
   width: 30vw;
   // will-change: transform;
-  transform: rotateX('16deg');
+  transform: rotateX("16deg");
 
   @include media("<phone") {
     aspect-ratio: 6 / 4;
@@ -121,14 +123,16 @@
   position: absolute;
   inset: 0 0 0 0;
   width: 100%;
-  transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(min(26vw, 480px));
+  transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg))
+    translateZ(min(26vw, 480px));
   transform-style: preserve-3d;
   // will-change: transform;
   z-index: 1;
   pointer-events: auto;
 
   @include media("<phone") {
-    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg)) translateZ(45vw);
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * -1deg))
+      translateZ(45vw);
   }
 
   a.gallery_link {

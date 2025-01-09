@@ -6,12 +6,13 @@ import Cursor from "./components/Cursor.js";
 
 import Home from "./pages/Home/index.js";
 import About from "./pages/About/index.js";
-import Details from "./pages/Details/index.js";
 import Gallery from "./pages/Gallery/index.js";
 
 class App {
-  constructor() {   
+  constructor() {
     window.app = this;
+
+    // This cache will contain the html of all the pages of the website mapped to the url for each page
     this.pageCache = new Map();
 
     this.createContent();
@@ -37,8 +38,7 @@ class App {
     this.pages = {
       home: new Home(),
       about: new About(),
-      details: new Details(),
-      gallery: new Gallery()
+      gallery: new Gallery(),
     };
 
     this.page = this.pages[this.template];
@@ -46,10 +46,10 @@ class App {
   }
 
   createPreloader() {
-    this.preloader = new Preloader({ 
-      template: this.template, 
+    this.preloader = new Preloader({
+      template: this.template,
       page: this.page,
-      cache: this.pageCache
+      cache: this.pageCache,
     });
     this.preloader.once("completed", this.onPreloaded.bind(this));
   }
@@ -59,13 +59,13 @@ class App {
   }
 
   createCursor() {
-  if (this.cursor) {
-    this.cursor.destroy(); // Add destroy call
+    if (this.cursor) {
+      this.cursor.destroy();
+    }
+    this.cursor = new Cursor();
   }
-  this.cursor = new Cursor();
-}
   onPreloaded() {
-    console.log("All content preloaded");
+    // console.log("All content preloaded");
   }
 
   async onChange({ url, push = true }) {
@@ -74,10 +74,9 @@ class App {
     // Get just the pathname part of the URL
     const pathname = new URL(url, window.location.origin).pathname;
     const cachedPage = this.pageCache.get(pathname);
-    
-    if (cachedPage) {
 
-      console.log("page found in cache")
+    if (cachedPage) {
+      console.log("page found in cache");
       if (push) {
         window.history.pushState({}, "", url);
       }
@@ -94,10 +93,10 @@ class App {
       this.addLinkListeners();
     } else {
       const request = await window.fetch(url);
-      if (request.status === 200) { 
+      if (request.status === 200) {
         const html = await request.text();
         const div = document.createElement("div");
-        
+
         if (push) {
           window.history.pushState({}, "", url);
         }
@@ -111,7 +110,7 @@ class App {
         // Cache with pathname
         this.pageCache.set(pathname, {
           html: divContent.innerHTML,
-          template: this.template
+          template: this.template,
         });
 
         this.page = this.pages[this.template];
@@ -124,36 +123,21 @@ class App {
     }
   }
 
- addLinkListeners() {
-const links = document.querySelectorAll("a:not(.gallery_link, .about__social__item)");
+  addLinkListeners() {
+    const links = document.querySelectorAll(
+      "a:not(.gallery_link, .about__social__item)"
+    );
 
-  console.log(links)
+    console.log(links);
 
-  _.forEach(links, (link) => {
-    link.onclick = (event) => {
-      event.preventDefault();
-      const { href } = link;
-      this.onChange({ url: href });
-    };
-  });
-}
-  // addLinkListeners() {
-  //   const links = document.querySelectorAll("a");
-
-  //   _.forEach(links, (link) => {
-  //     link.onclick = (event) => {
-  //       const isGalleryLink = link.classList.contains('gallery_link');
-        
-  //       if (!isGalleryLink) {
-  //         event.preventDefault();
-  //         const { href } = link;
-  //         this.onChange({ url: href });
-  //       } else {
-  //         event.preventDefault();
-  //       }
-  //     };
-  //   });
-  // }
+    _.forEach(links, (link) => {
+      link.onclick = (event) => {
+        event.preventDefault();
+        const { href } = link;
+        this.onChange({ url: href });
+      };
+    });
+  }
 
   addEventListeners() {
     window.addEventListener("popstate", this.onPopState.bind(this));

@@ -20,8 +20,8 @@ export default class About extends Page {
         serviceNumbers: ".about__service__number",
         serviceTitles: ".about__service__title",
         recognitionItems: ".about__recognition__item",
-        socialItems: ".about__social__item"
-      }
+        socialItems: ".about__social__item",
+      },
     });
 
     // Initialize scroll configuration
@@ -30,7 +30,7 @@ export default class About extends Page {
       target: 0,
       last: 0,
       limit: 0,
-      ease: 0.05
+      ease: 0.05,
     };
 
     // Bind methods
@@ -56,14 +56,16 @@ export default class About extends Page {
 
   createAnimations() {
     const tl = GSAP.timeline({
-      defaults: { ease: "power3.out" }
+      defaults: { ease: "power3.out" },
     });
 
     // Animate title
-    tl.fromTo(this.elements.title,
+    tl.fromTo(
+      this.elements.title,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.2 }
-    ).fromTo(this.elements.titleSpan,
+    ).fromTo(
+      this.elements.titleSpan,
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8 },
       "-=0.8"
@@ -71,12 +73,12 @@ export default class About extends Page {
 
     // Only set initial states for services in mobile view
     if (this.isMobile) {
-      this.elements.services.forEach(service => {
+      this.elements.services.forEach((service) => {
         GSAP.set(service, { y: 20, opacity: 0 });
       });
     }
 
-    this.elements.services.forEach(service => {
+    this.elements.services.forEach((service) => {
       this.addServiceHoverEffect(service);
     });
 
@@ -84,26 +86,26 @@ export default class About extends Page {
   }
 
   addServiceHoverEffect(service) {
-    const number = service.querySelector('.about__service__number');
-    const title = service.querySelector('.about__service__title');
-    
-    service.addEventListener('mouseenter', () => {
-      GSAP.to(number, { color: '#80ff00', duration: 0.3 });
-      GSAP.to(title, { color: '#80ff00', x: 10, duration: 0.3 });
+    const number = service.querySelector(".about__service__number");
+    const title = service.querySelector(".about__service__title");
+
+    service.addEventListener("mouseenter", () => {
+      GSAP.to(number, { color: "#80ff00", duration: 0.3 });
+      GSAP.to(title, { color: "#80ff00", x: 10, duration: 0.3 });
     });
 
-    service.addEventListener('mouseleave', () => {
-      GSAP.to(number, { color: 'rgba(255, 255, 255, 0.6)', duration: 0.3 });
-      GSAP.to(title, { color: '#FFFFFF', x: 0, duration: 0.3 });
+    service.addEventListener("mouseleave", () => {
+      GSAP.to(number, { color: "rgba(255, 255, 255, 0.6)", duration: 0.3 });
+      GSAP.to(title, { color: "#FFFFFF", x: 0, duration: 0.3 });
     });
   }
 
   animateTypewriter(element) {
     const text = element.textContent;
-    element.textContent = '';
+    element.textContent = "";
     element.style.opacity = 1;
 
-    let currentText = '';
+    let currentText = "";
     const typeSpeed = 30;
 
     const typeChar = (index) => {
@@ -122,16 +124,25 @@ export default class About extends Page {
       ...this.scroll,
       current: 0,
       target: 0,
-      limit: this.isMobile ? window.innerHeight * 3 : window.innerWidth
+      limit: this.isMobile ? window.innerHeight * 3 : window.innerWidth,
     };
 
     if (this.isMobile) {
-      GSAP.set(this.elements.firstRight, { y: "100%", x: 0 ,      clearProps: "translate,rotate,scale,transform,opacity" // Added opacity
-});
-      GSAP.set([this.elements.recognition, this.elements.social], { y: "100%", x: 0 });
+      GSAP.set(this.elements.firstRight, {
+        y: "100%",
+        x: 0,
+        clearProps: "translate,rotate,scale,transform,opacity",
+      });
+      GSAP.set([this.elements.recognition, this.elements.social], {
+        y: "100%",
+        x: 0,
+      });
     } else {
       GSAP.set(this.elements.firstRight, { y: 0, x: 0 });
-      GSAP.set([this.elements.recognition, this.elements.social], { y: 0, x: "100%" });
+      GSAP.set([this.elements.recognition, this.elements.social], {
+        y: 0,
+        x: "100%",
+      });
     }
   }
 
@@ -142,13 +153,16 @@ export default class About extends Page {
       this.scroll.ease
     );
 
-    this.scroll.current = Math.max(0, Math.min(this.scroll.current, this.scroll.limit));
-    
+    this.scroll.current = Math.max(
+      0,
+      Math.min(this.scroll.current, this.scroll.limit)
+    );
+
     const totalProgress = this.scroll.current / this.scroll.limit;
-    
-    this.isMobile ? 
-      this.updateMobileAnimations(totalProgress) : 
-      this.updateDesktopAnimations(totalProgress);
+
+    this.isMobile
+      ? this.updateMobileAnimations(totalProgress)
+      : this.updateDesktopAnimations(totalProgress);
 
     this.scroll.last = this.scroll.current;
     this.animationFrame = requestAnimationFrame(this.update.bind(this));
@@ -156,21 +170,20 @@ export default class About extends Page {
 
   updateDesktopAnimations(totalProgress) {
     const recognitionProgress = Math.min(Math.max(totalProgress * 2, 0), 1);
-    const socialProgress = Math.min(Math.max((totalProgress * 2) - 1, 0), 1);
+    const socialProgress = Math.min(Math.max(totalProgress * 2 - 1, 0), 1);
 
     GSAP.set(this.elements.firstRight, {
-      
-      opacity: 1
-    }); 
-    
+      opacity: 1,
+    });
+
     GSAP.set(this.elements.recognition, {
       x: `${100 * (1 - recognitionProgress)}%`,
-      opacity: recognitionProgress
+      opacity: recognitionProgress,
     });
 
     GSAP.set(this.elements.social, {
       x: `${100 * (1 - socialProgress)}%`,
-      opacity: socialProgress
+      opacity: socialProgress,
     });
 
     // this.triggerSectionAnimations(recognitionProgress, socialProgress);
@@ -178,34 +191,37 @@ export default class About extends Page {
 
   updateMobileAnimations(totalProgress) {
     const servicesProgress = Math.min(Math.max(totalProgress * 3, 0), 1);
-    const recognitionProgress = Math.min(Math.max((totalProgress * 3) - 1, 0), 1);
-    const socialProgress = Math.min(Math.max((totalProgress * 3) - 2, 0), 1);
+    const recognitionProgress = Math.min(Math.max(totalProgress * 3 - 1, 0), 1);
+    const socialProgress = Math.min(Math.max(totalProgress * 3 - 2, 0), 1);
 
     // Only animate services in mobile view
     this.elements.services.forEach((service, index) => {
       const delay = index * 0.1;
-      const serviceProgress = Math.max(0, Math.min(1, (servicesProgress - delay) * 2));
-      
+      const serviceProgress = Math.max(
+        0,
+        Math.min(1, (servicesProgress - delay) * 2)
+      );
+
       GSAP.to(service, {
         y: serviceProgress * -20,
         opacity: serviceProgress,
-        duration: 0.3
+        duration: 0.3,
       });
     });
 
     GSAP.set(this.elements.firstRight, {
       y: `${100 * (1 - servicesProgress)}%`,
-      opacity: servicesProgress
+      opacity: servicesProgress,
     });
 
     GSAP.set(this.elements.recognition, {
       y: `${100 * (1 - recognitionProgress)}%`,
-      opacity: recognitionProgress
+      opacity: recognitionProgress,
     });
 
     GSAP.set(this.elements.social, {
       y: `${100 * (1 - socialProgress)}%`,
-      opacity: socialProgress
+      opacity: socialProgress,
     });
 
     // this.triggerSectionAnimations(recognitionProgress, socialProgress);
@@ -224,12 +240,12 @@ export default class About extends Page {
   }
 
   animateSection(elements) {
-    GSAP.fromTo(elements,
-      {opacity: 0 },
+    GSAP.fromTo(
+      elements,
+      { opacity: 0 },
       {
-        
         opacity: 1,
-      
+
         stagger: 0.1,
       }
     );
@@ -254,7 +270,7 @@ export default class About extends Page {
 
     const currentY = event.touches[0].clientY;
     const diff = this.touchY - currentY;
-    
+
     this.scroll.target = Math.min(
       Math.max(this.scroll.target + diff * 0.5, 0),
       this.scroll.limit
@@ -280,13 +296,17 @@ export default class About extends Page {
 
   updateTouchListeners() {
     if (this.isMobile) {
-      this.element.addEventListener('touchstart', this.onTouchStart, { passive: false });
-      this.element.addEventListener('touchmove', this.onTouchMove, { passive: false });
-      this.element.addEventListener('touchend', this.onTouchEnd);
+      this.element.addEventListener("touchstart", this.onTouchStart, {
+        passive: false,
+      });
+      this.element.addEventListener("touchmove", this.onTouchMove, {
+        passive: false,
+      });
+      this.element.addEventListener("touchend", this.onTouchEnd);
     } else {
-      this.element.removeEventListener('touchstart', this.onTouchStart);
-      this.element.removeEventListener('touchmove', this.onTouchMove);
-      this.element.removeEventListener('touchend', this.onTouchEnd);
+      this.element.removeEventListener("touchstart", this.onTouchStart);
+      this.element.removeEventListener("touchmove", this.onTouchMove);
+      this.element.removeEventListener("touchend", this.onTouchEnd);
     }
   }
 
@@ -295,17 +315,17 @@ export default class About extends Page {
   }
 
   addEventListeners() {
-    window.addEventListener('wheel', this.onWheel, { passive: false });
-    window.addEventListener('resize', this.onResize);
+    window.addEventListener("wheel", this.onWheel, { passive: false });
+    window.addEventListener("resize", this.onResize);
     this.updateTouchListeners();
   }
 
   removeEventListeners() {
-    window.removeEventListener('wheel', this.onWheel);
-    window.removeEventListener('resize', this.onResize);
-    this.element.removeEventListener('touchstart', this.onTouchStart);
-    this.element.removeEventListener('touchmove', this.onTouchMove);
-    this.element.removeEventListener('touchend', this.onTouchEnd);
+    window.removeEventListener("wheel", this.onWheel);
+    window.removeEventListener("resize", this.onResize);
+    this.element.removeEventListener("touchstart", this.onTouchStart);
+    this.element.removeEventListener("touchmove", this.onTouchMove);
+    this.element.removeEventListener("touchend", this.onTouchEnd);
   }
 
   destroy() {

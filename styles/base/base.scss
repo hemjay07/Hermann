@@ -5,9 +5,9 @@
   user-select: none;
   cursor: none;
   -webkit-tap-highlight-color: transparent;
-    /* Prevents tap highlight on iOS */
-    -webkit-touch-callout: none;
-    /* Prevents callout menu on long-press */
+  /* Prevents tap highlight on iOS */
+  -webkit-touch-callout: none;
+  /* Prevents callout menu on long-press */
 }
 
 html {
@@ -23,16 +23,16 @@ html {
   ); /* Set base font size by viewport width for standard resolution */
   line-height: 1;
   position: fixed;
-  overflow: hidden; 
-  
+  overflow: hidden;
+
   @include media("<tablet") {
-       font-size: calc(100vw / 1024 * 10);
-       /* Adjust font size for phone screen resolutions */
-     }
+    font-size: calc(100vw / 1024 * 10);
+    /* Adjust font size for phone screen resolutions */
+  }
   @include media("<phone") {
-      font-size: calc(100vw / 768 * 10);
-      /* Adjust font size for phone screen resolutions */
-    }
+    font-size: calc(100vw / 768 * 10);
+    /* Adjust font size for phone screen resolutions */
+  }
 }
 
 body {
@@ -40,15 +40,15 @@ body {
   cursor: none;
 
   // font-family: "Trebuchet MS", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
 }
-.content{
-      display: flex;
-        justify-content: center;
-        align-items: center;
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content__rotate,
@@ -64,7 +64,6 @@ body {
   overflow: hidden;
   // will-change: transform;
 }
-
 
 .cursor-dot {
   width: 5px;
@@ -100,7 +99,7 @@ body {
     transform: translate(10px, -10px);
 
     &::before {
-      content: 'Scroll';
+      content: "Scroll";
     }
   }
 
@@ -141,8 +140,7 @@ body {
   pointer-events: none;
 }
 
-@media(hover: hover) {
-
+@media (hover: hover) {
   .cursor-dot,
   .cursor-outline {
     display: block;
@@ -195,8 +193,6 @@ canvas {
   }
 }
 
-
-
 .page-transition {
   position: fixed;
   width: 100%;
@@ -218,23 +214,22 @@ canvas {
     pointer-events: none;
 
     &:nth-child(1) {
-            // background: hsl(90, 100%, 50%); // Bright lime  
-                        background: hsl(90, 100%, 50%); // Bright lime green
-              z-index: 3001;
+      // background: hsl(90, 100%, 50%);
+      background: hsl(90, 100%, 50%);
+      z-index: 3001;
     }
 
     &:nth-child(2) {
-            // background: hsl(90, 100%, 40%); // Slightly darker lime  
-                        background: hsl(200, 100%, 50%); // Bright blue
-                z-index: 3002;
+      // background: hsl(90, 100%, 40%);
+      background: hsl(200, 100%, 50%);
+      z-index: 3002;
     }
 
     &:nth-child(3) {
-            // background: hsl(90, 100%, 30%); // Even darker lime  
-                        background: hsl(45, 100%, 50%); // Bright yellow/gold
-                z-index: 3003;
+      // background: hsl(90, 100%, 30%);
+      background: hsl(45, 100%, 50%);
+      z-index: 3003;
     }
-
   }
 
   &.is-animating {
@@ -242,7 +237,8 @@ canvas {
   }
 
   &.is-animating-next .page-transition__layer {
-    animation: layer-slide-next-1 1.5s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+    animation: layer-slide-next-1 1.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)
+      forwards;
 
     &:nth-child(2) {
       animation-name: layer-slide-next-2;
@@ -263,7 +259,7 @@ canvas {
   25%,
   75% {
     transform: translate3d(0, 0, 0);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   100% {
@@ -272,7 +268,6 @@ canvas {
 }
 
 @keyframes layer-slide-next-2 {
-
   0%,
   12.5% {
     transform: translate3d(100%, 0, 0);
@@ -281,7 +276,7 @@ canvas {
   37.5%,
   62.5% {
     transform: translate3d(0, 0, 0);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   87.5%,
@@ -291,11 +286,10 @@ canvas {
 }
 
 @keyframes layer-slide-next-3 {
-
   0%,
   25% {
     transform: translate3d(100%, 0, 0);
-    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   75%,
@@ -306,7 +300,8 @@ canvas {
 
 // Previous direction animations
 .page-transition.is-animating-prev .page-transition__layer {
-  animation: layer-slide-prev-1 1.5s cubic-bezier(0.550, 0.055, 0.675, 0.190) forwards;
+  animation: layer-slide-prev-1 1.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)
+    forwards;
 
   &:nth-child(2) {
     animation-name: layer-slide-prev-2;
@@ -325,7 +320,7 @@ canvas {
   25%,
   75% {
     transform: translate3d(0, 0, 0);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   100% {
@@ -334,7 +329,6 @@ canvas {
 }
 
 @keyframes layer-slide-prev-2 {
-
   0%,
   12.5% {
     transform: translate3d(-100%, 0, 0);
@@ -343,7 +337,7 @@ canvas {
   37.5%,
   62.5% {
     transform: translate3d(0, 0, 0);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   87.5%,
@@ -353,11 +347,10 @@ canvas {
 }
 
 @keyframes layer-slide-prev-3 {
-
   0%,
   25% {
     transform: translate3d(-100%, 0, 0);
-    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   75%,

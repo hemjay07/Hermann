@@ -1,13 +1,15 @@
 export default class Cursor {
   constructor() {
-    this.template = document.querySelector('.content').getAttribute('data-template');
-    
+    this.template = document
+      .querySelector(".content")
+      .getAttribute("data-template");
+
     // Store event listener references for cleanup
     this.mouseMoveHandler = this.handleMouseMove.bind(this);
-    
+
     this.cursorDot = document.querySelector(".cursor-dot");
     this.cursorOutline = document.querySelector(".cursor-outline");
-    
+
     this.createCursor();
   }
 
@@ -28,9 +30,9 @@ export default class Cursor {
   }
 
   handleImageEnter(e) {
-        this.cursorOutline.classList.add("image-hover");
+    this.cursorOutline.classList.add("image-hover");
 
-      const img = e.target.querySelector('img');
+    const img = e.target.querySelector("img");
     if (img) {
       console.log(img.alt);
       this.cursorOutline.setAttribute("data-label", img.alt);
@@ -42,10 +44,10 @@ export default class Cursor {
     this.cursorOutline.classList.remove("image-hover");
   }
 
-   createCursor() {
+  createCursor() {
     window.addEventListener("mousemove", this.mouseMoveHandler);
 
-    if (this.template === 'home') {
+    if (this.template === "home") {
       this.imageEnterHandler = this.handleImageEnter.bind(this);
       this.imageLeaveHandler = this.handleImageLeave.bind(this);
 
