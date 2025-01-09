@@ -7,6 +7,9 @@ import Cursor from "./components/Cursor.js";
 import Home from "./pages/Home/index.js";
 import About from "./pages/About/index.js";
 import Gallery from "./pages/Gallery/index.js";
+import { inject } from '@vercel/analytics';
+ 
+inject();
 
 class App {
   constructor() {
