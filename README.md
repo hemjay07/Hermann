@@ -12,8 +12,8 @@ The portfolio features seamless page transitions, interactive gallery views, and
 ![preview](./preview.jpg)
 
 ## Links
-- Live Site URL: [Add your live site URL here]()
-- Repository: [Add your repository URL here]()
+- Live Site URL: [hermann-art.com]()
+- Repository: [https://github.com/hemjay07/Hermann]()
 
 ## Development Setup
 1. Clone the repo
