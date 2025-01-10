@@ -572,3 +572,23 @@
     transform: translateY(0);
   }
 }
+
+
+
+.about__scroll__text{
+  position: fixed;
+  bottom: 1rem;
+  left: 50vw;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: #80ff00;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+  opacity: 0.8;
+  white-space: nowrap;
+  z-index: 1;
+  @include media("<phone") {
+    font-size: 1.8rem;
+  }
+}
