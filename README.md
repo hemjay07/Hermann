@@ -1,9 +1,9 @@
 # Hermann Portfolio
 
-> A modern, interactive photography portfolio showcasing Hermann's work through an immersive user experience.
+> A modern, interactive portfolio showcasing Hermann's work through an immersive user experience.
 
 ## Motivation
-A dynamic photography portfolio built to provide an engaging user experience with smooth transitions and interactive galleries, while maintaining optimal performance through server-side caching and modern web technologies.
+A dynamic portfolio built to provide an engaging user experience with smooth transitions and interactive galleries, while maintaining optimal performance through server-side caching and modern web technologies.
 
 ## Overview
 The portfolio features seamless page transitions, interactive gallery views, and responsive image previews. Built with vanilla JavaScript and GSAP animations, it demonstrates the power of modern web technologies without relying on heavy frameworks.
