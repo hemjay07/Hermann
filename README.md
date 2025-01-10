@@ -8,9 +8,7 @@ A dynamic portfolio built to provide an engaging user experience with smooth tra
 ## Overview
 The portfolio features seamless page transitions, interactive gallery views, and responsive image previews. Built with vanilla JavaScript and GSAP animations, it demonstrates the power of modern web technologies without relying on heavy frameworks.
 
-## Preview
-![preview](./preview.jpg)<img width="1440" alt="Screenshot 2025-01-10 at 5 44 55 PM" src="https://github.com/user-attachments/assets/b93aa91b-40e4-4e36-b2f2-6e039aaa3fba" />
-
+## Preview<img width="1440" alt="Screenshot 2025-01-10 at 5 46 22 PM" src="https://github.com/user-attachments/assets/7b04abb5-87c3-4534-8463-82fecb7ac23f" />
 
 ## Links
 - Live Site URL: [hermann-art.com]()
