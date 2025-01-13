@@ -11,7 +11,7 @@ The portfolio features seamless page transitions, interactive gallery views, and
 ## Preview<img width="1440" alt="Screenshot 2025-01-10 at 5 46 22 PM" src="https://github.com/user-attachments/assets/7b04abb5-87c3-4534-8463-82fecb7ac23f" />
 
 ## Links
-- Live Site URL: [http://hermann-art.com]()
+- Live Site URL: [http://hermann-art.com](hermann-art.com)
 - Repository: [https://github.com/hemjay07/Hermann]()
 
 ## Development Setup
